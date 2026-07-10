@@ -9,8 +9,8 @@
 -- PASSO MANUALE OBBLIGATORIO PRIMA DI QUESTO SCRIPT:
 --   Supabase -> Authentication -> Add user -> crea questi due utenti con
 --   "Auto Confirm User" spuntato (così non serve email di conferma):
---     - demo.atleta@atleta360.it   / password: Atleta360Demo!2026
---     - demo.societa@atleta360.it / password: Atleta360Demo!2026
+--     - demo.atleta@atleta360.it   / password: Atleta360!
+--     - demo.societa@atleta360.it / password: Atleta360!
 --   (password diversa? aggiornala anche in demoMode.js nel repo Dashboard Atleta360)
 --   Il trigger handle_new_user() creerà da solo una riga 'pending' in profiles
 --   per ciascuno: questo script la promuove ad approvata.
