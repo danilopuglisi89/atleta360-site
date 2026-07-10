@@ -3,7 +3,7 @@
 -- Da eseguire SOLO nel nuovo progetto Supabase dedicato ad atleta-360.com,
 -- DOPO aver incollato (in ordine) tutte le migrazioni della dashboard:
 --   schema.sql -> data-model.sql -> profile-fields.sql -> mister-permission.sql
---   -> athlete-card.sql -> chat.sql -> chat-v2.sql -> chat-reactions.sql -> admin-delete.sql
+--   -> chat.sql -> chat-v2.sql -> athlete-card.sql -> chat-reactions.sql -> admin-delete.sql
 -- (le trovi nel repo "atleta360" / Dashboard Atleta360, cartella supabase/)
 --
 -- PASSO MANUALE OBBLIGATORIO PRIMA DI QUESTO SCRIPT:

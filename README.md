@@ -21,8 +21,9 @@ Oasi — niente dati reali qui dentro.
    in `.env` (locale) e nelle Environment Variables del progetto Vercel di questo sito.
 3. Nello **SQL Editor**, incolla ed esegui **in ordine** le migrazioni della dashboard
    (dal repo `Dashboard Atleta360`, cartella `supabase/`): `schema.sql` → `data-model.sql`
-   → `profile-fields.sql` → `mister-permission.sql` → `athlete-card.sql` → `chat.sql` →
-   `chat-v2.sql` → `chat-reactions.sql` → `admin-delete.sql`.
+   → `profile-fields.sql` → `mister-permission.sql` → `chat.sql` → `chat-v2.sql` →
+   `athlete-card.sql` (richiede chat.sql + chat-v2.sql già eseguiti) → `chat-reactions.sql`
+   → `admin-delete.sql`.
 4. Poi esegui, sempre in ordine, i file di questo repo: `supabase/leads.sql` →
    `supabase/notify-lead-email.sql` (sostituendo la chiave Resend) → `supabase/demo-seed.sql`
    (segui le istruzioni in testa al file: prima crei i 2 utenti demo da Authentication →
