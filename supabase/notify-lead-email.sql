@@ -35,7 +35,7 @@ begin
     body := jsonb_build_object(
       'from', 'Atleta360 <onboarding@resend.dev>',
       'to', jsonb_build_array('info@danilopuglisi.com'),
-      'subject', 'Nuovo lead atleta360.it: ' || coalesce(full_name, '(senza nome)') || ' (' || tipo_label || ')',
+      'subject', 'Nuovo lead atleta-360.com: ' || coalesce(full_name, '(senza nome)') || ' (' || tipo_label || ')',
       'html',
         '<div style="font-family:Arial,sans-serif;color:#0C1330">' ||
         '<h2 style="color:#0A1650">Nuova richiesta demo — Atleta360</h2>' ||

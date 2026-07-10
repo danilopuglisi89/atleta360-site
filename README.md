@@ -1,6 +1,6 @@
-# Atleta360.it — landing page
+# Atleta360 — landing page (atleta-360.com)
 
-Landing page pubblica di [atleta360.it](https://atleta360.it): raccoglie i contatti di chi
+Landing page pubblica di [atleta-360.com](https://atleta-360.com): raccoglie i contatti di chi
 vuole provare la demo (atleta o società sportiva) e li fa entrare nella demo live della
 dashboard [Atleta360](https://oasi.danilopuglisi.com), popolata con dati finti.
 
@@ -8,7 +8,7 @@ dashboard [Atleta360](https://oasi.danilopuglisi.com), popolata con dati finti.
 
 1. `npm install`
 2. Copia `.env.example` in `.env` e incolla URL + anon key del progetto Supabase
-   dedicato ad atleta360.it (vedi sotto).
+   dedicato ad atleta-360.com (vedi sotto).
 3. `npm run dev`
 
 ## Setup del progetto Supabase (una tantum)
@@ -35,7 +35,7 @@ ripubblica in automatico. Env var richieste: `VITE_SUPABASE_URL`, `VITE_SUPABASE
 
 ## Demo
 
-Dopo l'invio del form, il visitatore viene mandato su `demo.atleta360.it/?demo=atleta`
+Dopo l'invio del form, il visitatore viene mandato su `demo.atleta-360.com/?demo=atleta`
 (o `?demo=societa`) — un secondo deploy Vercel del repo `Dashboard Atleta360`, puntato
 su questo stesso progetto Supabase, che riconosce il parametro `?demo=` e fa login
 automatico con un account demo fisso (vedi `src/demoMode.js` in quel repo).

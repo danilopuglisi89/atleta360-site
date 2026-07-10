@@ -14,5 +14,5 @@ export async function submitLead({ tipo, nome, cognome, email, telefono, societa
 }
 
 export function demoUrl(tipo) {
-  return `https://demo.atleta360.it/?demo=${tipo === "atleta" ? "atleta" : "societa"}`;
+  return `https://demo.atleta-360.com/?demo=${tipo === "atleta" ? "atleta" : "societa"}`;
 }

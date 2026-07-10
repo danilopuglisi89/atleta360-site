@@ -1,6 +1,6 @@
 -- ============================================================
 -- Atleta360.it — dati finti per la demo pubblica.
--- Da eseguire SOLO nel nuovo progetto Supabase dedicato ad atleta360.it,
+-- Da eseguire SOLO nel nuovo progetto Supabase dedicato ad atleta-360.com,
 -- DOPO aver incollato (in ordine) tutte le migrazioni della dashboard:
 --   schema.sql -> data-model.sql -> profile-fields.sql -> mister-permission.sql
 --   -> athlete-card.sql -> chat.sql -> chat-v2.sql -> chat-reactions.sql -> admin-delete.sql
@@ -9,8 +9,8 @@
 -- PASSO MANUALE OBBLIGATORIO PRIMA DI QUESTO SCRIPT:
 --   Supabase -> Authentication -> Add user -> crea questi due utenti con
 --   "Auto Confirm User" spuntato (così non serve email di conferma):
---     - demo.atleta@atleta360.it   / password: Atleta360!
---     - demo.societa@atleta360.it / password: Atleta360!
+--     - demo.atleta@atleta-360.com   / password: Atleta360!
+--     - demo.societa@atleta-360.com / password: Atleta360!
 --   (password diversa? aggiornala anche in demoMode.js nel repo Dashboard Atleta360)
 --   Il trigger handle_new_user() creerà da solo una riga 'pending' in profiles
 --   per ciascuno: questo script la promuove ad approvata.
@@ -19,12 +19,12 @@
 update public.profiles set
   first_name = 'Demo', last_name = 'Atleta', role = 'athlete', category = 'atleta',
   status = 'approved', athlete_id = 'Demo Atleta'
-where email = 'demo.atleta@atleta360.it';
+where email = 'demo.atleta@atleta-360.com';
 
 update public.profiles set
   first_name = 'Demo', last_name = 'Società', role = 'admin', category = 'direzione',
   status = 'approved'
-where email = 'demo.societa@atleta360.it';
+where email = 'demo.societa@atleta-360.com';
 
 -- Roster fittizio (include "Demo Atleta", che deve combaciare con l'athlete_id sopra).
 insert into public.athletes (identifier, position) values

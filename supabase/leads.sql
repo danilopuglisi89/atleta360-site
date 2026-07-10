@@ -1,6 +1,6 @@
 -- ============================================================
 -- Atleta360.it — tabella dei lead raccolti dal form della landing page.
--- Incolla TUTTO nel SQL Editor di Supabase (progetto dedicato ad atleta360.it)
+-- Incolla TUTTO nel SQL Editor di Supabase (progetto dedicato ad atleta-360.com)
 -- e premi Run. È sicuro da ri-eseguire.
 -- ============================================================
 

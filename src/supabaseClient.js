@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 
 /*
- * Configurazione Supabase del sito atleta360.it (progetto dedicato, separato
+ * Configurazione Supabase del sito atleta-360.com (progetto dedicato, separato
  * da quello di produzione della dashboard Oasi). A differenza della dashboard,
  * qui NON c'è un fallback hardcoded: se le variabili d'ambiente mancano,
  * meglio mostrare un errore chiaro che scrivere lead nel progetto sbagliato.
