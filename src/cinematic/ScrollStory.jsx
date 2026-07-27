@@ -61,7 +61,7 @@ function Scene({ scene, index }) {
         gsap.to(counter, {
           v: scene.stat, ease: "none",
           scrollTrigger: { trigger: el, start: "top 80%", end: "top 45%", scrub: 0.5 },
-          onUpdate: () => { numRef.current.textContent = Math.round(counter.v); },
+          onUpdate: () => { if (numRef.current) numRef.current.textContent = Math.round(counter.v); },
         });
       }
     }, el);

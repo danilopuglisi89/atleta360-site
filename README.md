@@ -25,6 +25,7 @@ Oasi — niente dati reali qui dentro.
    `athlete-card.sql` (richiede chat.sql + chat-v2.sql già eseguiti) → `chat-reactions.sql`
    → `admin-delete.sql`.
 4. Poi esegui, sempre in ordine, i file di questo repo: `supabase/leads.sql` →
+   `supabase/leads-consenso.sql` (colonne per tracciare il consenso privacy) →
    `supabase/notify-lead-email.sql` (sostituendo la chiave Resend) → `supabase/demo-seed.sql`
    (segui le istruzioni in testa al file: prima crei i 2 utenti demo da Authentication →
    Add user, poi esegui lo script).

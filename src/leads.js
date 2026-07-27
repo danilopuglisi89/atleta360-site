@@ -1,6 +1,8 @@
 import { supabase } from "./supabaseClient";
 
-export async function submitLead({ tipo, nome, cognome, email, telefono, societa, ruolo }) {
+export const PRIVACY_VERSION = "v1";
+
+export async function submitLead({ tipo, nome, cognome, email, telefono, societa, ruolo, consenso }) {
   const { error } = await supabase.from("leads").insert({
     tipo,
     nome: nome.trim(),
@@ -9,6 +11,9 @@ export async function submitLead({ tipo, nome, cognome, email, telefono, societa
     telefono: telefono.trim(),
     societa: societa?.trim() || null,
     ruolo: ruolo?.trim() || null,
+    consenso_privacy: !!consenso,
+    consenso_data: consenso ? new Date().toISOString() : null,
+    informativa_versione: consenso ? PRIVACY_VERSION : null,
   });
   return error;
 }

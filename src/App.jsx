@@ -4,9 +4,15 @@ import { C, font, display } from "./theme";
 import { supabaseConfigured } from "./supabaseClient";
 import { demoUrl } from "./leads";
 import LeadForm from "./LeadForm";
+import PrivacyPage from "./PrivacyPage";
 import CinematicStage from "./cinematic/CinematicStage";
 import CinematicHero from "./cinematic/CinematicHero";
 import ScrollStory from "./cinematic/ScrollStory";
+import HowItWorks from "./cinematic/HowItWorks";
+import CaseStudy from "./cinematic/CaseStudy";
+import AboutFounder from "./cinematic/AboutFounder";
+import FAQ from "./cinematic/FAQ";
+import SiteFooter from "./cinematic/SiteFooter";
 
 function SetupNotice() {
   return (
@@ -51,9 +57,11 @@ function Redirecting() {
 export default function App() {
   const [tipo, setTipo] = useState(null); // null | "atleta" | "societa"
   const [redirecting, setRedirecting] = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
   const stageRef = useRef(null);
 
   if (!supabaseConfigured) return <SetupNotice />;
+  if (showPrivacy) return <PrivacyPage onBack={() => setShowPrivacy(false)} />;
 
   let content;
   if (redirecting) {
@@ -63,6 +71,7 @@ export default function App() {
       <LeadForm
         tipo={tipo}
         onBack={() => setTipo(null)}
+        onOpenPrivacy={() => setShowPrivacy(true)}
         onSuccess={(chosenTipo) => {
           setRedirecting(true);
           window.location.href = demoUrl(chosenTipo);
@@ -74,12 +83,11 @@ export default function App() {
       <>
         <CinematicHero onChoose={setTipo} stageRef={stageRef} />
         <ScrollStory />
-        <p style={{
-          ...font, position: "relative", zIndex: 2, color: "rgba(255,255,255,0.45)",
-          fontSize: 12.5, textAlign: "center", padding: "24px 0 40px", margin: 0,
-        }}>
-          © {new Date().getFullYear()} Atleta360
-        </p>
+        <HowItWorks />
+        <CaseStudy />
+        <AboutFounder />
+        <FAQ />
+        <SiteFooter onOpenPrivacy={() => setShowPrivacy(true)} />
       </>
     );
   }

@@ -30,8 +30,9 @@ const linkBtn = {
   display: "inline-flex", alignItems: "center", gap: 6,
 };
 
-export default function LeadForm({ tipo, onBack, onSuccess }) {
+export default function LeadForm({ tipo, onBack, onSuccess, onOpenPrivacy }) {
   const [form, setForm] = useState({ nome: "", cognome: "", email: "", telefono: "", societa: "", ruolo: "" });
+  const [consenso, setConsenso] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
 
@@ -40,8 +41,9 @@ export default function LeadForm({ tipo, onBack, onSuccess }) {
   const submit = async (e) => {
     e.preventDefault();
     setError(null);
+    if (!consenso) { setError("Devi accettare l'informativa privacy per continuare."); return; }
     setBusy(true);
-    const err = await submitLead({ tipo, ...form });
+    const err = await submitLead({ tipo, ...form, consenso });
     setBusy(false);
     if (err) { setError("Non siamo riusciti a inviare i dati. Riprova tra poco."); return; }
     onSuccess(tipo);
@@ -81,6 +83,30 @@ export default function LeadForm({ tipo, onBack, onSuccess }) {
             <Field label="Numero di telefono" type="tel" value={form.telefono} onChange={upd("telefono")} autoComplete="tel" required />
             <Field label="Società sportiva" optional value={form.societa} onChange={upd("societa")} autoComplete="organization" />
             <Field label="Ruolo" optional value={form.ruolo} onChange={upd("ruolo")} placeholder="es. allenatore, dirigente, atleta…" />
+
+            <label style={{
+              ...font, display: "flex", alignItems: "flex-start", gap: 9, fontSize: 12.5,
+              color: C.muted, lineHeight: 1.5, marginTop: 4, marginBottom: 16, cursor: "pointer",
+            }}>
+              <input
+                type="checkbox"
+                checked={consenso}
+                onChange={(e) => setConsenso(e.target.checked)}
+                style={{ marginTop: 2, flexShrink: 0, width: 15, height: 15, accentColor: C.orange }}
+              />
+              <span>
+                Ho letto e accetto l'
+                <button
+                  type="button"
+                  onClick={onOpenPrivacy}
+                  style={{ ...font, background: "none", border: "none", padding: 0, color: C.orange, fontWeight: 600, cursor: "pointer", textDecoration: "underline" }}
+                >
+                  informativa sulla privacy
+                </button>
+                {" "}e acconsento al trattamento dei miei dati per essere ricontattato in merito ad Atleta360.
+                <span style={{ color: C.orange }}> *</span>
+              </span>
+            </label>
 
             {error && (
               <div style={{ display: "flex", gap: 8, alignItems: "flex-start", background: "#FDECEC", color: "#B4232A",
