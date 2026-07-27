@@ -1,11 +1,10 @@
 import { useRef } from "react";
-import { Trophy } from "lucide-react";
 import { C, font, display } from "../theme";
 import { useRevealOnScroll } from "./reveal";
 
-/* Caso reale in forma anonima: la società non ha ancora dato il via libera
-   a essere citata per nome (vedi nota per Danilo), quindi qui restiamo su
-   una descrizione fattuale senza inventare citazioni o dichiarazioni. */
+/* Logo reale fornito da Danilo (già in uso in Dashboard Atleta360/public).
+   Ha sfondo bianco pieno, non trasparente: lo teniamo dentro un chip
+   bianco arrotondato invece di posarlo direttamente sullo sfondo scuro. */
 export default function CaseStudy() {
   const rootRef = useRef(null);
   useRevealOnScroll(rootRef);
@@ -19,10 +18,11 @@ export default function CaseStudy() {
         boxShadow: "0 30px 90px rgba(0,0,0,0.4)",
       }}>
         <div style={{
-          width: 50, height: 50, borderRadius: 14, background: C.orangeSoft,
-          display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 20,
+          display: "inline-flex", alignItems: "center", background: "#fff",
+          borderRadius: 14, padding: "10px 16px", marginBottom: 20,
+          boxShadow: "0 10px 30px rgba(0,0,0,0.25)",
         }}>
-          <Trophy size={24} color={C.orange} />
+          <img src="/oasi-volley-logo.png" alt="Oasi Volley Viareggio" style={{ height: 34, display: "block" }} />
         </div>
 
         <div style={{
@@ -35,13 +35,13 @@ export default function CaseStudy() {
           ...display, color: "#fff", fontWeight: 700, fontSize: "clamp(22px, 3.2vw, 28px)",
           lineHeight: 1.3, margin: "0 0 16px",
         }}>
-          Una società di volley femminile lo usa già, stagione dopo stagione
+          Oasi Volley Viareggio lo usa già, stagione dopo stagione
         </h2>
         <p style={{ ...font, color: "rgba(255,255,255,0.72)", fontSize: 15, lineHeight: 1.7, margin: 0 }}>
-          Atleta360 non nasce da un'idea sulla carta: è in uso reale con una società di volley
-          femminile, che rileva periodicamente le soft skill delle proprie atlete per seguirne
-          la crescita nel tempo — non solo i risultati in campo. Quello che vedi nella demo è
-          il prodotto vero, non un prototipo.
+          Atleta360 non nasce da un'idea sulla carta: è in uso reale con Oasi Volley Viareggio,
+          che rileva periodicamente le soft skill delle proprie atlete per seguirne la crescita
+          nel tempo — non solo i risultati in campo. Quello che vedi nella demo è il prodotto
+          vero, non un prototipo.
         </p>
       </div>
     </section>

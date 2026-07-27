@@ -30,15 +30,16 @@ export default function PrivacyPage({ onBack }) {
           background: "#FFF6E9", border: "1px solid #FFE0B0", borderRadius: 12,
           padding: "12px 14px", marginTop: 20, ...font, fontSize: 12.5, color: "#8A5A00", lineHeight: 1.6,
         }}>
-          Bozza generata automaticamente: i campi tra parentesi quadre vanno completati
-          e l'intero testo va validato da chi segue la privacy prima di considerarlo definitivo.
+          Bozza: manca ancora l'indirizzo della sede (non trovato in nessun registro pubblico
+          collegato a questa P.IVA — va inserito a mano). L'intero testo va comunque validato
+          da chi segue la privacy prima di considerarlo definitivo.
         </div>
 
         <h2 style={h2}>1. Titolare del trattamento</h2>
         <p style={p}>
           Il titolare del trattamento dei dati raccolti tramite questo sito è
-          [RAGIONE SOCIALE / NOME E COGNOME], con sede in [INDIRIZZO],
-          P.IVA/C.F. [P.IVA O CODICE FISCALE]. Per qualsiasi richiesta relativa al
+          Danilo Puglisi, con sede in [INDIRIZZO — da inserire],
+          P.IVA 01506110459. Per qualsiasi richiesta relativa al
           trattamento dei tuoi dati puoi scrivere a{" "}
           <a href="mailto:info@danilopuglisi.com" style={{ color: C.orange }}>info@danilopuglisi.com</a>.
         </p>
@@ -70,7 +71,8 @@ export default function PrivacyPage({ onBack }) {
         <h2 style={h2}>5. Dove sono conservati i dati</h2>
         <p style={p}>
           I dati sono conservati su Supabase, infrastruttura cloud ospitata nella regione
-          [REGIONE DATA CENTER — da confermare, es. "Unione Europea" o "Stati Uniti"].
+          [REGIONE DATA CENTER — verificabile in pochi secondi su supabase.com, Project
+          Settings → General → Region].
           {" "}Se il fornitore si trova fuori dall'Unione Europea, il trasferimento avviene sulla
           base delle garanzie previste dal fornitore stesso (clausole contrattuali standard).
         </p>
@@ -78,8 +80,8 @@ export default function PrivacyPage({ onBack }) {
         <h2 style={h2}>6. Per quanto tempo</h2>
         <p style={p}>
           Conserviamo i tuoi dati per il tempo necessario a gestire la tua richiesta di demo e,
-          successivamente, per un massimo di [DURATA — es. 24 mesi] dall'ultimo contatto,
-          salvo tu chieda prima la cancellazione.
+          successivamente, per un massimo di 24 mesi dall'ultimo contatto, salvo tu chieda
+          prima la cancellazione.
         </p>
 
         <h2 style={h2}>7. I tuoi diritti</h2>
