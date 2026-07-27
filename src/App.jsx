@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { AlertCircle } from "lucide-react";
 import { C, font, display } from "./theme";
 import { supabaseConfigured } from "./supabaseClient";
 import { demoUrl } from "./leads";
 import LeadForm from "./LeadForm";
+import CinematicStage from "./cinematic/CinematicStage";
 import CinematicHero from "./cinematic/CinematicHero";
 import ScrollStory from "./cinematic/ScrollStory";
 
@@ -29,11 +30,10 @@ function SetupNotice() {
   );
 }
 
-function Redirecting({ tipo }) {
+function Redirecting() {
   return (
     <div style={{
-      ...font, minHeight: "100vh",
-      background: `linear-gradient(160deg, ${C.navy} 0%, ${C.navy2} 100%)`,
+      ...font, position: "relative", zIndex: 2, minHeight: "100vh",
       display: "flex", alignItems: "center", justifyContent: "center", padding: 20, textAlign: "center",
     }}>
       <div>
@@ -51,12 +51,15 @@ function Redirecting({ tipo }) {
 export default function App() {
   const [tipo, setTipo] = useState(null); // null | "atleta" | "societa"
   const [redirecting, setRedirecting] = useState(false);
+  const stageRef = useRef(null);
 
   if (!supabaseConfigured) return <SetupNotice />;
-  if (redirecting) return <Redirecting tipo={tipo} />;
 
-  if (tipo) {
-    return (
+  let content;
+  if (redirecting) {
+    content = <Redirecting />;
+  } else if (tipo) {
+    content = (
       <LeadForm
         tipo={tipo}
         onBack={() => setTipo(null)}
@@ -66,15 +69,25 @@ export default function App() {
         }}
       />
     );
+  } else {
+    content = (
+      <>
+        <CinematicHero onChoose={setTipo} stageRef={stageRef} />
+        <ScrollStory />
+        <p style={{
+          ...font, position: "relative", zIndex: 2, color: "rgba(255,255,255,0.45)",
+          fontSize: 12.5, textAlign: "center", padding: "24px 0 40px", margin: 0,
+        }}>
+          © {new Date().getFullYear()} Atleta360
+        </p>
+      </>
+    );
   }
 
   return (
     <>
-      <CinematicHero onChoose={setTipo} />
-      <ScrollStory />
-      <p style={{ ...font, color: "rgba(255,255,255,0.5)", fontSize: 12.5, textAlign: "center", padding: "20px 0 32px", background: "#060B2E", margin: 0 }}>
-        © {new Date().getFullYear()} Atleta360
-      </p>
+      <CinematicStage ref={stageRef} />
+      {content}
     </>
   );
 }

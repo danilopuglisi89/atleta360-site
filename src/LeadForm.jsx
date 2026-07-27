@@ -52,8 +52,7 @@ export default function LeadForm({ tipo, onBack, onSuccess }) {
 
   return (
     <div style={{
-      ...font, minHeight: "100vh",
-      background: `linear-gradient(160deg, ${C.navy} 0%, ${C.navy2} 100%)`,
+      ...font, position: "relative", zIndex: 2, minHeight: "100vh",
       display: "flex", alignItems: "center", justifyContent: "center", padding: 20,
     }}>
       <div style={{ width: "100%", maxWidth: 440 }}>
