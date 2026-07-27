@@ -1,7 +1,7 @@
 import { User, Building2, ArrowRight } from "lucide-react";
 import { C, font, display } from "./theme";
 
-function ChoiceCard({ Icon, title, description, onClick }) {
+export function ChoiceCard({ Icon, title, description, onClick }) {
   return (
     <button
       onClick={onClick}

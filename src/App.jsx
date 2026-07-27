@@ -3,8 +3,9 @@ import { AlertCircle } from "lucide-react";
 import { C, font, display } from "./theme";
 import { supabaseConfigured } from "./supabaseClient";
 import { demoUrl } from "./leads";
-import LandingHero from "./LandingHero";
 import LeadForm from "./LeadForm";
+import CinematicHero from "./cinematic/CinematicHero";
+import ScrollStory from "./cinematic/ScrollStory";
 
 function SetupNotice() {
   return (
@@ -67,5 +68,13 @@ export default function App() {
     );
   }
 
-  return <LandingHero onChoose={setTipo} />;
+  return (
+    <>
+      <CinematicHero onChoose={setTipo} />
+      <ScrollStory />
+      <p style={{ ...font, color: "rgba(255,255,255,0.5)", fontSize: 12.5, textAlign: "center", padding: "20px 0 32px", background: "#060B2E", margin: 0 }}>
+        © {new Date().getFullYear()} Atleta360
+      </p>
+    </>
+  );
 }
