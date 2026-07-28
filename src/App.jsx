@@ -1,10 +1,12 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AlertCircle } from "lucide-react";
 import { C, font, display } from "./theme";
 import { supabaseConfigured } from "./supabaseClient";
 import { demoUrl } from "./leads";
+import { initPixelIfConsented, trackLead } from "./pixel";
 import LeadForm from "./LeadForm";
 import PrivacyPage from "./PrivacyPage";
+import CookieBanner from "./CookieBanner";
 import CinematicStage from "./cinematic/CinematicStage";
 import CinematicHero from "./cinematic/CinematicHero";
 import ScrollStory from "./cinematic/ScrollStory";
@@ -60,8 +62,17 @@ export default function App() {
   const [showPrivacy, setShowPrivacy] = useState(false);
   const stageRef = useRef(null);
 
+  useEffect(() => {
+    initPixelIfConsented();
+  }, []);
+
   if (!supabaseConfigured) return <SetupNotice />;
-  if (showPrivacy) return <PrivacyPage onBack={() => setShowPrivacy(false)} />;
+  if (showPrivacy) return (
+    <>
+      <PrivacyPage onBack={() => setShowPrivacy(false)} />
+      <CookieBanner />
+    </>
+  );
 
   let content;
   if (redirecting) {
@@ -73,6 +84,7 @@ export default function App() {
         onBack={() => setTipo(null)}
         onOpenPrivacy={() => setShowPrivacy(true)}
         onSuccess={(chosenTipo) => {
+          trackLead(chosenTipo);
           setRedirecting(true);
           window.location.href = demoUrl(chosenTipo);
         }}
@@ -96,6 +108,7 @@ export default function App() {
     <>
       <CinematicStage ref={stageRef} />
       {content}
+      <CookieBanner />
     </>
   );
 }

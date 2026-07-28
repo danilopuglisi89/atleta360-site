@@ -95,9 +95,17 @@ export default function PrivacyPage({ onBack }) {
 
         <h2 style={h2}>8. Cookie e strumenti di analisi</h2>
         <p style={p}>
-          Questo sito usa uno strumento di analisi (Vercel Analytics) che misura in forma
-          aggregata quante persone visitano la pagina, senza utilizzare cookie di profilazione
-          né identificare singoli visitatori.
+          Questo sito usa Vercel Analytics, che misura in forma aggregata quante persone
+          visitano la pagina senza utilizzare cookie di profilazione né identificare singoli
+          visitatori: è sempre attivo e non richiede consenso.
+        </p>
+        <p style={p}>
+          Usiamo inoltre il Pixel di Meta (Facebook/Instagram) per capire quante persone,
+          arrivate dai nostri contenuti social, richiedono una demo. Questo strumento installa
+          cookie di misurazione/marketing e viene attivato solo se accetti il banner mostrato
+          alla tua prima visita — puoi rifiutarlo e continuare a usare il sito normalmente.
+          Se accetti, Meta potrebbe associare la tua visita al tuo account Facebook/Instagram
+          secondo la propria informativa privacy.
         </p>
       </div>
     </div>
