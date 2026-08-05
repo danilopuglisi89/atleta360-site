@@ -29,19 +29,19 @@ export default function CaseStudy() {
           ...font, color: C.orange, fontSize: 13, fontWeight: 600,
           letterSpacing: 0.4, textTransform: "uppercase", marginBottom: 12,
         }}>
-          Non solo una demo
+          La prima collaborazione
         </div>
         <h2 style={{
           ...display, color: "#fff", fontWeight: 700, fontSize: "clamp(22px, 3.2vw, 28px)",
           lineHeight: 1.3, margin: "0 0 16px",
         }}>
-          Oasi Volley Viareggio lo usa già, stagione dopo stagione
+          Inizia il percorso con Oasi Volley Viareggio
         </h2>
         <p style={{ ...font, color: "rgba(255,255,255,0.72)", fontSize: 15, lineHeight: 1.7, margin: 0 }}>
-          Atleta360 non nasce da un'idea sulla carta: è in uso reale con Oasi Volley Viareggio,
-          che rileva periodicamente le soft skill delle proprie atlete per seguirne la crescita
-          nel tempo — non solo i risultati in campo. Quello che vedi nella demo è il prodotto
-          vero, non un prototipo.
+          Atleta360 scende in campo: è appena nata la collaborazione con Oasi Volley Viareggio,
+          la prima società a portare il percorso sulle soft skill dentro il proprio settore
+          giovanile. Seguiremo la crescita delle atlete non solo nei risultati in campo —
+          e questo è solo l'inizio.
         </p>
       </div>
     </section>
