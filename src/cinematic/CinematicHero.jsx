@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ChevronDown, User, Building2 } from "lucide-react";
-import { C, font, display } from "../theme";
+import { font, display } from "../theme";
 import { ChoiceCard } from "../LandingHero";
 import RadarHero from "./RadarHero";
 
@@ -81,14 +81,12 @@ export default function CinematicHero({ onChoose, stageRef }) {
       display: "flex", flexDirection: "column", alignItems: "center",
       padding: "56px 20px 40px",
     }}>
-      <div ref={badgeRef} style={{ display: "inline-flex", alignItems: "center", gap: 11, marginBottom: 8, opacity: 0 }}>
-        <div style={{
-          width: 42, height: 42, borderRadius: 12, background: C.orange,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          ...display, fontWeight: 700, color: "#fff", fontSize: 14, letterSpacing: -0.5,
-          boxShadow: "0 0 32px rgba(255,122,24,0.75)",
-        }}>360</div>
-        <div style={{ ...display, color: "#fff", fontWeight: 700, fontSize: 22, letterSpacing: -0.3 }}>Atleta360</div>
+      <div ref={badgeRef} style={{ marginBottom: 8, opacity: 0 }}>
+        <img
+          src="/logo-esteso-bianco.png"
+          alt="Atleta360 — Mental Coach | Pallavolo"
+          style={{ height: 84, display: "block", filter: "drop-shadow(0 0 26px rgba(255,122,24,0.35))" }}
+        />
       </div>
 
       <div ref={radarRef} style={{ margin: "6px 0 -18px", opacity: 0 }}>

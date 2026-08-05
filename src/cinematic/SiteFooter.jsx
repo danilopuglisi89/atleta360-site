@@ -1,6 +1,6 @@
-import { Linkedin, Mail, Calendar } from "lucide-react";
-import { C, font, display } from "../theme";
-import { WHATSAPP_URL, LINKEDIN_URL, BOOKING_URL, CONTACT_EMAIL } from "./contactsConfig";
+import { Linkedin, Instagram, Mail, Calendar } from "lucide-react";
+import { font } from "../theme";
+import { WHATSAPP_URL, LINKEDIN_URL, INSTAGRAM_URL, BOOKING_URL, CONTACT_EMAIL } from "./contactsConfig";
 
 const linkStyle = {
   ...font, display: "inline-flex", alignItems: "center", gap: 7,
@@ -18,14 +18,11 @@ export default function SiteFooter({ onOpenPrivacy }) {
         maxWidth: 920, margin: "0 auto", display: "flex", flexWrap: "wrap",
         alignItems: "center", justifyContent: "space-between", gap: 20,
       }}>
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 9 }}>
-          <div style={{
-            width: 30, height: 30, borderRadius: 9, background: C.orange,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            ...display, fontWeight: 700, color: "#fff", fontSize: 11,
-          }}>360</div>
-          <span style={{ ...display, color: "#fff", fontWeight: 700, fontSize: 15 }}>Atleta360</span>
-        </div>
+        <img
+          src="/logo-esteso-bianco.png"
+          alt="Atleta360 — Mental Coach | Pallavolo"
+          style={{ height: 40, display: "block" }}
+        />
 
         <div style={{ display: "flex", flexWrap: "wrap", gap: 20, alignItems: "center" }}>
           <a href={bookingHref} style={linkStyle} target={bookingHref.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
@@ -33,6 +30,9 @@ export default function SiteFooter({ onOpenPrivacy }) {
           </a>
           <a href={`mailto:${CONTACT_EMAIL}`} style={linkStyle}>
             <Mail size={15} /> {CONTACT_EMAIL}
+          </a>
+          <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" style={linkStyle}>
+            <Instagram size={15} /> @atleta360.volley
           </a>
           <a href={LINKEDIN_URL} target="_blank" rel="noreferrer" style={linkStyle}>
             <Linkedin size={15} /> LinkedIn

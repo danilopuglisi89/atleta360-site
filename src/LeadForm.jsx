@@ -30,7 +30,7 @@ const linkBtn = {
   display: "inline-flex", alignItems: "center", gap: 6,
 };
 
-export default function LeadForm({ tipo, onBack, onSuccess, onOpenPrivacy }) {
+export default function LeadForm({ tipo, onBack, onSuccess, onOpenPrivacy, compact = false }) {
   const [form, setForm] = useState({ nome: "", cognome: "", email: "", telefono: "", societa: "", ruolo: "" });
   const [consenso, setConsenso] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -54,13 +54,15 @@ export default function LeadForm({ tipo, onBack, onSuccess, onOpenPrivacy }) {
 
   return (
     <div style={{
-      ...font, position: "relative", zIndex: 2, minHeight: "100vh",
+      ...font, position: "relative", zIndex: 2, minHeight: compact ? undefined : "100vh",
       display: "flex", alignItems: "center", justifyContent: "center", padding: 20,
     }}>
       <div style={{ width: "100%", maxWidth: 440 }}>
-        <button onClick={onBack} style={{ ...linkBtn, marginBottom: 18 }}>
-          <ArrowLeft size={15} /> Indietro
-        </button>
+        {onBack && (
+          <button onClick={onBack} style={{ ...linkBtn, marginBottom: 18 }}>
+            <ArrowLeft size={15} /> Indietro
+          </button>
+        )}
 
         <div style={{ background: C.card, borderRadius: 18, padding: 26, boxShadow: "0 20px 60px rgba(0,0,0,0.28)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>

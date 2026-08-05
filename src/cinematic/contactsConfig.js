@@ -17,6 +17,9 @@ export const WHATSAPP_URL =
 // URL completo del profilo LinkedIn.
 export const LINKEDIN_URL = "https://www.linkedin.com/";
 
+// Pagina Instagram dedicata al progetto Atleta360.
+export const INSTAGRAM_URL = "https://www.instagram.com/atleta360.volley/";
+
 // Link di prenotazione (Calendly o simile). "#" finché non esiste.
 export const BOOKING_URL = "#";
 

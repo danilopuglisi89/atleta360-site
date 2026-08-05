@@ -5,6 +5,7 @@ import { supabaseConfigured } from "./supabaseClient";
 import { demoUrl } from "./leads";
 import { initPixelIfConsented, trackLead } from "./pixel";
 import LeadForm from "./LeadForm";
+import ContactPage from "./ContactPage";
 import PrivacyPage from "./PrivacyPage";
 import CookieBanner from "./CookieBanner";
 import CinematicStage from "./cinematic/CinematicStage";
@@ -74,9 +75,22 @@ export default function App() {
     </>
   );
 
+  const isContactRoute = window.location.pathname.replace(/\/+$/, "") === "/contatti";
+
   let content;
   if (redirecting) {
     content = <Redirecting />;
+  } else if (isContactRoute) {
+    content = (
+      <ContactPage
+        onOpenPrivacy={() => setShowPrivacy(true)}
+        onSuccess={(chosenTipo) => {
+          trackLead(chosenTipo);
+          setRedirecting(true);
+          window.location.href = demoUrl(chosenTipo);
+        }}
+      />
+    );
   } else if (tipo) {
     content = (
       <LeadForm
