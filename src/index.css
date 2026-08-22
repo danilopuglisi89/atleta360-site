@@ -35,8 +35,10 @@ html.lenis, html.lenis body { height: auto; }
 .a360-hero-logo { margin-bottom: 34px; }
 .a360-hero-title { margin-bottom: 22px !important; }
 .a360-hero-sub { margin: 0 0 34px; }
-.a360-hero-choices { display: flex; flex-wrap: wrap; gap: 18px; width: 100%; max-width: 720px; }
-.a360-hero-choices .a360-choice-card { max-width: 330px; }
+/* Sempre affiancate, mai una sotto l'altra: ogni card si restringe
+   (ChoiceCard usa clamp() sui suoi valori interni) invece di andare a capo. */
+.a360-hero-choices { display: flex; flex-wrap: nowrap; gap: 18px; width: 100%; max-width: 720px; }
+.a360-hero-choices > * { flex: 1 1 0; min-width: 0; }
 .a360-hero-hint { display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 42px; align-self: center; }
 .a360-hero-figure { min-height: 70vh; }
 
@@ -49,7 +51,7 @@ html.lenis, html.lenis body { height: auto; }
   .a360-hero-figure { order: 2; min-height: 42vh; width: 100%; }
   .a360-hero-title { order: 3; text-align: center; margin-bottom: 18px !important; }
   .a360-hero-sub { order: 4; text-align: center; margin-bottom: 28px; }
-  .a360-hero-choices { order: 5; justify-content: center; }
+  .a360-hero-choices { order: 5; justify-content: center; gap: 10px; }
   .a360-hero-hint { order: 6; margin-top: 34px; }
 }
 

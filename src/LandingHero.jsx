@@ -8,27 +8,27 @@ export function ChoiceCard({ Icon, title, description, onClick }) {
       className="a360-choice-card"
       style={{
         ...font, textAlign: "left", cursor: "pointer", border: "none",
-        background: C.card, borderRadius: 20, padding: 26,
+        background: C.card, borderRadius: 20, padding: "clamp(14px, 3vw, 26px)",
         boxShadow: "0 24px 70px rgba(0,0,0,0.28)",
-        width: "100%", maxWidth: 340,
-        display: "flex", flexDirection: "column", gap: 14,
+        width: "100%", minWidth: 0,
+        display: "flex", flexDirection: "column", gap: "clamp(8px, 1.8vw, 14px)",
       }}
     >
       <div style={{
-        width: 52, height: 52, borderRadius: 14, background: C.orangeSoft,
-        display: "flex", alignItems: "center", justifyContent: "center",
+        width: "clamp(34px, 8vw, 52px)", height: "clamp(34px, 8vw, 52px)", borderRadius: 14, background: C.orangeSoft,
+        display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
       }}>
-        <Icon size={26} color={C.orange} />
+        <Icon size={22} color={C.orange} style={{ width: "clamp(16px, 4vw, 26px)", height: "clamp(16px, 4vw, 26px)" }} />
       </div>
       <div>
-        <div style={{ ...display, fontSize: 19, fontWeight: 700, color: C.ink }}>{title}</div>
-        <p style={{ ...font, fontSize: 13.5, color: C.muted, lineHeight: 1.5, marginTop: 6 }}>{description}</p>
+        <div style={{ ...display, fontSize: "clamp(14px, 3.2vw, 19px)", fontWeight: 700, color: C.ink, lineHeight: 1.25 }}>{title}</div>
+        <p style={{ ...font, fontSize: "clamp(11px, 2.3vw, 13.5px)", color: C.muted, lineHeight: 1.5, marginTop: 6 }}>{description}</p>
       </div>
       <div style={{
         ...font, display: "inline-flex", alignItems: "center", gap: 7,
-        color: C.orange, fontSize: 14, fontWeight: 600, marginTop: 4,
+        color: C.orange, fontSize: "clamp(11px, 2.2vw, 14px)", fontWeight: 600, marginTop: 4, whiteSpace: "nowrap",
       }}>
-        Avvia la demo <ArrowRight size={16} />
+        Avvia la demo <ArrowRight size={15} style={{ flexShrink: 0 }} />
       </div>
     </button>
   );
