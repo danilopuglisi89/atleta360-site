@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
 import { ArrowLeft, AlertCircle, User, Building2 } from "lucide-react";
 import { C, font, display } from "./theme";
 import { submitLead } from "./leads";
@@ -30,11 +31,26 @@ const linkBtn = {
   display: "inline-flex", alignItems: "center", gap: 6,
 };
 
-export default function LeadForm({ tipo, onBack, onSuccess, onOpenPrivacy, compact = false }) {
+export default function LeadForm({ tipo, onBack, onSuccess, onOpenPrivacy, compact = false, animateIn = false }) {
   const [form, setForm] = useState({ nome: "", cognome: "", email: "", telefono: "", societa: "", ruolo: "" });
   const [consenso, setConsenso] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
+  const cardRef = useRef(null);
+
+  /* Entrata cinematica (dopo l'uscita della hero): la card sale dal fondo e
+     si mette a fuoco. */
+  useEffect(() => {
+    if (!animateIn || !cardRef.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const el = cardRef.current;
+    const tw = gsap.fromTo(el,
+      { opacity: 0, y: 48, scale: 0.96, filter: "blur(12px)" },
+      { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.9, ease: "expo.out", clearProps: "filter" });
+    // rete di sicurezza: il form deve comparire anche se le animazioni sono sospese
+    const safety = setTimeout(() => { if (tw.progress() < 1) gsap.set(el, { opacity: 1, y: 0, scale: 1, clearProps: "filter" }); }, 1500);
+    return () => { clearTimeout(safety); tw.kill(); };
+  }, [animateIn]);
 
   const upd = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
 
@@ -57,7 +73,7 @@ export default function LeadForm({ tipo, onBack, onSuccess, onOpenPrivacy, compa
       ...font, position: "relative", zIndex: 2, minHeight: compact ? undefined : "100vh",
       display: "flex", alignItems: "center", justifyContent: "center", padding: 20,
     }}>
-      <div style={{ width: "100%", maxWidth: 440 }}>
+      <div ref={cardRef} style={{ width: "100%", maxWidth: 440, opacity: animateIn ? 0 : 1 }}>
         {onBack && (
           <button onClick={onBack} style={{ ...linkBtn, marginBottom: 18 }}>
             <ArrowLeft size={15} /> Indietro

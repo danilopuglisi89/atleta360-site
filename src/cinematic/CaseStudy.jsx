@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { C, font, display } from "../theme";
 import { useRevealOnScroll } from "./reveal";
+import SplitTitle from "./SplitTitle";
 
 /* Logo reale fornito da Danilo (già in uso in Dashboard Atleta360/public).
    Ha sfondo bianco pieno, non trasparente: lo teniamo dentro un chip
@@ -31,12 +32,10 @@ export default function CaseStudy() {
         }}>
           La prima collaborazione
         </div>
-        <h2 style={{
+        <SplitTitle text="Inizia il percorso con Oasi Volley Viareggio" style={{
           ...display, color: "#fff", fontWeight: 700, fontSize: "clamp(22px, 3.2vw, 28px)",
           lineHeight: 1.3, margin: "0 0 16px",
-        }}>
-          Inizia il percorso con Oasi Volley Viareggio
-        </h2>
+        }} />
         <p style={{ ...font, color: "rgba(255,255,255,0.72)", fontSize: 15, lineHeight: 1.7, margin: 0 }}>
           Atleta360 scende in campo: è appena nata la collaborazione con Oasi Volley Viareggio,
           la prima società a portare il percorso sulle soft skill dentro il proprio settore

@@ -12,6 +12,47 @@ body {
 }
 #root { min-height: 100%; }
 
+/* --- Lenis (scroll fluido) --- */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* --- HERO: testo a sinistra, figura di particelle a destra.
+       La geometria (colonne, gap, max-width) è speculare a layout.js:
+       se cambi qui, cambia anche lì. --- */
+.a360-hero {
+  position: relative; z-index: 2; min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 40px 20px;
+}
+.a360-hero-inner {
+  width: 100%; max-width: 1180px; margin: 0 auto;
+  display: grid; grid-template-columns: minmax(0, 56fr) minmax(0, 44fr);
+  gap: 32px; align-items: center;
+}
+.a360-hero-copy { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+.a360-hero-logo { margin-bottom: 34px; }
+.a360-hero-title { margin-bottom: 22px !important; }
+.a360-hero-sub { margin: 0 0 34px; }
+.a360-hero-choices { display: flex; flex-wrap: wrap; gap: 18px; width: 100%; max-width: 720px; }
+.a360-hero-choices .a360-choice-card { max-width: 330px; }
+.a360-hero-hint { display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 42px; align-self: center; }
+.a360-hero-figure { min-height: 70vh; }
+
+@media (max-width: 900px) {
+  .a360-hero { align-items: flex-start; padding: 24px 20px 40px; }
+  .a360-hero-inner { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .a360-hero-copy { display: contents; }
+  .a360-hero-logo { order: 1; margin-bottom: 12px; }
+  .a360-hero-logo img { height: 60px !important; }
+  .a360-hero-figure { order: 2; min-height: 42vh; width: 100%; }
+  .a360-hero-title { order: 3; text-align: center; margin-bottom: 18px !important; }
+  .a360-hero-sub { order: 4; text-align: center; margin-bottom: 28px; }
+  .a360-hero-choices { order: 5; justify-content: center; }
+  .a360-hero-hint { order: 6; margin-top: 34px; }
+}
+
 /* --- card scelta atleta/società --- */
 .a360-choice-card {
   transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease;

@@ -3,6 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Brain, LineChart, Award } from "lucide-react";
 import { C, font, display } from "../theme";
+import RadarHero from "./RadarHero";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,7 +13,7 @@ const SCENES = [
     kicker: "6 competenze, un solo rilevamento",
     title: "Reset, focus, gestione del corpo, comunicazione, coachability, tattica",
     text: "Ogni rilevamento fotografa le soft skill dell'atleta in modo semplice e ripetibile, senza test complicati da gestire.",
-    stat: 6, statLabel: "competenze tracciate",
+    stat: null, statLabel: null, radar: true,
   },
   {
     Icon: LineChart,
@@ -56,6 +57,15 @@ function Scene({ scene, index }) {
           scrollTrigger: { trigger: el, start: "top 88%", end: "top 42%", scrub: 0.7 },
         });
 
+      // parallasse leggera del pannello visivo: sale un po' più veloce del testo
+      const visual = el.querySelector(".a360-panel-visual");
+      if (visual) {
+        gsap.fromTo(visual, { yPercent: 10 }, {
+          yPercent: -12, ease: "none",
+          scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: true },
+        });
+      }
+
       if (numRef.current && scene.stat != null) {
         const counter = { v: 0 };
         gsap.to(counter, {
@@ -97,15 +107,18 @@ function Scene({ scene, index }) {
           </p>
         </div>
 
-        <div className="a360-panel" style={{
-          flex: "0 0 auto", opacity: 0, display: "flex", alignItems: "center", justifyContent: "center",
-          width: 200, height: 200, borderRadius: 24,
+        <div className="a360-panel" style={{ flex: "0 0 auto", opacity: 0 }}>
+        <div className="a360-panel-visual" style={{
+          display: "flex", alignItems: "center", justifyContent: "center",
+          width: scene.radar ? 250 : 200, height: scene.radar ? 250 : 200, borderRadius: 24,
           background: "rgba(255,255,255,0.05)",
           border: "1px solid rgba(255,255,255,0.11)",
           backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)",
           boxShadow: "0 30px 90px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.12)",
         }}>
-          {scene.stat != null ? (
+          {scene.radar ? (
+            <RadarHero size={230} />
+          ) : scene.stat != null ? (
             <div style={{ textAlign: "center" }}>
               <div ref={numRef} style={{
                 ...display, color: C.orange, fontWeight: 700, fontSize: 54, lineHeight: 1,
@@ -119,6 +132,7 @@ function Scene({ scene, index }) {
             <scene.Icon size={72} color={C.orange} strokeWidth={1.4}
               style={{ filter: "drop-shadow(0 0 26px rgba(255,122,24,0.6))" }} />
           )}
+        </div>
         </div>
       </div>
     </div>

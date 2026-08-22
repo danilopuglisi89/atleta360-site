@@ -16,6 +16,9 @@ import CaseStudy from "./cinematic/CaseStudy";
 import AboutFounder from "./cinematic/AboutFounder";
 import FAQ from "./cinematic/FAQ";
 import SiteFooter from "./cinematic/SiteFooter";
+import CursorGlow from "./cinematic/CursorGlow";
+import ScrollProgress from "./cinematic/ScrollProgress";
+import { useSmoothScroll, scrollToTop } from "./cinematic/smoothScroll";
 
 function SetupNotice() {
   return (
@@ -61,7 +64,12 @@ export default function App() {
   const [tipo, setTipo] = useState(null); // null | "atleta" | "societa"
   const [redirecting, setRedirecting] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
+  const [leaving, setLeaving] = useState(false);
   const stageRef = useRef(null);
+  const heroRef = useRef(null);
+  const returned = useRef(false);   // true quando si torna dal form: intro breve
+
+  useSmoothScroll();
 
   useEffect(() => {
     initPixelIfConsented();
@@ -76,6 +84,27 @@ export default function App() {
   );
 
   const isContactRoute = window.location.pathname.replace(/\/+$/, "") === "/contatti";
+
+  /* Hero -> form: uscita cinematica, poi cambio di vista in cima alla pagina. */
+  const choose = async (chosen) => {
+    if (leaving) return;
+    setLeaving(true);
+    // l'animazione d'uscita non deve MAI bloccare l'arrivo al form:
+    // al massimo 900 ms, poi si procede comunque
+    await Promise.race([
+      heroRef.current?.leave() ?? Promise.resolve(),
+      new Promise((r) => setTimeout(r, 900)),
+    ]);
+    scrollToTop();
+    setTipo(chosen);
+    setLeaving(false);
+  };
+
+  const goHome = () => {
+    returned.current = true;
+    scrollToTop();
+    setTipo(null);
+  };
 
   let content;
   if (redirecting) {
@@ -95,19 +124,20 @@ export default function App() {
     content = (
       <LeadForm
         tipo={tipo}
-        onBack={() => setTipo(null)}
+        onBack={goHome}
         onOpenPrivacy={() => setShowPrivacy(true)}
         onSuccess={(chosenTipo) => {
           trackLead(chosenTipo);
           setRedirecting(true);
           window.location.href = demoUrl(chosenTipo);
         }}
+        animateIn
       />
     );
   } else {
     content = (
       <>
-        <CinematicHero onChoose={setTipo} stageRef={stageRef} />
+        <CinematicHero ref={heroRef} onChoose={choose} stageRef={stageRef} quick={returned.current} />
         <ScrollStory />
         <HowItWorks />
         <CaseStudy />
@@ -121,6 +151,8 @@ export default function App() {
   return (
     <>
       <CinematicStage ref={stageRef} />
+      <CursorGlow />
+      <ScrollProgress />
       {content}
       <CookieBanner />
     </>

@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { Plus, Minus } from "lucide-react";
 import { C, font, display } from "../theme";
 import { useRevealOnScroll } from "./reveal";
+import SplitTitle from "./SplitTitle";
 
 const ITEMS = [
   {
@@ -60,12 +61,10 @@ export default function FAQ() {
   return (
     <section ref={rootRef} style={{ position: "relative", zIndex: 2, padding: "70px 20px" }}>
       <div style={{ maxWidth: 680, margin: "0 auto" }}>
-        <h2 className="a360-reveal" style={{
+        <SplitTitle text="Domande frequenti" style={{
           ...display, textAlign: "center", color: "#fff", fontWeight: 700,
-          fontSize: "clamp(24px, 3.6vw, 32px)", margin: "0 auto 34px", opacity: 0,
-        }}>
-          Domande frequenti
-        </h2>
+          fontSize: "clamp(24px, 3.6vw, 32px)", margin: "0 auto 34px",
+        }} />
 
         <div className="a360-reveal" style={{
           opacity: 0, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)",
