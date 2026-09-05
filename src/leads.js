@@ -23,7 +23,7 @@ async function avvisaPerMail(dati) {
   }
 }
 
-export async function submitLead({ tipo, nome, cognome, email, telefono, societa, ruolo, consenso }) {
+export async function submitLead({ tipo, nome, cognome, email, telefono, societa, ruolo, consenso, troppoVeloce }) {
   const supabase = await getSupabase();
   if (!supabase) return new Error("Supabase non configurato");
   const { error } = await supabase.from("leads").insert({
@@ -39,6 +39,10 @@ export async function submitLead({ tipo, nome, cognome, email, telefono, societa
     informativa_versione: consenso ? PRIVACY_VERSION : null,
   });
   if (error) return error;
+
+  // compilazione sospetta: il contatto resta salvato, ma non fa suonare la
+  // casella — si controlla con calma dal database
+  if (troppoVeloce) return null;
 
   // il lead è al sicuro nel database: adesso l'avviso, che può anche fallire
   await avvisaPerMail({

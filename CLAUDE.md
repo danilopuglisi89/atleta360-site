@@ -66,7 +66,11 @@ atleta360-site/
 │   │                            presi da danilopuglisi.com (LinkedIn dalla ricerca web: il sito
 │   │                            blocca i bot, l'URL è da confermare a occhio)
 │   ├── LandingHero.jsx         resta solo per ChoiceCard (la vecchia hero statica non è più usata)
-│   ├── LeadForm.jsx            Form + consenso + animateIn (entrata dopo la transizione)
+│   ├── LeadForm.jsx            Form + consenso + animateIn (entrata dopo la transizione).
+│   │                            ANTI-SPAM: campo esca "sito_web" fuori schermo (non
+│   │                            display:none, che molti bot saltano apposta) — se compilato
+│   │                            si finge successo senza salvare né avvisare; se il form è
+│   │                            inviato in meno di 2,5s il lead si salva ma NON parte la mail.
 │   ├── ContactPage.jsx         rotta /contatti per le campagne
 │   ├── PrivacyPage.jsx         informativa (titolare e P.IVA inseriti; indirizzo e regione
 │   │                            Supabase ancora segnaposto)
@@ -87,6 +91,10 @@ atleta360-site/
 │                                (Resend). Chiamata da leads.js DOPO il salvataggio, best effort:
 │                                se fallisce il lead resta comunque salvato. Chiave in
 │                                RESEND_API_KEY su Vercel — mai dentro il database.
+│                                Difende SOLO la casella (i lead si salvano comunque): scarta
+│                                link nei campi nome/società, email malformate, e limita a 5
+│                                mail/ora per IP e 40/ora totali. Il conteggio è in memoria
+│                                dell'istanza: ferma le raffiche, non è una barriera assoluta.
 ├── supabase/                   Migrazioni SQL di questo repo (leads.sql, leads-consenso.sql,
 │                                demo-seed.sql) — DOPO quelle della dashboard.
 │                                notify-lead-email.sql è SUPERATO: non eseguirlo, farebbe

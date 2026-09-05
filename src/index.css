@@ -358,6 +358,14 @@ html.lenis, html.lenis body { height: auto; }
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
+/* esca anti-bot: fuori schermo invece di display:none, perché parecchi bot
+   saltano apposta i campi nascosti con display:none o visibility:hidden */
+.a360-esca {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important; height: 1px !important;
+  overflow: hidden !important;
+}
 .a360-label {
   font-family: 'Inter', system-ui, sans-serif; font-size: 12.5px; font-weight: 500;
   color: rgba(255, 255, 255, 0.72); margin-bottom: 6px; display: block;

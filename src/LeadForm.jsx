@@ -25,6 +25,12 @@ export default function LeadForm({ tipo, onBack, onSuccess, onOpenPrivacy, compa
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
   const cardRef = useRef(null);
+  /* Anti-spam, primo strato. Il campo "sito_web" è invisibile e fuori dal giro
+     dei TAB: una persona non può compilarlo, i bot che riempiono tutto sì.
+     L'orologio serve come secondo indizio: un form compilato in meno di due
+     secondi e mezzo non è stato compilato da qualcuno che legge. */
+  const esca = useRef("");
+  const apertoIl = useRef(Date.now());
 
   /* Entrata cinematica (dopo l'uscita della hero): la card sale dal fondo e
      si mette a fuoco. */
@@ -46,8 +52,20 @@ export default function LeadForm({ tipo, onBack, onSuccess, onOpenPrivacy, compa
     e.preventDefault();
     setError(null);
     if (!consenso) { setError("Devi accettare l'informativa privacy per continuare."); return; }
+
+    /* Esca compilata: è un bot. Non salviamo e non avvisiamo, ma mostriamo il
+       percorso normale — così non impara di essere stato riconosciuto e non
+       prova un'altra strada. Una persona non può finire qui: il campo non è
+       raggiungibile né a schermo né da tastiera. */
+    if (esca.current) { onSuccess(tipo); return; }
+
     setBusy(true);
-    const err = await submitLead({ tipo, ...form, consenso });
+    const err = await submitLead({
+      tipo, ...form, consenso,
+      // sotto la soglia il lead si salva lo stesso, ma non fa scattare la mail:
+      // meglio un contatto da controllare a mano che una casella intasata
+      troppoVeloce: Date.now() - apertoIl.current < 2500,
+    });
     setBusy(false);
     if (err) { setError("Non siamo riusciti a inviare i dati. Riprova tra poco."); return; }
     onSuccess(tipo);
@@ -87,6 +105,17 @@ export default function LeadForm({ tipo, onBack, onSuccess, onOpenPrivacy, compa
           )}
 
           <form onSubmit={submit}>
+            {/* esca per i bot: invisibile, fuori dai TAB, ignorata dai lettori
+                di schermo e dal riempimento automatico del browser */}
+            <div className="a360-esca" aria-hidden="true">
+              <label htmlFor="sito_web">Non compilare questo campo</label>
+              <input
+                id="sito_web" name="sito_web" type="text" tabIndex={-1}
+                autoComplete="off" defaultValue=""
+                onChange={(e) => { esca.current = e.target.value; }}
+              />
+            </div>
+
             <Field label="Nome" value={form.nome} onChange={upd("nome")} autoComplete="given-name" required />
             <Field label="Cognome" value={form.cognome} onChange={upd("cognome")} autoComplete="family-name" required />
             <Field label="Email" type="email" value={form.email} onChange={upd("email")} autoComplete="email" required />

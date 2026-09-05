@@ -21,6 +21,38 @@ const ORIGINI_AMMESSE = [
   "https://www.atleta-360.com",
 ];
 
+/* ---- Difese della casella ----
+ * L'esca nel form ferma i bot che passano dalle pagine, ma questo indirizzo è
+ * pubblico: chi lo trova può chiamarlo direttamente. Qui si protegge solo la
+ * casella di Danilo — i contatti restano comunque salvati nel database.
+ *
+ * Il conteggio vive nella memoria dell'istanza: Vercel ne tiene alcune calde,
+ * quindi ferma le raffiche (il caso vero) ma non è una barriera assoluta.
+ */
+const FINESTRA_MS = 60 * 60 * 1000;
+const MAX_PER_IP = 5;      // richieste demo all'ora dallo stesso indirizzo
+const MAX_TOTALE = 40;     // tetto complessivo all'ora, contro le raffiche
+const perIp = new Map();
+let recenti = [];
+
+function troppeRichieste(ip) {
+  const ora = Date.now();
+  recenti = recenti.filter((t) => ora - t < FINESTRA_MS);
+  if (recenti.length >= MAX_TOTALE) return "tetto complessivo";
+
+  const suoi = (perIp.get(ip) || []).filter((t) => ora - t < FINESTRA_MS);
+  if (suoi.length >= MAX_PER_IP) { perIp.set(ip, suoi); return "tetto per indirizzo"; }
+
+  suoi.push(ora); perIp.set(ip, suoi); recenti.push(ora);
+  if (perIp.size > 500) { // non far crescere la mappa all'infinito
+    for (const [k, v] of perIp) if (!v.some((t) => ora - t < FINESTRA_MS)) perIp.delete(k);
+  }
+  return null;
+}
+
+/* Firma tipica dello spam: link dentro campi che non dovrebbero averne. */
+const CONTIENE_LINK = /(https?:\/\/|www\.|\[url|<a\s)/i;
+
 function esc(v) {
   return String(v ?? "").replace(/[<>&"]/g, (c) => (
     { "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;" }[c]
@@ -67,6 +99,24 @@ export default async function handler(req, res) {
   const tipo = b.tipo === "atleta" ? "Atleta" : "Società sportiva";
 
   if (!email) return res.status(400).json({ ok: false });
+
+  // un indirizzo email deve almeno sembrare tale
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+    return res.status(200).json({ ok: false, motivo: "email non valida" });
+  }
+
+  // nessuno scrive un link nel proprio nome o ruolo: è spam
+  if ([nome, cognome, societa, ruolo].some((v) => CONTIENE_LINK.test(v))) {
+    console.warn("[notifica-lead] scartata: link nei campi");
+    return res.status(200).json({ ok: false, motivo: "sospetta" });
+  }
+
+  const ip = String(req.headers["x-forwarded-for"] || "").split(",")[0].trim() || "sconosciuto";
+  const limite = troppeRichieste(ip);
+  if (limite) {
+    console.warn(`[notifica-lead] scartata: ${limite}`);
+    return res.status(200).json({ ok: false, motivo: "troppe richieste" });
+  }
 
   const nomeCompleto = `${nome} ${cognome}`.trim() || "(senza nome)";
   // l'oggetto non viene interpretato come HTML, ma tag e ritorni a capo lo
