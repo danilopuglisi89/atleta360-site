@@ -83,7 +83,7 @@ function samplePoints(img, wanted) {
   return out;
 }
 
-export default forwardRef(function CinematicStage(_props, ref) {
+export default forwardRef(function CinematicStage({ dim = false }, ref) {
   const canvasRef = useRef(null);
   const apiRef = useRef(null);
 
@@ -572,7 +572,13 @@ export default forwardRef(function CinematicStage(_props, ref) {
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      style={{ position: "fixed", inset: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 0 }}
+      style={{
+        position: "fixed", inset: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 0,
+        /* sulle schermate con il form il campo di particelle fa da fondale:
+           a piena intensità competeva con i campi da compilare */
+        opacity: dim ? 0.42 : 1,
+        transition: "opacity 0.6s ease",
+      }}
     />
   );
 });

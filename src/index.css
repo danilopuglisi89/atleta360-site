@@ -296,6 +296,59 @@ html.lenis, html.lenis body { height: auto; }
   animation: a360-ping 2.6s ease-out infinite;
 }
 
+/* --- /contatti: due colonne. Chi arriva da una sponsorizzata non conosce
+       Atleta360: a sinistra il perché compilare, a destra il form. Prima era
+       una colonna stretta al centro con mezzo schermo vuoto ai lati. --- */
+.a360-contact { position: relative; z-index: 2; padding: 48px 20px 60px; min-height: 100vh; display: flex; align-items: center; }
+.a360-contact-inner {
+  width: 100%; max-width: 1060px; margin: 0 auto;
+  display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr);
+  gap: 52px; align-items: center;
+}
+.a360-contact-logo { display: inline-flex; margin-bottom: 26px; }
+.a360-contact-list { list-style: none; padding: 0; margin: 0 0 30px; display: flex; flex-direction: column; gap: 13px; }
+.a360-contact-list li {
+  font-family: 'Inter', system-ui, sans-serif; display: flex; align-items: flex-start; gap: 11px;
+  color: rgba(255, 255, 255, 0.8); font-size: 14.5px; line-height: 1.55;
+}
+.a360-check {
+  flex-shrink: 0; width: 21px; height: 21px; border-radius: 50%; margin-top: 1px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(255, 122, 24, 0.18); border: 1px solid rgba(255, 122, 24, 0.4); color: #FF9A4D;
+}
+.a360-contact-proof {
+  border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 24px;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 26px;
+}
+.a360-proof-person { display: flex; align-items: center; gap: 14px; }
+.a360-proof-person img { border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px rgba(255, 122, 24, 0.45); }
+.a360-proof-badge {
+  font-family: 'Inter', system-ui, sans-serif; display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11.5px; color: rgba(255, 255, 255, 0.7); margin-top: 6px;
+}
+.a360-proof-club { display: flex; flex-direction: column; gap: 8px; }
+.a360-proof-club img { background: #fff; border-radius: 9px; padding: 7px 11px; }
+.a360-contact-form { width: 100%; }
+.a360-contact-note {
+  font-family: 'Inter', system-ui, sans-serif; display: flex; align-items: center; justify-content: center;
+  gap: 7px; font-size: 12px; color: rgba(255, 255, 255, 0.45); margin-top: 12px;
+}
+/* il form compatto non deve aggiungere il proprio padding dentro la colonna */
+.a360-contact-form > div:nth-child(2) { padding: 0 !important; }
+
+@media (max-width: 900px) {
+  /* il form resta in alto: è quello che deve fare chi arriva da un annuncio */
+  .a360-contact { align-items: flex-start; padding: 30px 20px 50px; }
+  .a360-contact-inner { grid-template-columns: 1fr; gap: 0; }
+  .a360-contact-copy { display: contents; }
+  .a360-contact-logo { order: 1; justify-content: center; width: 100%; margin-bottom: 16px; }
+  .a360-contact-copy h1 { order: 2; text-align: center; font-size: clamp(24px, 6vw, 30px) !important; }
+  .a360-contact-copy > p { order: 3; text-align: center; margin-bottom: 22px !important; }
+  .a360-contact-form { order: 4; }
+  .a360-contact-list { order: 5; margin: 30px 0 24px; }
+  .a360-contact-proof { order: 6; justify-content: center; }
+}
+
 /* --- form lead: vetro scuro come il resto del sito. Era una scatola bianca
        piena e spezzava l'atmosfera notturna appena dopo l'apertura. --- */
 .a360-form-card {

@@ -37,9 +37,10 @@ export default function CookieBanner() {
 
   return (
     <div className="a360-cookie" role="dialog" aria-label="Preferenze cookie">
+      {/* testo corto: su telefono il banner sta sopra il form, ogni riga in
+          più copre un campo da compilare */}
       <p style={{ ...font, color: "rgba(255,255,255,0.8)", fontSize: 12.5, lineHeight: 1.5, margin: 0 }}>
-        Usiamo cookie di misurazione per capire come viene usato il sito.
-        Il sito funziona comunque, in entrambi i casi.
+        Usiamo cookie di misurazione. Il sito funziona in entrambi i casi.
       </p>
       <div style={{ display: "flex", gap: 9 }}>
         <button

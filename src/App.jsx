@@ -175,9 +175,11 @@ export default function App() {
     );
   }
 
+  const vistaConForm = isContactRoute || (!!tipo && !redirecting);
+
   return (
     <>
-      <CinematicStage ref={stageRef} />
+      <CinematicStage ref={stageRef} dim={vistaConForm} />
       <CursorGlow />
       <ScrollProgress />
       {content}
