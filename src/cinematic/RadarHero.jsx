@@ -7,8 +7,11 @@ import { C, font } from "../theme";
    l'ultimo rilevamento — la crescita resa visibile. */
 
 const SKILLS = ["Reset", "Focus", "Body", "Comunicazione", "Coachability", "Tattica"];
-const FROM = [5.2, 5.8, 5.0, 4.6, 5.5, 4.9];
-const TO = [8.2, 8.6, 8.8, 7.9, 8.7, 8.1];
+/* Valori d'esempio volutamente DISOMOGENEI: un profilo alto e uniforme
+   riempirebbe l'esagono e si leggerebbe come una macchia, senza dire nulla.
+   Una forma irregolare mostra a colpo d'occhio dove si cresce e dove no. */
+const FROM = [4.8, 5.9, 5.2, 4.1, 5.6, 3.9];
+const TO = [8.4, 7.1, 8.9, 6.3, 8.2, 5.8];
 
 const CX = 180, CY = 180, R = 138;
 
@@ -131,9 +134,9 @@ export default function RadarHero({ size = 360, delay = 0 }) {
         </g>
 
         <polygon ref={glowRef} className="a360-radar-fade" points={polyPath(FROM)}
-          fill="rgba(255,122,24,0.45)" filter="url(#softGlow)" />
+          fill="rgba(255,122,24,0.28)" filter="url(#softGlow)" />
         <polygon ref={polyRef} className="a360-radar-fade" points={polyPath(FROM)}
-          fill="rgba(255,122,24,0.16)" stroke={C.orange} strokeWidth="2.2"
+          fill="rgba(255,122,24,0.10)" stroke={C.orange} strokeWidth="2.2"
           strokeLinejoin="round" />
       </svg>
     </div>

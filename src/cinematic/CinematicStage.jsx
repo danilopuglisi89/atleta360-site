@@ -136,11 +136,12 @@ export default forwardRef(function CinematicStage(_props, ref) {
     };
     resize();
 
-    // budget: la silhouette ha le sue particelle (abbastanza da disegnare una
-    // figura piena), più braci grandi e un fondo di polvere ambientale
-    const MOTES = small ? 8 : 16;   // braci grandi: sono queste a fare "magia"
-    const SIL_TARGET = small ? 520 : Math.min(1150, Math.floor((w * h) / 950));
-    const AMBIENT = small ? 90 : 160;
+    // budget: la silhouette ha le sue particelle (devono essere abbastanza fitte
+    // da far RICONOSCERE la giocatrice, non una nuvola di punti), più braci
+    // grandi e un fondo di polvere ambientale
+    const MOTES = small ? 8 : 14;   // braci grandi: sono queste a fare "magia"
+    const SIL_TARGET = small ? 760 : Math.min(2000, Math.floor((w * h) / 620));
+    const AMBIENT = small ? 90 : 150;
     const COUNT = MOTES + SIL_TARGET + AMBIENT;
 
     const rnd = (a, b) => a + Math.random() * (b - a);
@@ -322,8 +323,12 @@ export default forwardRef(function CinematicStage(_props, ref) {
       const ox = cx + (org.x - cx) * st.focus;
       const oy = cy + (org.y - cy) * st.focus;
 
+      /* Pulizia sull'intero buffer, non su w/h memorizzati: il disegno è
+         additivo, quindi una pulizia parziale (dimensioni disallineate dopo un
+         cambio di viewport) accumulerebbe luce fino a sbiancare lo schermo. */
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.clearRect(0, 0, w, h);
 
       if (st.shake > 0.2) {
         ctx.translate((Math.random() - 0.5) * st.shake, (Math.random() - 0.5) * st.shake);
@@ -342,7 +347,8 @@ export default forwardRef(function CinematicStage(_props, ref) {
       ctx.globalAlpha = 1;
 
       /* ---- raggi volumetrici dalla sorgente ---- */
-      const rayA = (0.085 + st.rayBoost * 0.5) * (0.55 + 0.45 * hold);
+      // i raggi attraversano la figura: una volta agganciata vanno tenuti bassi
+      const rayA = (0.085 + st.rayBoost * 0.5) * (0.55 + 0.45 * hold) * (1 - 0.6 * st.locked);
       if (rayA > 0.012) {
         const reach = Math.hypot(w, h);
         for (let i = 0; i < 7; i++) {
@@ -363,8 +369,10 @@ export default forwardRef(function CinematicStage(_props, ref) {
       }
 
       /* ---- nucleo luminoso (dietro la figura una volta agganciata) ---- */
-      const coreR = (70 + 210 * st.rayBoost + 60 * st.locked) * (0.85 + 0.15 * Math.sin(st.t * 1.6));
-      const coreA = st.core * (0.5 + st.rayBoost * 0.5) * (0.5 + 0.5 * hold);
+      const coreR = (70 + 210 * st.rayBoost) * (0.85 + 0.15 * Math.sin(st.t * 1.6));
+      /* Agganciata la figura il nucleo si ritira: serviva come sorgente prima
+         che la giocatrice esistesse, se resta acceso la cancella. */
+      const coreA = st.core * (0.5 + st.rayBoost * 0.5) * (0.5 + 0.5 * hold) * (1 - 0.8 * st.locked);
       ctx.globalAlpha = coreA;
       ctx.drawImage(spriteWarm, ox - coreR, oy - coreR, coreR * 2, coreR * 2);
       ctx.globalAlpha = coreA * 0.55;
@@ -372,7 +380,7 @@ export default forwardRef(function CinematicStage(_props, ref) {
       ctx.globalAlpha = 1;
 
       /* ---- flare anamorfico ---- */
-      const flareA = (st.core * 0.30 + st.rayBoost * 0.55) * (0.4 + 0.6 * hold);
+      const flareA = (st.core * 0.30 + st.rayBoost * 0.55) * (0.4 + 0.6 * hold) * (1 - 0.7 * st.locked);
       if (flareA > 0.02) {
         const fw = w * (0.5 + st.rayBoost * 0.6);
         const fh = 2 + 16 * st.rayBoost;
@@ -389,8 +397,10 @@ export default forwardRef(function CinematicStage(_props, ref) {
       /* ---- alone morbido della figura: le dà corpo sotto i punti ---- */
       if (st.locked > 0 && silGlow && hold > 0.02 && "filter" in ctx) {
         const gw = silH * SIL_ASPECT_LOCAL, gh = silH;
-        ctx.filter = `blur(${Math.round(silH * 0.035)}px)`;
-        ctx.globalAlpha = 0.22 * st.locked * hold * (0.85 + 0.15 * Math.sin(st.t * 0.9));
+        // alone stretto: deve dare corpo alla figura, non un'aureola che
+        // sfuoca il contorno e la rende irriconoscibile
+        ctx.filter = `blur(${Math.round(silH * 0.016)}px)`;
+        ctx.globalAlpha = 0.34 * st.locked * hold * (0.85 + 0.15 * Math.sin(st.t * 0.9));
         ctx.drawImage(silGlow, org.x - gw / 2, org.y - gh / 2, gw, gh);
         ctx.filter = "none";
         ctx.globalAlpha = 1;
@@ -400,8 +410,8 @@ export default forwardRef(function CinematicStage(_props, ref) {
       if (st.locked > 0 && points && hold > 0.02) {
         const bx = org.x + ball.px * silH;
         const by = org.y + ball.py * silH;
-        const br = silH * (0.09 + 0.015 * Math.sin(st.t * 2.2));
-        ctx.globalAlpha = 0.55 * st.locked * hold;
+        const br = silH * (0.062 + 0.010 * Math.sin(st.t * 2.2));
+        ctx.globalAlpha = 0.42 * st.locked * hold;
         ctx.drawImage(spriteWarm, bx - br, by - br, br * 2, br * 2);
         ctx.globalAlpha = 1;
       }
@@ -452,7 +462,7 @@ export default forwardRef(function CinematicStage(_props, ref) {
         const inFigure = forming ? Math.min(1, st.locked + 0.35) : 0;
         const warm = forming ? p.pt.warm : p.warm;
         const r = forming
-          ? Math.max(1.1, (1.7 + 0.7 * st.locked) * s * (small ? 0.85 : 1))
+          ? Math.max(1.3, (2.3 + 0.9 * st.locked) * s * (small ? 0.85 : 1))
           : Math.max(0.7, p.size * s * (p.mote ? 3.4 : 2.6));
         const sprite = warm ? spriteWarm : spriteCool;
 
@@ -479,6 +489,11 @@ export default forwardRef(function CinematicStage(_props, ref) {
         } else {
           const twinkle = 0.55 + 0.45 * Math.sin(st.t * 2.4 + p.phase * 3);
           alpha = (0.60 * depth * twinkle + st.energy * 0.4) * (p.mote ? 1.35 : 1);
+          // sotto la hero la polvere si attenua: lassù è protagonista, quaggiù
+          // finirebbe dietro ai paragrafi e ne rovinerebbe la lettura
+          alpha *= 0.3 + 0.7 * hold;
+          // mentre la figura è agganciata le braci grandi non le passano davanti
+          if (p.mote) alpha *= 1 - 0.7 * st.locked;
         }
         ctx.globalAlpha = Math.min(1, alpha);
         ctx.drawImage(sprite, sx - r, sy - r, r * 2, r * 2);
@@ -531,6 +546,12 @@ export default forwardRef(function CinematicStage(_props, ref) {
     };
 
     window.addEventListener("resize", resize);
+    // anche l'osservatore sull'elemento: coglie i cambi di dimensione che non
+    // passano da un evento resize (barre del browser mobile, pannelli, zoom)
+    const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(() => {
+      if (canvas.clientWidth !== w || canvas.clientHeight !== h) resize();
+    }) : null;
+    ro?.observe(canvas);
     raf = requestAnimationFrame(frame);
 
     // solo in sviluppo: permette di pilotare i frame a mano nei test
@@ -540,6 +561,7 @@ export default forwardRef(function CinematicStage(_props, ref) {
 
     return () => {
       cancelAnimationFrame(raf);
+      ro?.disconnect();
       window.removeEventListener("resize", resize);
       if (finePointer) window.removeEventListener("mousemove", onMove);
       apiRef.current = null;
