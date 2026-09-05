@@ -10,10 +10,6 @@ const ITEMS = [
     a: "Il prezzo dipende dalla dimensione della società e dal numero di atlete/atleti da seguire. Prova prima la demo gratuita: se ti convince, ne parliamo insieme e troviamo la soluzione più adatta a voi.",
   },
   {
-    q: "I dati delle atlete minorenni sono al sicuro?",
-    a: "Sì: i dati sono conservati su infrastruttura protetta, con accesso riservato alla società e mai condiviso con terzi. Trovi tutti i dettagli nell'informativa privacy, in fondo alla pagina.",
-  },
-  {
     q: "Dobbiamo installare qualcosa?",
     a: "No. Atleta360 è una dashboard web: si usa dal browser, su computer o telefono, senza installazioni né configurazioni tecniche.",
   },

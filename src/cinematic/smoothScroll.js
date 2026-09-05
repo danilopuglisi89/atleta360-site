@@ -15,6 +15,9 @@ export function useSmoothScroll() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const lenis = new Lenis({ lerp: 0.09, wheelMultiplier: 0.95, smoothWheel: true });
     lenisInstance = lenis;
+    // in sviluppo: permette di spegnerlo per le ispezioni visive, dove lo scroll
+    // va pilotato a mano (vedi anche window.__a360Stage nel palco)
+    if (import.meta.env.DEV) window.__lenis = lenis;
     lenis.on("scroll", ScrollTrigger.update);
     const tick = (time) => lenis.raf(time * 1000);
     gsap.ticker.add(tick);
