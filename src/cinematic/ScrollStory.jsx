@@ -110,14 +110,14 @@ function Scene({ scene, index }) {
         <div className="a360-panel" style={{ flex: "0 0 auto", opacity: 0 }}>
         <div className="a360-panel-visual" style={{
           display: "flex", alignItems: "center", justifyContent: "center",
-          width: scene.radar ? 250 : 200, height: scene.radar ? 250 : 200, borderRadius: 24,
+          width: scene.radar ? 310 : 200, height: scene.radar ? 310 : 200, borderRadius: 24,
           background: "rgba(255,255,255,0.05)",
           border: "1px solid rgba(255,255,255,0.11)",
           backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)",
           boxShadow: "0 30px 90px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.12)",
         }}>
           {scene.radar ? (
-            <RadarHero size={230} />
+            <RadarHero size={266} />
           ) : scene.stat != null ? (
             <div style={{ textAlign: "center" }}>
               <div ref={numRef} style={{

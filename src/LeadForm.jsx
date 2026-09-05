@@ -1,37 +1,25 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { ArrowLeft, AlertCircle, User, Building2 } from "lucide-react";
+import { ArrowLeft, AlertCircle, User, Building2, ShieldCheck } from "lucide-react";
 import { C, font, display } from "./theme";
 import { submitLead } from "./leads";
 
-const inputStyle = {
-  ...font, fontSize: 14, color: C.ink, background: "#fff",
-  border: `1px solid ${C.grid}`, borderRadius: 10, padding: "11px 13px",
-  outline: "none", width: "100%", boxSizing: "border-box",
-};
-const labelStyle = { ...font, fontSize: 12.5, color: C.muted, fontWeight: 500, marginBottom: 6, display: "block" };
-
-function Field({ label, optional, ...props }) {
+function Field({ label, optional, hint, ...props }) {
   return (
     <div style={{ marginBottom: 14 }}>
-      <label style={labelStyle}>{label}{!optional && <span style={{ color: C.orange }}> *</span>}</label>
-      <input {...props} style={inputStyle} />
+      <label className="a360-label">
+        {label}
+        {optional
+          ? <span className="a360-label-opt"> (facoltativo)</span>
+          : <span style={{ color: C.orange }}> *</span>}
+      </label>
+      <input {...props} className="a360-input" />
+      {hint && <div className="a360-hint">{hint}</div>}
     </div>
   );
 }
 
-const primaryBtn = {
-  ...font, width: "100%", marginTop: 8, padding: "12px 16px", borderRadius: 11, border: "none",
-  background: C.orange, color: "#fff", fontSize: 15, fontWeight: 600, cursor: "pointer",
-};
-
-const linkBtn = {
-  ...font, background: "none", border: "none", padding: 0, cursor: "pointer",
-  color: "rgba(255,255,255,0.8)", fontSize: 13, fontWeight: 500,
-  display: "inline-flex", alignItems: "center", gap: 6,
-};
-
-export default function LeadForm({ tipo, onBack, onSuccess, onOpenPrivacy, compact = false, animateIn = false }) {
+export default function LeadForm({ tipo, onBack, onSuccess, onOpenPrivacy, compact = false, animateIn = false, hideTitle = false }) {
   const [form, setForm] = useState({ nome: "", cognome: "", email: "", telefono: "", societa: "", ruolo: "" });
   const [consenso, setConsenso] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -73,39 +61,43 @@ export default function LeadForm({ tipo, onBack, onSuccess, onOpenPrivacy, compa
       ...font, position: "relative", zIndex: 2, minHeight: compact ? undefined : "100vh",
       display: "flex", alignItems: "center", justifyContent: "center", padding: 20,
     }}>
-      <div ref={cardRef} style={{ width: "100%", maxWidth: 440, opacity: animateIn ? 0 : 1 }}>
+      <div ref={cardRef} style={{ width: "100%", maxWidth: 460, opacity: animateIn ? 0 : 1 }}>
         {onBack && (
-          <button onClick={onBack} style={{ ...linkBtn, marginBottom: 18 }}>
+          <button onClick={onBack} className="a360-back">
             <ArrowLeft size={15} /> Indietro
           </button>
         )}
 
-        <div style={{ background: C.card, borderRadius: 18, padding: 26, boxShadow: "0 20px 60px rgba(0,0,0,0.28)" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
-            <div style={{
-              width: 34, height: 34, borderRadius: 10, background: C.orangeSoft,
-              display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-            }}>
-              <Icon size={18} color={C.orange} />
-            </div>
-            <div style={{ ...display, fontSize: 17, fontWeight: 700, color: C.ink }}>{tipoLabel}</div>
-          </div>
-          <p style={{ ...font, fontSize: 13, color: C.muted, marginTop: 6, marginBottom: 20, lineHeight: 1.5 }}>
-            Lascia i tuoi dati e avvia subito la demo di Atleta360.
-          </p>
+        <div className="a360-form-card">
+          {!hideTitle && (
+            <>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
+                <div style={{
+                  width: 34, height: 34, borderRadius: 10, background: "rgba(255,122,24,0.16)",
+                  display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+                }}>
+                  <Icon size={18} color={C.orange} />
+                </div>
+                <div style={{ ...display, fontSize: 17, fontWeight: 700, color: "#fff" }}>{tipoLabel}</div>
+              </div>
+              <p style={{ ...font, fontSize: 13, color: "rgba(255,255,255,0.65)", marginTop: 6, marginBottom: 20, lineHeight: 1.5 }}>
+                Lascia i tuoi dati e avvia subito la demo di Atleta360.
+              </p>
+            </>
+          )}
 
           <form onSubmit={submit}>
             <Field label="Nome" value={form.nome} onChange={upd("nome")} autoComplete="given-name" required />
             <Field label="Cognome" value={form.cognome} onChange={upd("cognome")} autoComplete="family-name" required />
             <Field label="Email" type="email" value={form.email} onChange={upd("email")} autoComplete="email" required />
-            <Field label="Numero di telefono" type="tel" value={form.telefono} onChange={upd("telefono")} autoComplete="tel" required />
+            {/* telefono facoltativo: obbligatorio era il campo che faceva
+                abbandonare di più, e per mandare la demo basta l'email */}
+            <Field label="Numero di telefono" optional type="tel" value={form.telefono} onChange={upd("telefono")} autoComplete="tel"
+              hint="Se lo lasci, posso richiamarti invece di scrivere." />
             <Field label="Società sportiva" optional value={form.societa} onChange={upd("societa")} autoComplete="organization" />
             <Field label="Ruolo" optional value={form.ruolo} onChange={upd("ruolo")} placeholder="es. allenatore, dirigente, atleta…" />
 
-            <label style={{
-              ...font, display: "flex", alignItems: "flex-start", gap: 9, fontSize: 12.5,
-              color: C.muted, lineHeight: 1.5, marginTop: 4, marginBottom: 16, cursor: "pointer",
-            }}>
+            <label className="a360-consent">
               <input
                 type="checkbox"
                 checked={consenso}
@@ -114,11 +106,7 @@ export default function LeadForm({ tipo, onBack, onSuccess, onOpenPrivacy, compa
               />
               <span>
                 Ho letto e accetto l'
-                <button
-                  type="button"
-                  onClick={onOpenPrivacy}
-                  style={{ ...font, background: "none", border: "none", padding: 0, color: C.orange, fontWeight: 600, cursor: "pointer", textDecoration: "underline" }}
-                >
+                <button type="button" onClick={onOpenPrivacy} className="a360-link-inline">
                   informativa sulla privacy
                 </button>
                 {" "}e acconsento al trattamento dei miei dati per essere ricontattato in merito ad Atleta360.
@@ -127,15 +115,24 @@ export default function LeadForm({ tipo, onBack, onSuccess, onOpenPrivacy, compa
             </label>
 
             {error && (
-              <div style={{ display: "flex", gap: 8, alignItems: "flex-start", background: "#FDECEC", color: "#B4232A",
-                borderRadius: 10, padding: "10px 12px", ...font, fontSize: 13, lineHeight: 1.5, marginBottom: 14 }}>
+              <div style={{
+                display: "flex", gap: 8, alignItems: "flex-start",
+                background: "rgba(220,60,60,0.14)", border: "1px solid rgba(255,120,120,0.35)", color: "#FFB4B4",
+                borderRadius: 10, padding: "10px 12px", ...font, fontSize: 13, lineHeight: 1.5, marginBottom: 14,
+              }}>
                 <AlertCircle size={16} style={{ flexShrink: 0, marginTop: 1 }} /> <span>{error}</span>
               </div>
             )}
 
-            <button type="submit" disabled={busy} style={{ ...primaryBtn, opacity: busy ? 0.7 : 1, cursor: busy ? "default" : "pointer" }}>
+            <button type="submit" disabled={busy} className="a360-btn a360-btn-primary a360-submit"
+              style={{ opacity: busy ? 0.7 : 1, cursor: busy ? "default" : "pointer" }}>
               {busy ? "Attendi…" : "Avvia la demo"}
             </button>
+
+            {/* la riga che toglie attrito proprio dove si decide */}
+            <div className="a360-reassure">
+              <ShieldCheck size={14} /> Niente spam. Rispondo entro 24 ore.
+            </div>
           </form>
         </div>
       </div>

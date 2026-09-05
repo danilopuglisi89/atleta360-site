@@ -25,6 +25,10 @@ function polyPath(values) {
 }
 
 export default function RadarHero({ size = 360, delay = 0 }) {
+  /* Il font dentro l'SVG è in unità di viewBox (360): a size=230 un 11.5
+     rendeva ~7px reali, illeggibili. Lo calcoliamo a ritroso dalla dimensione
+     effettiva per ottenere sempre ~12.5px a schermo. */
+  const labelFont = (12.5 * 360) / size;
   const rootRef = useRef(null);
   const polyRef = useRef(null);
   const glowRef = useRef(null);
@@ -121,8 +125,8 @@ export default function RadarHero({ size = 360, delay = 0 }) {
               <line className="a360-draw" x1={CX} y1={CY} x2={x} y2={y}
                 stroke="rgba(255,255,255,0.10)" strokeWidth="1" />
               <text className="a360-radar-fade" x={lx} y={ly} textAnchor="middle" dominantBaseline="middle"
-                style={{ ...font, fontSize: 11.5, fontWeight: 600 }}
-                fill="rgba(255,255,255,0.6)">{s}</text>
+                style={{ ...font, fontSize: labelFont, fontWeight: 600 }}
+                fill="rgba(255,255,255,0.72)">{s}</text>
             </g>
           );
         })}

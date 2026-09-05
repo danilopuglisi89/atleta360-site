@@ -72,10 +72,13 @@ export default function ContactPage({ onSuccess, onOpenPrivacy }) {
         <Toggle tipo={tipo} onChange={setTipo} />
       </div>
 
+      {/* hideTitle: il percorso scelto è già scritto sul selettore qui sopra,
+          ripeterlo nell'intestazione del form era una doppia etichetta */}
       <LeadForm
         key={tipo}
         tipo={tipo}
         compact
+        hideTitle
         onBack={null}
         onOpenPrivacy={onOpenPrivacy}
         onSuccess={onSuccess}

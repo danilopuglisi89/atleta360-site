@@ -104,7 +104,7 @@ export default function DemoPreview({ onChoose }) {
           <div className="a360-reveal a360-demo-card a360-demo-radar" style={{ opacity: 0 }}>
             <span style={{ ...display, fontWeight: 700, fontSize: 15, color: "#fff" }}>Profilo competenze</span>
             <div style={{ display: "flex", justifyContent: "center", marginTop: 6 }}>
-              <RadarHero size={230} />
+              <RadarHero size={250} />
             </div>
           </div>
 

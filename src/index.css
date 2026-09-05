@@ -154,6 +154,47 @@ html.lenis, html.lenis body { height: auto; }
   border-radius: 999px; padding: 3px 8px;
 }
 
+/* --- Come funziona: linea temporale numerata (non riquadri, per non
+       ripetere l'impianto della sezione demo) --- */
+.a360-steps {
+  position: relative;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 34px;
+}
+.a360-steps-track {
+  position: absolute; left: 16%; right: 16%; top: 27px; height: 2px;
+  pointer-events: none;
+}
+.a360-steps-line {
+  height: 100%; width: 100%; transform-origin: 0 50%; transform: scaleX(0);
+  background: linear-gradient(90deg, rgba(255,122,24,.5), rgba(255,122,24,.9), rgba(255,122,24,.5));
+  box-shadow: 0 0 14px rgba(255, 122, 24, .5);
+}
+.a360-step { position: relative; text-align: center; }
+.a360-step-node {
+  width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 18px;
+  display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(circle at 50% 35%, #17297A, #0A1650);
+  border: 2px solid rgba(255, 122, 24, .75);
+  box-shadow: 0 0 24px rgba(255, 122, 24, .32), inset 0 1px 0 rgba(255,255,255,.14);
+}
+.a360-step-icon {
+  width: 34px; height: 34px; border-radius: 10px; margin: 0 auto 14px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255, 122, 24, .13); border: 1px solid rgba(255, 122, 24, .26);
+}
+@media (max-width: 780px) {
+  /* in verticale la linea passa a sinistra e i passi si allineano a essa */
+  .a360-steps { grid-template-columns: 1fr; gap: 30px; }
+  .a360-steps-track { left: 27px; right: auto; top: 28px; bottom: 28px; width: 2px; height: auto; }
+  .a360-steps-line {
+    width: 100%; height: 100%; transform-origin: 50% 0; transform: scaleY(0);
+    background: linear-gradient(180deg, rgba(255,122,24,.5), rgba(255,122,24,.9), rgba(255,122,24,.5));
+  }
+  .a360-step { text-align: left; padding-left: 74px; }
+  .a360-step-node { position: absolute; left: 0; top: 0; margin: 0; }
+  .a360-step-icon { margin: 0 0 12px; }
+}
+
 /* --- Chi c'è dietro --- */
 .a360-about {
   max-width: 900px; margin: 0 auto;
@@ -254,6 +295,55 @@ html.lenis, html.lenis body { height: auto; }
   transform-origin: center;
   animation: a360-ping 2.6s ease-out infinite;
 }
+
+/* --- form lead: vetro scuro come il resto del sito. Era una scatola bianca
+       piena e spezzava l'atmosfera notturna appena dopo l'apertura. --- */
+.a360-form-card {
+  background: rgba(12, 19, 60, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px; padding: 26px;
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.a360-label {
+  font-family: 'Inter', system-ui, sans-serif; font-size: 12.5px; font-weight: 500;
+  color: rgba(255, 255, 255, 0.72); margin-bottom: 6px; display: block;
+}
+.a360-label-opt { color: rgba(255, 255, 255, 0.42); font-weight: 400; }
+.a360-input {
+  font-family: 'Inter', system-ui, sans-serif; font-size: 14px; color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px; padding: 11px 13px; width: 100%; box-sizing: border-box;
+  outline: none; transition: border-color 0.18s ease, background 0.18s ease;
+}
+.a360-input::placeholder { color: rgba(255, 255, 255, 0.38); }
+.a360-input:hover { border-color: rgba(255, 255, 255, 0.26); }
+.a360-input:focus {
+  border-color: #FF7A18; background: rgba(255, 255, 255, 0.09);
+  box-shadow: 0 0 0 3px rgba(255, 122, 24, 0.18);
+}
+.a360-hint { font-family: 'Inter', system-ui, sans-serif; font-size: 11.5px; color: rgba(255,255,255,0.45); margin-top: 5px; }
+.a360-consent {
+  font-family: 'Inter', system-ui, sans-serif; display: flex; align-items: flex-start;
+  gap: 9px; font-size: 12.5px; color: rgba(255, 255, 255, 0.65); line-height: 1.5;
+  margin: 4px 0 16px; cursor: pointer;
+}
+.a360-link-inline {
+  font-family: inherit; font-size: inherit; background: none; border: none; padding: 0;
+  color: #FF7A18; font-weight: 600; cursor: pointer; text-decoration: underline;
+}
+.a360-submit { width: 100%; justify-content: center; margin-top: 4px; padding: 13px 16px; font-size: 15px; }
+.a360-reassure {
+  font-family: 'Inter', system-ui, sans-serif; display: flex; align-items: center; justify-content: center;
+  gap: 7px; font-size: 12.5px; color: rgba(255, 255, 255, 0.5); margin-top: 14px;
+}
+.a360-back {
+  font-family: 'Inter', system-ui, sans-serif; background: none; border: none; padding: 0;
+  cursor: pointer; color: rgba(255, 255, 255, 0.8); font-size: 13px; font-weight: 500;
+  display: inline-flex; align-items: center; gap: 6px; margin-bottom: 18px;
+}
+.a360-back:hover { color: #fff; }
 
 /* --- banner cookie: in basso a sinistra e compatto, così non copre mai
        le due card di scelta (che stanno al centro/sotto il testo) --- */
