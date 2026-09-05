@@ -1,12 +1,10 @@
-/* ============================================================
-   SEGNAPOSTO DA SOSTITUIRE — Danilo deve passare i valori reali.
-   Finché restano questi placeholder i bottoni funzionano ma puntano
-   a destinazioni finte/assenti. Vedi il messaggio di fine sessione
-   per l'elenco completo di cosa manca.
-   ============================================================ */
+/* Dati reali presi da danilopuglisi.com (pagine /appointments e /servizi).
+   Il profilo LinkedIn arriva dalla ricerca web: LinkedIn blocca la lettura
+   automatica, quindi va confermato a occhio da Danilo. */
 
-// Numero WhatsApp in formato internazionale, senza "+" né spazi (es. "393331234567").
-export const WHATSAPP_NUMBER = "390000000000";
+// Numero in formato internazionale, senza "+" né spazi.
+export const WHATSAPP_NUMBER = "393770870217";
+export const PHONE_DISPLAY = "+39 377 087 0217";
 
 export const WHATSAPP_MESSAGE =
   "Ciao Danilo, ho visto Atleta360 e vorrei saperne di più.";
@@ -14,13 +12,11 @@ export const WHATSAPP_MESSAGE =
 export const WHATSAPP_URL =
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 
-// URL completo del profilo LinkedIn.
-export const LINKEDIN_URL = "https://www.linkedin.com/";
-
-// Pagina Instagram dedicata al progetto Atleta360.
+export const LINKEDIN_URL = "https://www.linkedin.com/in/danilo-puglisi/";
 export const INSTAGRAM_URL = "https://www.instagram.com/atleta360.volley/";
 
-// Link di prenotazione (Calendly o simile). "#" finché non esiste.
-export const BOOKING_URL = "#";
+// Pagina prenotazioni del sito di Danilo (Squarespace).
+export const BOOKING_URL = "https://www.danilopuglisi.com/appointments";
 
 export const CONTACT_EMAIL = "info@danilopuglisi.com";
+export const SITE_URL = "https://www.danilopuglisi.com";

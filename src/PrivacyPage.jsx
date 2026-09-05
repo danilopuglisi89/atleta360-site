@@ -30,18 +30,20 @@ export default function PrivacyPage({ onBack }) {
           background: "#FFF6E9", border: "1px solid #FFE0B0", borderRadius: 12,
           padding: "12px 14px", marginTop: 20, ...font, fontSize: 12.5, color: "#8A5A00", lineHeight: 1.6,
         }}>
-          Bozza: manca ancora l'indirizzo della sede (non trovato in nessun registro pubblico
-          collegato a questa P.IVA — va inserito a mano). L'intero testo va comunque validato
-          da chi segue la privacy prima di considerarlo definitivo.
+          Bozza: manca via e CAP della sede. Da verificare anche la P.IVA — su
+          danilopuglisi.com ne compare una diversa da quella indicata qui.
+          L'intero testo va comunque validato da chi segue la privacy prima di
+          considerarlo definitivo.
         </div>
 
         <h2 style={h2}>1. Titolare del trattamento</h2>
         <p style={p}>
           Il titolare del trattamento dei dati raccolti tramite questo sito è
-          Danilo Puglisi, con sede in [INDIRIZZO — da inserire],
+          Danilo Puglisi, con sede in [VIA E CAP — da inserire], Carrara (MS),
           P.IVA 01506110459. Per qualsiasi richiesta relativa al
           trattamento dei tuoi dati puoi scrivere a{" "}
-          <a href="mailto:info@danilopuglisi.com" style={{ color: C.orange }}>info@danilopuglisi.com</a>.
+          <a href="mailto:info@danilopuglisi.com" style={{ color: C.orange }}>info@danilopuglisi.com</a>{" "}
+          o telefonare al +39 377 087 0217.
         </p>
 
         <h2 style={h2}>2. Quali dati raccogliamo</h2>

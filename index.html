@@ -6,15 +6,18 @@
     <link rel="apple-touch-icon" href="/logo-icona.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0A1650" />
-    <meta name="description" content="Atleta360 — la dashboard per far crescere le soft skill della tua squadra. Richiedi una demo gratuita." />
+    <meta name="description" content="Atleta360 — la dashboard per far crescere le soft skill della tua squadra: focus, comunicazione, coachability. Prova la demo gratuita, con dati di esempio." />
+    <link rel="canonical" href="https://atleta-360.com/" />
 
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Atleta360" />
     <meta property="og:url" content="https://atleta-360.com/" />
     <meta property="og:title" content="Atleta360 — la dashboard che fa crescere le soft skill della tua squadra" />
     <meta property="og:description" content="Focus, comunicazione, coachability, tattica: rilevamenti periodici, grafici e badge. Richiedi una demo gratuita." />
     <meta property="og:image" content="https://atleta-360.com/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Atleta360 — la dashboard che fa crescere le soft skill della tua squadra" />
     <meta property="og:locale" content="it_IT" />
 
     <meta name="twitter:card" content="summary_large_image" />
@@ -28,7 +31,41 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
-    <title>Atleta360 — Richiedi una demo</title>
+
+    <!-- immagini della prima schermata: senza questo la figura di particelle
+         si forma in ritardo rispetto al titolo su rete lenta -->
+    <link rel="preload" as="image" href="/silhouette-navy.png" />
+    <link rel="preload" as="image" href="/logo-esteso-bianco.png" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Atleta360",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "url": "https://atleta-360.com/",
+        "description": "Dashboard per misurare e far crescere le soft skill degli atleti: rilevamenti periodici, grafici di crescita e badge, per società sportive e atleti.",
+        "inLanguage": "it-IT",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "EUR",
+          "description": "Demo gratuita con dati di esempio"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Danilo Puglisi",
+          "jobTitle": "Consulente e formatore",
+          "url": "https://www.danilopuglisi.com",
+          "email": "info@danilopuglisi.com",
+          "telephone": "+393770870217",
+          "address": { "@type": "PostalAddress", "addressLocality": "Carrara", "addressRegion": "Toscana", "addressCountry": "IT" }
+        }
+      }
+    </script>
+
+    <title>Atleta360 — la dashboard che fa crescere le soft skill della tua squadra</title>
   </head>
   <body>
     <div id="root"></div>

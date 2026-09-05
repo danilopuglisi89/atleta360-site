@@ -29,6 +29,10 @@ atleta360-site/
 │   │                            LeadForm | home (hero + sezioni). Gestisce la transizione
 │   │                            hero→form (leave() della hero, poi monta il form) e il ritorno
 │   │                            (hero con quick=true: niente esplosione, figura subito).
+│   │                            Tutto ciò che sta sotto la piega è in lazy(): la hero e i due
+│   │                            CTA arrivano prima. Aggiorna document.title per vista.
+│   ├── analytics.js            Eventi oltre al Lead (scelta percorso, profondità di scroll),
+│   │                            inviati a Vercel Analytics e — solo con consenso — al Pixel.
 │   ├── cinematic/
 │   │   ├── CinematicStage.jsx  IL PALCO: canvas fixed full-screen, particelle 3D proiettate a
 │   │   │                        mano. burst() esplosione → converge() le particelle formano la
@@ -45,6 +49,10 @@ atleta360-site/
 │   │   │                        figura, testo). Timeline GSAP dell'apertura + leave() per l'uscita.
 │   │   │                        Rete di sicurezza: dopo 8s i CTA vengono mostrati comunque.
 │   │   ├── ScrollStory.jsx     3 scene a scrub (profondità+blur), radar nella prima, parallasse.
+│   │   ├── SiteHeader.jsx      Barra fissa che compare passata la hero (logo, ancore, CTA).
+│   │   │                        Resta visibile: nasconderla scorrendo toglieva il CTA a chi legge.
+│   │   ├── DemoPreview.jsx     "Cosa vedrai nella demo": dashboard ricostruita come componenti
+│   │   │                        nativi (mai screenshot — niente rischio di dati veri delle atlete).
 │   │   ├── HowItWorks/CaseStudy/AboutFounder/FAQ/SiteFooter.jsx  sezioni
 │   │   ├── reveal.js           useRevealOnScroll: .a360-reveal (risalita+blur) e .a360-w
 │   │   │                        (parole dei titoli che salgono dalla loro finestra)
@@ -54,7 +62,9 @@ atleta360-site/
 │   │   ├── CursorGlow.jsx      alone arancio che segue il puntatore (solo mouse)
 │   │   ├── ScrollProgress.jsx  linea arancio di avanzamento in alto
 │   │   ├── RadarHero.jsx       radar SVG animato delle 6 competenze
-│   │   └── contactsConfig.js   WhatsApp/LinkedIn/Instagram/booking — alcuni ancora segnaposto
+│   │   └── contactsConfig.js   WhatsApp, LinkedIn, Instagram, prenotazioni, email — dati reali
+│   │                            presi da danilopuglisi.com (LinkedIn dalla ricerca web: il sito
+│   │                            blocca i bot, l'URL è da confermare a occhio)
 │   ├── LandingHero.jsx         resta solo per ChoiceCard (la vecchia hero statica non è più usata)
 │   ├── LeadForm.jsx            Form + consenso + animateIn (entrata dopo la transizione)
 │   ├── ContactPage.jsx         rotta /contatti per le campagne
@@ -62,13 +72,16 @@ atleta360-site/
 │   │                            Supabase ancora segnaposto)
 │   ├── CookieBanner.jsx + pixel.js  Meta Pixel solo dopo consenso; trackLead() al submit
 │   ├── leads.js                submitLead() (insert su Supabase) + demoUrl()
-│   ├── supabaseClient.js       Client Supabase — NIENTE fallback hardcoded (a differenza
-│   │                            della dashboard): se mancano le env var mostra errore chiaro
-│   │                            invece di scrivere lead nel progetto Supabase sbagliato
+│   ├── supabaseClient.js       getSupabase() importa la libreria SOLO al primo invio del form
+│   │                            (~55 KB gz fuori dal caricamento iniziale). NIENTE fallback
+│   │                            hardcoded (a differenza della dashboard): se mancano le env var
+│   │                            mostra errore chiaro invece di scrivere nel progetto sbagliato
 │   └── theme.js                Palette/font — copiati da Dashboard Atleta360/src/theme.js,
 │                                tenere sincronizzati manualmente se cambia il brand
 ├── public/                     loghi ufficiali (logo-icona = favicon, logo-esteso-bianco in hero,
-│                                silhouette-navy per il palco), og-image.jpg, logo Oasi Volley
+│                                silhouette-navy per il palco), danilo.jpg (ritratto), og-image.jpg
+│                                (generata con Pillow da logo+silhouette), logo Oasi Volley,
+│                                robots.txt, sitemap.xml
 ├── supabase/                   Migrazioni SQL di questo repo (leads.sql, leads-consenso.sql,
 │                                notify-lead-email.sql, demo-seed.sql) — DOPO quelle della dashboard
 └── vercel.json                 rewrite SPA (serve /contatti)

@@ -1,24 +1,37 @@
-import { useEffect, useRef, useState } from "react";
+import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import { AlertCircle } from "lucide-react";
 import { C, font, display } from "./theme";
 import { supabaseConfigured } from "./supabaseClient";
 import { demoUrl } from "./leads";
 import { initPixelIfConsented, trackLead } from "./pixel";
+import { trackChoice, initScrollDepth } from "./analytics";
 import LeadForm from "./LeadForm";
-import ContactPage from "./ContactPage";
-import PrivacyPage from "./PrivacyPage";
 import CookieBanner from "./CookieBanner";
 import CinematicStage from "./cinematic/CinematicStage";
 import CinematicHero from "./cinematic/CinematicHero";
-import ScrollStory from "./cinematic/ScrollStory";
-import HowItWorks from "./cinematic/HowItWorks";
-import CaseStudy from "./cinematic/CaseStudy";
-import AboutFounder from "./cinematic/AboutFounder";
-import FAQ from "./cinematic/FAQ";
-import SiteFooter from "./cinematic/SiteFooter";
+import SiteHeader from "./cinematic/SiteHeader";
 import CursorGlow from "./cinematic/CursorGlow";
 import ScrollProgress from "./cinematic/ScrollProgress";
 import { useSmoothScroll, scrollToTop } from "./cinematic/smoothScroll";
+
+/* Tutto ciò che sta sotto la piega viene caricato dopo la hero: chi arriva
+   dalle campagne vede prima possibile il titolo e i due bottoni. */
+const ScrollStory = lazy(() => import("./cinematic/ScrollStory"));
+const DemoPreview = lazy(() => import("./cinematic/DemoPreview"));
+const HowItWorks = lazy(() => import("./cinematic/HowItWorks"));
+const CaseStudy = lazy(() => import("./cinematic/CaseStudy"));
+const AboutFounder = lazy(() => import("./cinematic/AboutFounder"));
+const FAQ = lazy(() => import("./cinematic/FAQ"));
+const SiteFooter = lazy(() => import("./cinematic/SiteFooter"));
+const ContactPage = lazy(() => import("./ContactPage"));
+const PrivacyPage = lazy(() => import("./PrivacyPage"));
+
+const TITLES = {
+  home: "Atleta360 — la dashboard che fa crescere le soft skill della tua squadra",
+  contatti: "Richiedi la demo gratuita — Atleta360",
+  privacy: "Informativa privacy — Atleta360",
+  form: "Richiedi la demo gratuita — Atleta360",
+};
 
 function SetupNotice() {
   return (
@@ -42,19 +55,23 @@ function SetupNotice() {
   );
 }
 
-function Redirecting() {
+/* Ultimo fotogramma prima della demo: vale la pena curarlo. */
+function Redirecting({ tipo }) {
   return (
     <div style={{
       ...font, position: "relative", zIndex: 2, minHeight: "100vh",
       display: "flex", alignItems: "center", justifyContent: "center", padding: 20, textAlign: "center",
     }}>
-      <div>
-        <div style={{ ...display, color: "#fff", fontWeight: 700, fontSize: 20, marginBottom: 8 }}>
-          Sto preparando la tua demo…
+      <div style={{ maxWidth: 420 }}>
+        <img src="/logo-esteso-bianco.png" alt="" height="56" style={{ marginBottom: 28, filter: "drop-shadow(0 0 24px rgba(255,122,24,0.4))" }} />
+        <div style={{ ...display, color: "#fff", fontWeight: 700, fontSize: 24, marginBottom: 10 }}>
+          La tua demo è pronta
         </div>
-        <p style={{ ...font, color: "rgba(255,255,255,0.7)", fontSize: 14 }}>
-          Un attimo, ti sto portando nella dashboard.
+        <p style={{ ...font, color: "rgba(255,255,255,0.72)", fontSize: 15, lineHeight: 1.6, margin: "0 0 26px" }}>
+          Ti sto portando nella dashboard{tipo === "atleta" ? ", nella vista dell'atleta" : " completa della società"}.
+          I dati che vedrai sono d'esempio: puoi cliccare tutto senza problemi.
         </p>
+        <div className="a360-loader" aria-hidden="true"><span /><span /><span /></div>
       </div>
     </div>
   );
@@ -73,21 +90,36 @@ export default function App() {
 
   useEffect(() => {
     initPixelIfConsented();
+    return initScrollDepth();
   }, []);
+
+  const isContactRoute = typeof window !== "undefined"
+    && window.location.pathname.replace(/\/+$/, "") === "/contatti";
+
+  // il titolo della scheda segue la vista: conta per SEO e per i preferiti
+  useEffect(() => {
+    const key = showPrivacy ? "privacy" : isContactRoute ? "contatti" : tipo ? "form" : "home";
+    document.title = TITLES[key];
+  }, [showPrivacy, isContactRoute, tipo]);
 
   if (!supabaseConfigured) return <SetupNotice />;
   if (showPrivacy) return (
-    <>
+    <Suspense fallback={null}>
       <PrivacyPage onBack={() => setShowPrivacy(false)} />
       <CookieBanner />
-    </>
+    </Suspense>
   );
 
-  const isContactRoute = window.location.pathname.replace(/\/+$/, "") === "/contatti";
+  const goToForm = (chosenTipo) => {
+    trackLead(chosenTipo);
+    setRedirecting(true);
+    window.location.href = demoUrl(chosenTipo);
+  };
 
-  /* Hero -> form: uscita cinematica, poi cambio di vista in cima alla pagina. */
-  const choose = async (chosen) => {
+  /* Hero → form: uscita cinematica, poi cambio di vista in cima alla pagina. */
+  const choose = async (chosen, origine = "hero") => {
     if (leaving) return;
+    trackChoice(chosen, origine);
     setLeaving(true);
     // l'animazione d'uscita non deve MAI bloccare l'arrivo al form:
     // al massimo 900 ms, poi si procede comunque
@@ -108,17 +140,12 @@ export default function App() {
 
   let content;
   if (redirecting) {
-    content = <Redirecting />;
+    content = <Redirecting tipo={tipo} />;
   } else if (isContactRoute) {
     content = (
-      <ContactPage
-        onOpenPrivacy={() => setShowPrivacy(true)}
-        onSuccess={(chosenTipo) => {
-          trackLead(chosenTipo);
-          setRedirecting(true);
-          window.location.href = demoUrl(chosenTipo);
-        }}
-      />
+      <Suspense fallback={null}>
+        <ContactPage onOpenPrivacy={() => setShowPrivacy(true)} onSuccess={goToForm} />
+      </Suspense>
     );
   } else if (tipo) {
     content = (
@@ -126,24 +153,24 @@ export default function App() {
         tipo={tipo}
         onBack={goHome}
         onOpenPrivacy={() => setShowPrivacy(true)}
-        onSuccess={(chosenTipo) => {
-          trackLead(chosenTipo);
-          setRedirecting(true);
-          window.location.href = demoUrl(chosenTipo);
-        }}
+        onSuccess={goToForm}
         animateIn
       />
     );
   } else {
     content = (
       <>
+        <SiteHeader onChoose={(t) => choose(t, "header")} />
         <CinematicHero ref={heroRef} onChoose={choose} stageRef={stageRef} quick={returned.current} />
-        <ScrollStory />
-        <HowItWorks />
-        <CaseStudy />
-        <AboutFounder />
-        <FAQ />
-        <SiteFooter onOpenPrivacy={() => setShowPrivacy(true)} />
+        <Suspense fallback={null}>
+          <ScrollStory />
+          <DemoPreview onChoose={(t) => choose(t, "demo-preview")} />
+          <HowItWorks />
+          <CaseStudy />
+          <AboutFounder />
+          <FAQ />
+          <SiteFooter onOpenPrivacy={() => setShowPrivacy(true)} />
+        </Suspense>
       </>
     );
   }

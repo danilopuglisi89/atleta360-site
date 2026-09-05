@@ -51,7 +51,7 @@ export default function HowItWorks() {
   }, []);
 
   return (
-    <section ref={rootRef} style={{ position: "relative", zIndex: 2, padding: "70px 20px" }}>
+    <section ref={rootRef} id="come-funziona" style={{ position: "relative", zIndex: 2, padding: "70px 20px" }}>
       <div style={{ maxWidth: 980, margin: "0 auto" }}>
         <div className="a360-reveal" style={{
           ...font, textAlign: "center", color: C.orange, fontSize: 13, fontWeight: 600,

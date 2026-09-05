@@ -9,4 +9,15 @@ export default defineConfig({
   optimizeDeps: {
     include: ["react", "react-dom"],
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Supabase serve solo al momento dell'invio del form: tenerlo fuori
+          // dal bundle iniziale accorcia il primo render della hero.
+          supabase: ["@supabase/supabase-js"],
+        },
+      },
+    },
+  },
 });

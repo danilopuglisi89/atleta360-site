@@ -196,6 +196,22 @@ export default forwardRef(function CinematicStage(_props, ref) {
     const onMove = (e) => { mouse.tx = e.clientX / w; mouse.ty = e.clientY / h; };
     if (finePointer) window.addEventListener("mousemove", onMove, { passive: true });
 
+    /* Qualità adattiva: se il dispositivo non regge, si disegnano meno
+       particelle invece di far scattare tutta la pagina. Solo verso il
+       basso — non si torna mai su, per non innescare oscillazioni. */
+    const quality = { budget: parts.length, frames: 0, acc: 0 };
+    function measure(dt) {
+      quality.acc += dt;
+      quality.frames++;
+      if (quality.acc < 1.2) return;
+      const fps = quality.frames / quality.acc;
+      quality.acc = 0; quality.frames = 0;
+      const floor = Math.floor(parts.length * 0.35);
+      if (fps < 42 && quality.budget > floor) {
+        quality.budget = Math.max(floor, Math.floor(quality.budget * 0.75));
+      }
+    }
+
     const st = {
       energy: 0,            // 1 subito dopo l'esplosione, decade a 0
       flash: 0,
@@ -282,6 +298,7 @@ export default forwardRef(function CinematicStage(_props, ref) {
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
       st.t += dt;
+      measure(dt);
 
       mouse.x += (mouse.tx - mouse.x) * 0.05;
       mouse.y += (mouse.ty - mouse.y) * 0.05;
@@ -392,7 +409,7 @@ export default forwardRef(function CinematicStage(_props, ref) {
       /* ---- particelle ---- */
       const driftPull = 1 - st.energy;
       const attract = st.converge * hold;
-      for (let i = 0; i < parts.length; i++) {
+      for (let i = 0; i < quality.budget; i++) {
         const p = parts[i];
         const forming = attract > 0.01 && p.follows && p.pt;
 

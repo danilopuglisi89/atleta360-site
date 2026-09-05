@@ -59,7 +59,7 @@ export default function FAQ() {
   useRevealOnScroll(rootRef);
 
   return (
-    <section ref={rootRef} style={{ position: "relative", zIndex: 2, padding: "70px 20px" }}>
+    <section ref={rootRef} id="faq" style={{ position: "relative", zIndex: 2, padding: "70px 20px" }}>
       <div style={{ maxWidth: 680, margin: "0 auto" }}>
         <SplitTitle text="Domande frequenti" style={{
           ...display, textAlign: "center", color: "#fff", fontWeight: 700,

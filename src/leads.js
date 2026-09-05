@@ -1,8 +1,10 @@
-import { supabase } from "./supabaseClient";
+import { getSupabase } from "./supabaseClient";
 
 export const PRIVACY_VERSION = "v1";
 
 export async function submitLead({ tipo, nome, cognome, email, telefono, societa, ruolo, consenso }) {
+  const supabase = await getSupabase();
+  if (!supabase) return new Error("Supabase non configurato");
   const { error } = await supabase.from("leads").insert({
     tipo,
     nome: nome.trim(),

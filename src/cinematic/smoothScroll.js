@@ -33,3 +33,13 @@ export function scrollToTop() {
   if (lenisInstance) lenisInstance.scrollTo(0, { immediate: true, force: true });
   window.scrollTo(0, 0);
 }
+
+/* Porta a una sezione con l'inerzia di Lenis. Passare Lenis invece dello
+   scroll nativo evita che i due si contendano la posizione. */
+export function scrollToSection(selector) {
+  const el = document.querySelector(selector);
+  if (!el) return;
+  if (lenisInstance) { lenisInstance.scrollTo(el, { offset: -70 }); return; }
+  const y = el.getBoundingClientRect().top + window.scrollY - 70;
+  window.scrollTo({ top: y, behavior: "smooth" });
+}
