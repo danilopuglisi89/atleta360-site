@@ -2,6 +2,27 @@ import { getSupabase } from "./supabaseClient";
 
 export const PRIVACY_VERSION = "v1";
 
+/* Avviso via mail a Danilo. È volutamente "best effort": il lead è già
+   salvato, quindi un problema qui non deve mai bloccare chi ha compilato.
+   Il tempo massimo evita che una risposta lenta ritardi l'ingresso in demo. */
+async function avvisaPerMail(dati) {
+  try {
+    const stop = typeof AbortController !== "undefined" ? new AbortController() : null;
+    const timer = setTimeout(() => stop?.abort(), 2500);
+    await fetch("/api/notifica-lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dati),
+      signal: stop?.signal,
+      keepalive: true,
+    });
+    clearTimeout(timer);
+  } catch {
+    // in locale l'endpoint non esiste, e in produzione un errore qui non
+    // deve avere conseguenze per chi sta entrando nella demo
+  }
+}
+
 export async function submitLead({ tipo, nome, cognome, email, telefono, societa, ruolo, consenso }) {
   const supabase = await getSupabase();
   if (!supabase) return new Error("Supabase non configurato");
@@ -17,7 +38,19 @@ export async function submitLead({ tipo, nome, cognome, email, telefono, societa
     consenso_data: consenso ? new Date().toISOString() : null,
     informativa_versione: consenso ? PRIVACY_VERSION : null,
   });
-  return error;
+  if (error) return error;
+
+  // il lead è al sicuro nel database: adesso l'avviso, che può anche fallire
+  await avvisaPerMail({
+    tipo,
+    nome: nome.trim(),
+    cognome: cognome.trim(),
+    email: email.trim(),
+    telefono: telefono.trim(),
+    societa: societa?.trim() || "",
+    ruolo: ruolo?.trim() || "",
+  });
+  return null;
 }
 
 export function demoUrl(tipo) {

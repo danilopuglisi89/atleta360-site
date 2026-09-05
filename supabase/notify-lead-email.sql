@@ -1,4 +1,11 @@
 -- ============================================================
+-- ⚠️ NON SERVE PIÙ — NON ESEGUIRE.
+-- L'avviso via mail è passato alla funzione api/notifica-lead.js su Vercel:
+-- lì la chiave Resend resta una variabile d'ambiente invece di stare scritta
+-- dentro il database. Eseguire anche questo file causerebbe DUE mail per ogni
+-- richiesta. Tenuto solo come riferimento del vecchio approccio.
+-- ============================================================
+--
 -- Atleta360.it — Email di notifica a ogni nuovo lead dalla landing page.
 -- Trigger sul database: a ogni nuova riga in public.leads invia una
 -- email via Resend usando l'estensione pg_net (chiamate HTTP dal database).

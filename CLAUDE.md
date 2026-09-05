@@ -82,9 +82,16 @@ atleta360-site/
 │                                silhouette-navy per il palco), danilo.jpg (ritratto), og-image.jpg
 │                                (generata con Pillow da logo+silhouette), logo Oasi Volley,
 │                                robots.txt, sitemap.xml
+├── api/
+│   └── notifica-lead.js        Funzione Vercel: manda a Danilo una mail a ogni richiesta demo
+│                                (Resend). Chiamata da leads.js DOPO il salvataggio, best effort:
+│                                se fallisce il lead resta comunque salvato. Chiave in
+│                                RESEND_API_KEY su Vercel — mai dentro il database.
 ├── supabase/                   Migrazioni SQL di questo repo (leads.sql, leads-consenso.sql,
-│                                notify-lead-email.sql, demo-seed.sql) — DOPO quelle della dashboard
-└── vercel.json                 rewrite SPA (serve /contatti)
+│                                demo-seed.sql) — DOPO quelle della dashboard.
+│                                notify-lead-email.sql è SUPERATO: non eseguirlo, farebbe
+│                                partire una seconda mail per ogni richiesta.
+└── vercel.json                 rewrite SPA che esclude /api (serve /contatti e le funzioni)
 ```
 
 Tutte le animazioni rispettano `prefers-reduced-motion` (stato finale statico).
@@ -115,6 +122,9 @@ dashboard (`Dashboard Atleta360/supabase/`) e SOLO DOPO quelle di questo repo, i
 
 Vercel, stesso account di oasi.danilopuglisi.com. `git push` su `main` ripubblica
 in automatico. Env var richieste: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`.
+Per l'avviso via mail dei lead serve anche `RESEND_API_KEY` (facoltative:
+`NOTIFICA_A` destinatario, `NOTIFICA_DA` mittente). Senza la chiave il sito
+funziona identico, semplicemente non parte la mail.
 
 ## Demo target
 
