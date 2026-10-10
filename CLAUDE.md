@@ -141,6 +141,17 @@ atleta360-site/
 - Dati strutturati: Organization + Person + WebSite + SoftwareApplication, **senza offerta a
   prezzo 0** (il prodotto non è gratis, la demo sì).
 - Sitemap: aggiornare `lastmod` quando cambia il contenuto. Google ignora changefreq/priority.
+- **Search Console e Bing Webmaster Tools** (account di Danilo, dal 2026-10-10): proprietà
+  `https://atleta-360.com/` verificate con i meta tag `google-site-verification` e
+  `msvalidate.01` in index.html — **non toglierli**, la proprietà decadrebbe. Sitemap inviata a
+  entrambi. Il DNS sta su **Cloudflare**, non su Vercel: per questo la verifica è a tag e non
+  a record DNS. Al 2026-10-10 Google aveva indicizzato solo la home (ultima lettura 22/09,
+  prima delle revisioni); `/contatti` era sconosciuta. Chiesta la riscansione di entrambe.
+- danilopuglisi.com/sport linka il sito dal 2026-10-10 (pulsante "Prova la demo"): vedi
+  `../sito-danilopuglisi/attuale/LEGGIMI.md`.
+- Marchio: al 2026-10-10 TMView non mostra nessun "Atleta360" depositato in Italia o UE
+  (solo due marchi brasiliani). Esiste però un altro progetto "Atleta360" della Polisportiva
+  Riccione (aprile 2026), non registrato.
 - **LCP ~4,2s da telefono è il prezzo dell'apertura cinematografica**: il titolo è invisibile
   finché la sequenza non lo rivela a 2,45s. Scelta consapevole; finché il sito non ha
   traffico sufficiente per i dati reali di Chrome (CrUX) non incide sul posizionamento.
