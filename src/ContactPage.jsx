@@ -31,7 +31,7 @@ function Toggle({ tipo, onChange }) {
         onClick={() => onChange(value)}
         style={{
           ...font, flex: 1, display: "inline-flex", alignItems: "center", justifyContent: "center",
-          gap: 7, padding: "10px 14px", borderRadius: 11, cursor: "pointer",
+          gap: 7, padding: "10px 14px", minHeight: 44, borderRadius: 11, cursor: "pointer",
           fontSize: 13.5, fontWeight: 600,
           background: active ? C.orange : "transparent",
           color: active ? "#fff" : "rgba(255,255,255,0.75)",

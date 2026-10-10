@@ -22,7 +22,12 @@ html.lenis, html.lenis body { height: auto; }
        La geometria (colonne, gap, max-width) è speculare a layout.js:
        se cambi qui, cambia anche lì. --- */
 .a360-hero {
-  position: relative; z-index: 2; min-height: 100vh;
+  position: relative; z-index: 2;
+  /* svh = altezza REALMENTE visibile sul telefono. Con 100vh i browser mobili
+     usano l'altezza a barre nascoste, quindi la hero esce dallo schermo e le
+     due card di scelta finiscono sotto il bordo. La riga vh resta come
+     ripiego per i browser che non conoscono svh. */
+  min-height: 100vh; min-height: 100svh;
   display: flex; align-items: center;
   padding: 40px 20px;
 }
@@ -43,16 +48,37 @@ html.lenis, html.lenis body { height: auto; }
 .a360-hero-figure { min-height: 70vh; }
 
 @media (max-width: 900px) {
-  .a360-hero { align-items: flex-start; padding: 24px 20px 40px; }
-  .a360-hero-inner { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  /* Sul telefono la scelta atleta/società deve stare DENTRO la prima
+     schermata: è il punto in cui si decide. Logo, titolo, testo e card hanno
+     un'altezza propria; la figura si prende quello che avanza (flex: 1) e si
+     stringe fino a 96px sui telefoni corti, invece di spingere le card fuori. */
+  .a360-hero { align-items: flex-start; padding: 20px 20px 26px; }
+  .a360-hero-inner {
+    display: flex; flex-direction: column; align-items: center; gap: 0;
+    /* anche il tetto, non solo il minimo: senza max-height la colonna cresce
+       oltre lo schermo e la figura non si stringe mai (flex-shrink non entra
+       in gioco se il contenitore può allungarsi). */
+    min-height: calc(100svh - 46px);
+    max-height: calc(100svh - 46px);
+  }
   .a360-hero-copy { display: contents; }
-  .a360-hero-logo { order: 1; margin-bottom: 12px; }
-  .a360-hero-logo img { height: 60px !important; }
-  .a360-hero-figure { order: 2; min-height: 42vh; width: 100%; }
-  .a360-hero-title { order: 3; text-align: center; margin-bottom: 18px !important; }
-  .a360-hero-sub { order: 4; text-align: center; margin-bottom: 28px; }
-  .a360-hero-choices { order: 5; justify-content: center; gap: 10px; }
-  .a360-hero-hint { order: 6; margin-top: 34px; }
+  .a360-hero-logo { order: 1; margin-bottom: 8px; flex: 0 0 auto; }
+  .a360-hero-logo img { height: 54px !important; }
+  .a360-hero-figure { order: 2; flex: 1 1 auto; min-height: 96px; max-height: 32vh; width: 100%; }
+  .a360-hero-title { order: 3; text-align: center; margin-bottom: 14px !important; flex: 0 0 auto; }
+  .a360-hero-sub { order: 4; text-align: center; margin-bottom: 20px; font-size: 15px; line-height: 1.55; flex: 0 0 auto; }
+  .a360-hero-choices { order: 5; justify-content: center; gap: 10px; flex: 0 0 auto; }
+  /* "Scopri di più" costa 50px proprio dove servono: le card tagliate dal
+     bordo dicono già da sole che la pagina continua. */
+  .a360-hero-hint { display: none; }
+}
+
+/* Telefoni corti (iPhone SE e simili): la figura è già al minimo, quindi i
+   px si recuperano dal testo. Le due card restano l'ultima cosa a cedere. */
+@media (max-width: 900px) and (max-height: 700px) {
+  .a360-hero-figure { min-height: 72px; max-height: 24vh; }
+  .a360-hero-sub { font-size: 14.5px; margin-bottom: 16px; }
+  .a360-hero-logo img { height: 46px !important; }
 }
 
 /* --- card scelta atleta/società --- */
@@ -264,6 +290,26 @@ html.lenis, html.lenis body { height: auto; }
   transition: transform 0.2s ease;
 }
 .a360-wa-fab:hover { transform: scale(1.07); }
+/* Finché si è sulla hero il tasto resta fuori: lì ci sono già le due card di
+   scelta, e sul telefono il cerchio verde si siedeva proprio sopra "Sono una
+   società sportiva". Compare insieme alla barra in alto, passata l'apertura. */
+.a360-wa-fab { opacity: 0; visibility: hidden; transform: scale(0.8);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0.3s; }
+.a360-wa-fab.is-visible { opacity: 1; visibility: visible; transform: scale(1);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s; }
+
+/* --- dito, non puntatore: sotto i 44px si sbaglia bersaglio --- */
+@media (max-width: 760px) {
+  .a360-footer-col { gap: 2px; }
+  .a360-footer-col a { min-height: 44px; }
+  .a360-footer-social { gap: 10px; }
+  .a360-footer-social a { width: 46px; height: 46px; }
+  .a360-footer-bottom { font-size: 12.5px; gap: 14px; }
+  .a360-footer-bottom button { min-height: 44px; display: inline-flex; align-items: center; }
+  .a360-header-logo { min-height: 44px; display: inline-flex; align-items: center; }
+  .a360-header-cta { padding: 12px 18px; }
+  .a360-wa-fab { width: 52px; height: 52px; right: 16px; bottom: 16px; }
+}
 
 /* --- riflesso di luce che passa sul titolo --- */
 .a360-title-sweep {
@@ -299,7 +345,7 @@ html.lenis, html.lenis body { height: auto; }
 /* --- /contatti: due colonne. Chi arriva da una sponsorizzata non conosce
        Atleta360: a sinistra il perché compilare, a destra il form. Prima era
        una colonna stretta al centro con mezzo schermo vuoto ai lati. --- */
-.a360-contact { position: relative; z-index: 2; padding: 48px 20px 60px; min-height: 100vh; display: flex; align-items: center; }
+.a360-contact { position: relative; z-index: 2; padding: 48px 20px 60px; min-height: 100vh; min-height: 100svh; display: flex; align-items: center; }
 .a360-contact-inner {
   width: 100%; max-width: 1060px; margin: 0 auto;
   display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr);
@@ -445,4 +491,17 @@ html.lenis, html.lenis body { height: auto; }
   .a360-choice-card, .a360-btn, .a360-footer-social a, .a360-wa-fab, .a360-header { transition: none; }
   .a360-title-sweep { display: none; }
   .a360-btn:hover, .a360-footer-social a:hover, .a360-wa-fab:hover { transform: none; }
+}
+
+/* --- modulo sul telefono: deve stare DOPO .a360-input, che è definita più in
+   basso nel file e altrimenti vincerebbe a parità di specificità. --- */
+@media (max-width: 760px) {
+  /* Sotto i 16px Safari su iPhone INGRANDISCE la pagina appena si tocca un
+     campo: il modulo salta e bisogna ripizzicare per rimpicciolire. 16px
+     esatti lo evitano, e di passaggio il campo diventa più facile da colpire. */
+  .a360-input { font-size: 16px; padding: 13px 14px; }
+  .a360-consent input[type="checkbox"] { width: 20px !important; height: 20px !important; }
+  /* L'avviso cookie è fisso in basso: senza questo spazio copre proprio la
+     spunta del consenso e il tasto "Avvia la demo". */
+  body.a360-con-cookie { padding-bottom: 132px; }
 }

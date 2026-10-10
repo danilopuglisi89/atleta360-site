@@ -22,11 +22,11 @@ export function ChoiceCard({ Icon, title, description, onClick }) {
       </div>
       <div>
         <div style={{ ...display, fontSize: "clamp(14px, 3.2vw, 19px)", fontWeight: 700, color: C.ink, lineHeight: 1.25 }}>{title}</div>
-        <p style={{ ...font, fontSize: "clamp(11px, 2.3vw, 13.5px)", color: C.muted, lineHeight: 1.5, marginTop: 6 }}>{description}</p>
+        <p style={{ ...font, fontSize: "clamp(12.5px, 2.3vw, 13.5px)", color: C.muted, lineHeight: 1.5, marginTop: 6 }}>{description}</p>
       </div>
       <div style={{
         ...font, display: "inline-flex", alignItems: "center", gap: 7,
-        color: C.orange, fontSize: "clamp(11px, 2.2vw, 14px)", fontWeight: 600, marginTop: 4, whiteSpace: "nowrap",
+        color: C.orange, fontSize: "clamp(12.5px, 2.2vw, 14px)", fontWeight: 600, marginTop: 4, whiteSpace: "nowrap",
       }}>
         Avvia la demo <ArrowRight size={15} style={{ flexShrink: 0 }} />
       </div>

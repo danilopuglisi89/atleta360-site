@@ -28,6 +28,13 @@ export default function CookieBanner() {
     return () => { if (t) clearTimeout(t); window.removeEventListener("scroll", show); };
   }, []);
 
+  /* Il banner è fisso in basso: sulla pagina del modulo coprirebbe consenso e
+     tasto di invio. Lo segnala al body, che si riserva lo spazio (vedi css). */
+  useEffect(() => {
+    document.body.classList.toggle("a360-con-cookie", visible);
+    return () => document.body.classList.remove("a360-con-cookie");
+  }, [visible]);
+
   if (!visible) return null;
 
   const choose = (value) => {

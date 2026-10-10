@@ -119,7 +119,12 @@ export default function RadarHero({ size = 360, delay = 0 }) {
 
         {SKILLS.map((s, i) => {
           const [x, y] = point(i, 10);
-          const [lx, ly] = point(i, 11.9);
+          const [lx0, ly] = point(i, 11.9);
+          /* "Coachability" è lunga il doppio di "Body": centrata sul suo
+             raggio usciva di una decina di px dal riquadro. Si riporta dentro
+             il viewBox stimandone la larghezza, senza stringere le altre. */
+          const mezza = (s.length * labelFont * 0.52) / 2;
+          const lx = Math.min(360 - mezza - 2, Math.max(mezza + 2, lx0));
           return (
             <g key={s}>
               <line className="a360-draw" x1={CX} y1={CY} x2={x} y2={y}

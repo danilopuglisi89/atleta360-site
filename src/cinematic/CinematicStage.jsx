@@ -552,6 +552,13 @@ export default forwardRef(function CinematicStage({ dim = false }, ref) {
       if (canvas.clientWidth !== w || canvas.clientHeight !== h) resize();
     }) : null;
     ro?.observe(canvas);
+    /* Sul telefono la colonna-figura è elastica (vedi layout.js): la finestra
+       non cambia, ma la casella sì — e la silhouette deve seguirla. */
+    const figura = document.querySelector(".a360-hero-figure");
+    const roFig = figura && typeof ResizeObserver !== "undefined"
+      ? new ResizeObserver(() => { sil = silhouetteLayout(w, h); })
+      : null;
+    roFig?.observe(figura);
     raf = requestAnimationFrame(frame);
 
     // solo in sviluppo: permette di pilotare i frame a mano nei test
@@ -562,6 +569,7 @@ export default forwardRef(function CinematicStage({ dim = false }, ref) {
     return () => {
       cancelAnimationFrame(raf);
       ro?.disconnect();
+      roFig?.disconnect();
       window.removeEventListener("resize", resize);
       if (finePointer) window.removeEventListener("mousemove", onMove);
       apiRef.current = null;

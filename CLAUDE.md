@@ -44,7 +44,11 @@ atleta360-site/
 │   │   │                        (usato uscendo verso il form). In dev espone window.__a360Stage
 │   │   │                        per pilotare i frame nei test (rAF è sospeso nel pannello headless).
 │   │   ├── layout.js           Geometria condivisa palco↔DOM: dove sta la silhouette a schermo.
-│   │   │                        Speculare alle classi .a360-hero-* in index.css: cambiarle insieme.
+│   │   │                        Su DESKTOP è una formula, speculare alle classi .a360-hero-* in
+│   │   │                        index.css: cambiarle insieme. Su MOBILE no: lì la colonna-figura
+│   │   │                        è elastica (si prende l'altezza che avanza), quindi il palco
+│   │   │                        MISURA .a360-hero-figure invece di indovinarla — e CinematicStage
+│   │   │                        la osserva con un ResizeObserver.
 │   │   ├── CinematicHero.jsx   Hero: testo a sinistra, colonna-figura a destra (mobile: logo,
 │   │   │                        figura, testo). Timeline GSAP dell'apertura + leave() per l'uscita.
 │   │   │                        Rete di sicurezza: dopo 8s i CTA vengono mostrati comunque.
@@ -101,6 +105,23 @@ atleta360-site/
 │                                partire una seconda mail per ogni richiesta.
 └── vercel.json                 rewrite SPA che esclude /api (serve /contatti e le funzioni)
 ```
+
+## Regole del mobile (revisione del 2026-10-10)
+
+Vincoli da non rompere, verificati a 375×812 e 375×667:
+
+- **La scelta atleta/società sta dentro la prima schermata.** Logo, titolo, testo e card hanno
+  altezza propria; `.a360-hero-figure` si prende il resto (`flex: 1`, da 72px a 32vh). Serve il
+  `max-height` su `.a360-hero-inner`: senza, la colonna cresce e la figura non si stringe mai.
+- **`100svh`, mai solo `100vh`**: i browser mobili misurano `vh` a barre nascoste, quindi con
+  `100vh` la hero esce dallo schermo.
+- **44px minimi** per ogni cosa che si tocca (link del footer, icone social, CTA della barra).
+- **`.a360-input` a 16px sul telefono**, altrimenti Safari su iPhone ingrandisce la pagina al
+  tocco. La regola sta in fondo a index.css: `.a360-input` è definita tardi e a parità di
+  specificità vincerebbe lei.
+- **Il tasto WhatsApp compare solo dopo la hero** (stessa soglia della barra in alto): sulla hero
+  si sedeva sopra la card "Sono una società sportiva".
+- **L'avviso cookie riserva spazio** (`body.a360-con-cookie`): copriva consenso e tasto di invio.
 
 Tutte le animazioni rispettano `prefers-reduced-motion` (stato finale statico).
 Test in anteprima: il pannello Browser non compone i frame (rAF sospeso) — si

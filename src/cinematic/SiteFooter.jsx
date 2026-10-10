@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Linkedin, Instagram, Mail, Calendar, Phone } from "lucide-react";
 import { font, display } from "../theme";
 import { scrollToSection } from "./smoothScroll";
@@ -13,6 +14,16 @@ const WhatsAppIcon = ({ size = 22 }) => (
 );
 
 export default function SiteFooter({ onOpenPrivacy }) {
+  /* Stessa soglia della barra in alto: il tasto WhatsApp compare quando
+     l'apertura è passata. Sulla hero coprirebbe la scelta atleta/società. */
+  const [fabVisibile, setFabVisibile] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setFabVisibile(window.scrollY > window.innerHeight * 0.85);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <footer className="a360-footer">
       <div className="a360-footer-inner">
@@ -59,8 +70,9 @@ export default function SiteFooter({ onOpenPrivacy }) {
         href={WHATSAPP_URL}
         target="_blank"
         rel="noreferrer"
-        className="a360-wa-fab"
+        className={`a360-wa-fab${fabVisibile ? " is-visible" : ""}`}
         aria-label="Scrivici su WhatsApp"
+        tabIndex={fabVisibile ? 0 : -1}
       >
         <WhatsAppIcon size={28} />
       </a>
