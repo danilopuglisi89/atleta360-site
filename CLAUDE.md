@@ -114,8 +114,36 @@ atleta360-site/
 │                                demo-seed.sql) — DOPO quelle della dashboard.
 │                                notify-lead-email.sql è SUPERATO: non eseguirlo, farebbe
 │                                partire una seconda mail per ogni richiesta.
-└── vercel.json                 rewrite SPA che esclude /api (serve /contatti e le funzioni)
+├── scripts/pagine-statiche.mjs Dopo `vite build`: crea dist/contatti.html con titolo, descrizione
+│                                e canonical propri (prima /contatti era un doppione della home).
+├── public/404.html             404 vera, autonoma (senza React). Prima ogni URL sbagliato
+│                                rispondeva 200 con la home: "soft 404" per Google.
+└── vercel.json                 cleanUrls + www→apex 308 + niente barra finale. NIENTE rewrite
+                                 "prendi-tutto": una rotta nuova va servita da un suo .html.
 ```
+
+## Indicizzazione (revisione del 2026-10-10)
+
+- **Il titolo sta in DUE posti**: `<title>` in index.html e `TITLES.home` in src/App.jsx (che
+  lo riscrive dopo il caricamento). Sotto i 60 caratteri e con "pallavolo" dentro: era la
+  parola che mancava, stava solo nell'immagine del logo.
+- **index.html contiene il testo della pagina** fra `statico:inizio` e `statico:fine`: lo
+  vede chi non esegue JavaScript (crawler degli assistenti AI, alcune anteprime). Per chi
+  ha JavaScript è nascosto da subito (classe `js` sull'html). **Se cambi un testo nei
+  componenti, cambialo anche lì** — deve restare la stessa pagina, non una versione per i
+  motori. pagine-statiche.mjs sostituisce quel blocco per /contatti.
+- **Titoli spezzati in parole** (hero, SplitTitle): fra le parole servono spazi VERI, non
+  margini — con i margini il testo usciva attaccato ("Ladashboardchefacrescere…"). Il
+  riflesso di luce sul titolo prende il testo da `data-testo` via `::before`, così l'h1 non
+  contiene il titolo due volte.
+- **Font serviti dal sito** (@fontsource, importati in main.jsx), non da Google Fonts:
+  quella richiesta bloccava la prima pittura ~1s sul telefono.
+- Dati strutturati: Organization + Person + WebSite + SoftwareApplication, **senza offerta a
+  prezzo 0** (il prodotto non è gratis, la demo sì).
+- Sitemap: aggiornare `lastmod` quando cambia il contenuto. Google ignora changefreq/priority.
+- **LCP ~4,2s da telefono è il prezzo dell'apertura cinematografica**: il titolo è invisibile
+  finché la sequenza non lo rivela a 2,45s. Scelta consapevole; finché il sito non ha
+  traffico sufficiente per i dati reali di Chrome (CrUX) non incide sul posizionamento.
 
 ## Sistema grafico (revisione del 2026-10-10)
 

@@ -37,8 +37,16 @@ export default function Pillars() {
       <div style={{ maxWidth: 1040, margin: "0 auto" }}>
         <SplitTitle text="Che cosa misura Atleta360" style={{
           ...display, textAlign: "center", color: "#fff", fontWeight: W.forte,
-          fontSize: T.h2, lineHeight: 1.22, margin: "0 auto 46px", maxWidth: 620,
+          fontSize: T.h2, lineHeight: 1.22, margin: "0 auto 12px", maxWidth: 620,
         }} />
+        {/* "Pallavolo" stava solo dentro l'immagine del logo: per chi cerca
+            "soft skill pallavolo" la pagina non conteneva la parola. */}
+        <p className="a360-reveal" style={{
+          ...font, textAlign: "center", color: "rgba(255,255,255,0.66)", fontSize: T.body,
+          lineHeight: 1.6, margin: "0 auto 46px", maxWidth: 560, opacity: 0,
+        }}>
+          Pensato per la pallavolo: allenatori, società e settori giovanili.
+        </p>
 
         <div className="a360-pilastri">
           {PILASTRI.map(({ Icon, titolo, testo }) => (

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- lastmod è l'unico campo che Google usa davvero (changefreq e priority li
+     ignora): aggiornalo quando cambia il contenuto della pagina. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://atleta-360.com/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2026-10-10</lastmod>
   </url>
   <url>
     <loc>https://atleta-360.com/contatti</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-10-10</lastmod>
   </url>
 </urlset>

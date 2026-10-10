@@ -28,7 +28,7 @@ const ContactPage = lazy(() => import("./ContactPage"));
 const PrivacyPage = lazy(() => import("./PrivacyPage"));
 
 const TITLES = {
-  home: "Atleta360 — la dashboard che fa crescere le soft skill della tua squadra",
+  home: "Atleta360 · La dashboard delle soft skill per la pallavolo", // uguale al <title> di index.html
   contatti: "Richiedi la demo gratuita — Atleta360",
   privacy: "Informativa privacy — Atleta360",
   form: "Richiedi la demo gratuita — Atleta360",

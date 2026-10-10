@@ -6,7 +6,12 @@
     <link rel="apple-touch-icon" href="/logo-icona.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0A1650" />
-    <meta name="description" content="Atleta360 — la dashboard per far crescere le soft skill della tua squadra: focus, comunicazione, coachability. Prova la demo gratuita, con dati di esempio." />
+    <!-- Titolo e descrizione: "pallavolo" non compariva da nessuna parte del
+         testo (solo dentro l'immagine del logo), quindi chi cercava "soft
+         skill pallavolo" non trovava corrispondenza. Il titolo sta sotto i
+         60 caratteri, oltre i quali Google lo tronca. Se lo cambi qui, cambia
+         anche TITLES.home in src/App.jsx, che lo riscrive dopo il caricamento. -->
+    <meta name="description" content="Misura e fai crescere le soft skill della tua squadra di pallavolo: focus, comunicazione, coachability, tattica. Rilevamenti, grafici, badge. Demo gratuita." />
     <link rel="canonical" href="https://atleta-360.com/" />
 
     <meta property="og:type" content="website" />
@@ -25,50 +30,120 @@
     <meta name="twitter:description" content="Richiedi una demo gratuita, con dati di esempio." />
     <meta name="twitter:image" content="https://atleta-360.com/og-image.jpg" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
-      rel="stylesheet"
-    />
-
     <!-- immagini della prima schermata: senza questo la figura di particelle
          si forma in ritardo rispetto al titolo su rete lenta -->
     <link rel="preload" as="image" href="/silhouette-navy.png" />
     <link rel="preload" as="image" href="/logo-esteso-bianco.png" />
 
+    <!-- Con JavaScript il testo statico qui sotto sparisce subito e lo
+         sostituisce la pagina animata; senza (crawler degli assistenti AI,
+         alcune anteprime, chi blocca gli script) resta leggibile. -->
+    <script>document.documentElement.classList.add("js");</script>
+    <style>
+      html { background: #060B26; }
+      .js .a360-statico { display: none; }
+      .a360-statico { max-width: 760px; margin: 0 auto; padding: 32px 20px 60px;
+        font-family: system-ui, sans-serif; color: #E8EBF5; line-height: 1.6; }
+      .a360-statico a { color: #FF9A4D; }
+      .a360-statico h1 { font-size: 30px; line-height: 1.2; }
+      .a360-statico h2 { font-size: 21px; margin-top: 34px; }
+    </style>
+
+    <!-- Dati strutturati. Tolta l'offerta a prezzo "0": il prodotto non è
+         gratuito, lo è la demo — e se non siamo sicuri di una cosa non la
+         diciamo, neanche ai motori di ricerca. -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "Atleta360",
-        "applicationCategory": "BusinessApplication",
-        "operatingSystem": "Web",
-        "url": "https://atleta-360.com/",
-        "description": "Dashboard per misurare e far crescere le soft skill degli atleti: rilevamenti periodici, grafici di crescita e badge, per società sportive e atleti.",
-        "inLanguage": "it-IT",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "EUR",
-          "description": "Demo gratuita con dati di esempio"
-        },
-        "author": {
-          "@type": "Person",
-          "name": "Danilo Puglisi",
-          "jobTitle": "Consulente e formatore",
-          "url": "https://www.danilopuglisi.com",
-          "email": "info@danilopuglisi.com",
-          "telephone": "+393770870217",
-          "address": { "@type": "PostalAddress", "addressLocality": "Carrara", "addressRegion": "Toscana", "addressCountry": "IT" }
-        }
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://atleta-360.com/#organizzazione",
+            "name": "Atleta360",
+            "url": "https://atleta-360.com/",
+            "logo": "https://atleta-360.com/logo-icona.png",
+            "sameAs": ["https://www.instagram.com/atleta360.volley/"],
+            "founder": { "@id": "https://atleta-360.com/#danilo" }
+          },
+          {
+            "@type": "Person",
+            "@id": "https://atleta-360.com/#danilo",
+            "name": "Danilo Puglisi",
+            "jobTitle": "Consulente e formatore",
+            "url": "https://www.danilopuglisi.com/",
+            "sameAs": [
+              "https://www.danilopuglisi.com/sport",
+              "https://www.linkedin.com/in/danilo-puglisi/"
+            ],
+            "address": { "@type": "PostalAddress", "addressLocality": "Carrara", "addressRegion": "Toscana", "addressCountry": "IT" }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://atleta-360.com/#sito",
+            "url": "https://atleta-360.com/",
+            "name": "Atleta360",
+            "inLanguage": "it-IT",
+            "publisher": { "@id": "https://atleta-360.com/#organizzazione" }
+          },
+          {
+            "@type": "SoftwareApplication",
+            "name": "Atleta360",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web",
+            "url": "https://atleta-360.com/",
+            "inLanguage": "it-IT",
+            "description": "Dashboard per misurare e far crescere le soft skill di atlete e atleti di pallavolo: rilevamenti periodici, grafici di crescita e badge, per società sportive e settori giovanili.",
+            "publisher": { "@id": "https://atleta-360.com/#organizzazione" }
+          }
+        ]
       }
     </script>
 
-    <title>Atleta360 — la dashboard che fa crescere le soft skill della tua squadra</title>
+    <title>Atleta360 · La dashboard delle soft skill per la pallavolo</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- statico:inizio
+           Stesso testo della pagina animata, parola per parola: se cambi un
+           testo nei componenti, aggiornalo anche qui. Non è una versione "per
+           i motori": è la pagina com'è prima che parta JavaScript. -->
+      <main class="a360-statico">
+        <h1>La dashboard che fa crescere le soft skill della tua squadra</h1>
+        <p>Focus, comunicazione, gestione degli errori, coachability: rilevamenti periodici, grafici e badge per far crescere ogni atleta. Prova subito una demo gratuita, con dati di esempio.</p>
+        <p><a href="/contatti">Richiedi la demo gratuita</a> — come atleta o come società sportiva.</p>
+        <p>La prima società a usarlo: Oasi Volley Viareggio.</p>
+
+        <h2>Che cosa misura Atleta360</h2>
+        <p><strong>Sei competenze, un solo rilevamento.</strong> Reset, focus, gestione del corpo, comunicazione, coachability e tattica. Un questionario rapido le fotografa tutte, senza test complicati da gestire.</p>
+        <p><strong>La crescita, mese dopo mese.</strong> I rilevamenti si confrontano nel tempo, per singolo atleta o per l'intera squadra: si vede subito dove si cresce e dove intervenire.</p>
+        <p><strong>Motivazione che si vede.</strong> Badge e traguardi rendono visibili i progressi e premiano la costanza, non solo il talento di partenza.</p>
+        <p>Pensato per la pallavolo: allenatori, società e settori giovanili.</p>
+
+        <h2>Tre passi, nessuna complicazione</h2>
+        <p><strong>1. Rilevamento.</strong> Ogni tot settimane, un questionario rapido fotografa le 6 soft skill dell'atleta. Pochi minuti, nessuna preparazione richiesta.</p>
+        <p><strong>2. Grafici.</strong> I risultati diventano subito grafici chiari: per singolo atleta o per l'intera squadra, con il confronto nel tempo.</p>
+        <p><strong>3. Crescita.</strong> Allenatore e società vedono dove intervenire, l'atleta vede i suoi progressi e i badge che li premiano.</p>
+
+        <h2>Inizia il percorso con Oasi Volley Viareggio</h2>
+        <p>Atleta360 scende in campo: è appena nata la collaborazione con Oasi Volley Viareggio, la prima società a portare il percorso sulle soft skill dentro il proprio settore giovanile. Seguiremo la crescita delle atlete non solo nei risultati in campo — e questo è solo l'inizio.</p>
+
+        <h2>Chi c'è dietro Atleta360: Danilo Puglisi</h2>
+        <p>Consulente e formatore · Carrara, Toscana. Esperto di settore — Regione Toscana, n° 531.</p>
+        <p>Quindici anni dentro la grande distribuzione: logistica, numeri e soprattutto persone da far crescere. Oggi porto quel mestiere in aula e nelle aziende — e nello sport.</p>
+        <p>Atleta360 nasce da un'idea semplice: le soft skill si allenano quanto la tecnica, ma solo se si possono vedere e misurare.</p>
+
+        <h2>Domande frequenti</h2>
+        <p><strong>Quanto costa Atleta360?</strong> Il prezzo dipende dalla dimensione della società e dal numero di atlete/atleti da seguire. Prova prima la demo gratuita: se ti convince, ne parliamo insieme e troviamo la soluzione più adatta a voi.</p>
+        <p><strong>Dobbiamo installare qualcosa?</strong> No. Atleta360 è una dashboard web: si usa dal browser, su computer o telefono, senza installazioni né configurazioni tecniche.</p>
+        <p><strong>Quanto tempo richiede un rilevamento?</strong> Pochi minuti per atleta. È pensato per essere ripetuto periodicamente senza pesare sul lavoro quotidiano dello staff.</p>
+        <p><strong>Posso provarlo prima di decidere?</strong> Sì: scegli se sei atleta o società e avvii subito una demo con dati di esempio, senza impegno.</p>
+
+        <h2>Contatti</h2>
+        <p>Email: <a href="mailto:info@danilopuglisi.com">info@danilopuglisi.com</a> · WhatsApp e telefono: <a href="https://wa.me/393770870217">+39 377 087 0217</a> · <a href="https://www.danilopuglisi.com/appointments">Prenota una call</a> · Instagram: <a href="https://www.instagram.com/atleta360.volley/">@atleta360.volley</a></p>
+        <p>© Atleta360 — Danilo Puglisi · P.IVA 01506110459</p>
+      </main>
+      <!-- statico:fine -->
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

@@ -1,3 +1,7 @@
+/* rete di sicurezza: senza un carattere di base, un elemento a cui manca lo
+   stile inline cadrebbe sul Times del browser */
+body { font-family: 'Inter', system-ui, sans-serif; }
+
 /* ============================================================
    SCALA — gemella di T e R in src/theme.js. Stessi gradini, lato CSS:
    se ne aggiungi uno qui, aggiungilo anche là (e chiediti prima se non
@@ -349,6 +353,7 @@ html.lenis, html.lenis body { height: auto; }
   -webkit-background-clip: text;
   background-clip: text;
 }
+.a360-title-sweep::before { content: attr(data-testo); }
 
 /* --- anello del radar che pulsa --- */
 @keyframes a360-ping {

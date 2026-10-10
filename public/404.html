@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#0A1650" />
+  <link rel="icon" type="image/png" href="/logo-icona.png" />
+  <title>Pagina non trovata — Atleta360</title>
+  <!-- Pagina a sé, senza il pacchetto React: deve funzionare anche quando il
+       resto non c'è. Prima ogni indirizzo sbagliato rispondeva 200 con la
+       home, e Google lo segnala come "soft 404": doppioni della home sparsi
+       per l'indice. Ora risponde 404 per davvero, e porta comunque a casa. -->
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; min-height: 100svh;
+      display: flex; align-items: center; justify-content: center; padding: 24px 20px;
+      background: radial-gradient(ellipse at 50% 30%, #17297A 0%, #0A1650 45%, #060B26 100%);
+      color: #fff; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; text-align: center;
+    }
+    main { max-width: 460px; }
+    img { height: 58px; margin-bottom: 34px; }
+    .codice {
+      font-size: 13px; font-weight: 600; letter-spacing: .4px; text-transform: uppercase;
+      color: #FF7A18; margin: 0 0 12px;
+    }
+    h1 { font-size: clamp(26px, 6vw, 34px); line-height: 1.2; margin: 0 0 14px; }
+    p { font-size: 16px; line-height: 1.65; color: rgba(255,255,255,.72); margin: 0 0 30px; }
+    .azioni { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+    a.btn {
+      display: inline-flex; align-items: center; justify-content: center; min-height: 48px;
+      padding: 12px 22px; border-radius: 10px; font-size: 16px; font-weight: 600; text-decoration: none;
+    }
+    .primario { background: #FF7A18; color: #fff; box-shadow: 0 12px 30px rgba(255,122,24,.35); }
+    .secondario { color: #fff; border: 1px solid rgba(255,255,255,.22); }
+    a.btn:focus-visible { outline: 2px solid #FF9A4D; outline-offset: 3px; }
+  </style>
+</head>
+<body>
+  <main>
+    <img src="/logo-esteso-bianco.png" alt="Atleta360 — Mental Coach | Pallavolo" />
+    <div class="codice">Errore 404</div>
+    <h1>Questa pagina non c'è</h1>
+    <p>L'indirizzo è sbagliato o la pagina è stata spostata. La demo, invece, è a un clic.</p>
+    <div class="azioni">
+      <a class="btn primario" href="/">Torna ad Atleta360</a>
+      <a class="btn secondario" href="/contatti">Richiedi la demo</a>
+    </div>
+  </main>
+</body>
+</html>

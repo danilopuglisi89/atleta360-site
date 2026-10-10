@@ -1,5 +1,12 @@
 {
-  "rewrites": [
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.atleta-360.com" }],
+      "destination": "https://atleta-360.com/:path*",
+      "permanent": true
+    }
   ]
 }

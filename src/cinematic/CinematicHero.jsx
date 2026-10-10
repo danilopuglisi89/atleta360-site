@@ -1,4 +1,4 @@
-import { useEffect, useImperativeHandle, useRef, forwardRef } from "react";
+import { Fragment, useEffect, useImperativeHandle, useRef, forwardRef } from "react";
 import { gsap } from "gsap";
 import { ChevronDown, User, Building2 } from "lucide-react";
 import { font, display, T } from "../theme";
@@ -120,14 +120,21 @@ const CinematicHero = forwardRef(function CinematicHero({ onChoose, stageRef, qu
             fontSize: T.display, lineHeight: 1.08, margin: 0,
             textShadow: "0 0 44px rgba(120,160,255,0.30), 0 2px 30px rgba(0,0,0,0.5)",
           }}>
+            {/* Spazi VERI fra le parole, non margini: con i margini il testo
+                del titolo arrivava ai motori di ricerca tutto attaccato
+                ("Ladashboardchefacrescere…"), cioè una parola sola senza senso
+                nel punto che conta di più della pagina. */}
             {WORDS.map((word, i) => (
-              <span key={i} className="a360-word" style={{ display: "inline-block", marginRight: "0.26em", opacity: 0 }}>{word}</span>
+              <Fragment key={i}>
+                {i > 0 && " "}
+                <span className="a360-word" style={{ display: "inline-block", opacity: 0 }}>{word}</span>
+              </Fragment>
             ))}
-            <span ref={sweepRef} aria-hidden="true" className="a360-title-sweep">
-              {WORDS.map((word, i) => (
-                <span key={i} style={{ display: "inline-block", marginRight: "0.26em" }}>{word}</span>
-              ))}
-            </span>
+            {/* Il riflesso di luce disegna il titolo una seconda volta: il testo
+                gli arriva da data-testo via ::before (index.css), così a schermo
+                è identico ma non entra nel testo dell'h1 — prima il motore
+                leggeva il titolo due volte. */}
+            <span ref={sweepRef} aria-hidden="true" className="a360-title-sweep" data-testo={TITLE} />
           </h1>
 
           <p ref={subRef} className="a360-hero-sub" style={{
