@@ -1,8 +1,8 @@
 import { ArrowLeft } from "lucide-react";
-import { C, font, display } from "./theme";
+import { C, font, display, T, R } from "./theme";
 
-const h2 = { ...display, fontSize: 17, fontWeight: 700, color: C.ink, marginTop: 28, marginBottom: 10 };
-const p = { ...font, fontSize: 14, color: C.muted, lineHeight: 1.7, margin: "0 0 12px" };
+const h2 = { ...display, fontSize: T.lead, fontWeight: 700, color: C.ink, marginTop: 28, marginBottom: 10 };
+const p = { ...font, fontSize: T.small, color: C.muted, lineHeight: 1.7, margin: "0 0 12px" };
 
 export default function PrivacyPage({ onBack }) {
   return (
@@ -12,23 +12,23 @@ export default function PrivacyPage({ onBack }) {
           onClick={onBack}
           style={{
             ...font, background: "none", border: "none", padding: 0, cursor: "pointer",
-            color: C.orange, fontSize: 13, fontWeight: 600,
+            color: C.orange, fontSize: T.kicker, fontWeight: 600,
             display: "inline-flex", alignItems: "center", gap: 6, marginBottom: 24,
           }}
         >
           <ArrowLeft size={15} /> Torna al sito
         </button>
 
-        <h1 style={{ ...display, fontSize: 24, fontWeight: 700, color: C.ink, margin: 0 }}>
+        <h1 style={{ ...display, fontSize: T.h3, fontWeight: 700, color: C.ink, margin: 0 }}>
           Informativa sulla privacy
         </h1>
-        <p style={{ ...font, fontSize: 12.5, color: C.muted, marginTop: 6 }}>
+        <p style={{ ...font, fontSize: T.micro, color: C.muted, marginTop: 6 }}>
           Versione 1 — ultimo aggiornamento: da completare
         </p>
 
         <div style={{
-          background: "#FFF6E9", border: "1px solid #FFE0B0", borderRadius: 12,
-          padding: "12px 14px", marginTop: 20, ...font, fontSize: 12.5, color: "#8A5A00", lineHeight: 1.6,
+          background: "#FFF6E9", border: "1px solid #FFE0B0", borderRadius: R.sm,
+          padding: "12px 14px", marginTop: 20, ...font, fontSize: T.micro, color: "#8A5A00", lineHeight: 1.6,
         }}>
           Bozza: manca via e CAP della sede. Da verificare anche la P.IVA — su
           danilopuglisi.com ne compare una diversa da quella indicata qui.

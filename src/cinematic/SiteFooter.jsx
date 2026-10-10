@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Linkedin, Instagram, Mail, Calendar, Phone } from "lucide-react";
-import { font, display } from "../theme";
+import { font, display, T } from "../theme";
 import { scrollToSection } from "./smoothScroll";
 import {
   WHATSAPP_URL, LINKEDIN_URL, INSTAGRAM_URL, BOOKING_URL,
@@ -29,7 +29,7 @@ export default function SiteFooter({ onOpenPrivacy }) {
       <div className="a360-footer-inner">
         <div className="a360-footer-brand">
           <img src="/logo-esteso-bianco.png" alt="Atleta360 — Mental Coach | Pallavolo" height="52" loading="lazy" />
-          <p style={{ ...font, color: "rgba(255,255,255,0.55)", fontSize: 13.5, lineHeight: 1.6, margin: "16px 0 0", maxWidth: 300 }}>
+          <p style={{ ...font, color: "rgba(255,255,255,0.55)", fontSize: T.small, lineHeight: 1.6, margin: "16px 0 0", maxWidth: 300 }}>
             La dashboard che rende visibili le soft skill di chi gioca. Un progetto di Danilo Puglisi.
           </p>
           <div className="a360-footer-social">
@@ -40,7 +40,7 @@ export default function SiteFooter({ onOpenPrivacy }) {
         </div>
 
         <nav className="a360-footer-col" aria-label="Sezioni del sito">
-          <h2 style={{ ...display, color: "#fff", fontSize: 13, fontWeight: 700, margin: "0 0 14px", letterSpacing: 0.3 }}>Il prodotto</h2>
+          <h2 style={{ ...display, color: "#fff", fontSize: T.kicker, fontWeight: 700, margin: "0 0 14px", letterSpacing: 0.3 }}>Il prodotto</h2>
           {[
             ["#demo", "Cosa vedrai nella demo"],
             ["#come-funziona", "Come funziona"],
@@ -53,7 +53,7 @@ export default function SiteFooter({ onOpenPrivacy }) {
         </nav>
 
         <div className="a360-footer-col">
-          <h2 style={{ ...display, color: "#fff", fontSize: 13, fontWeight: 700, margin: "0 0 14px", letterSpacing: 0.3 }}>Contatti</h2>
+          <h2 style={{ ...display, color: "#fff", fontSize: T.kicker, fontWeight: 700, margin: "0 0 14px", letterSpacing: 0.3 }}>Contatti</h2>
           <a href={`mailto:${CONTACT_EMAIL}`}><Mail size={14} /> {CONTACT_EMAIL}</a>
           <a href={WHATSAPP_URL} target="_blank" rel="noreferrer"><Phone size={14} /> {PHONE_DISPLAY}</a>
           <a href={BOOKING_URL} target="_blank" rel="noreferrer"><Calendar size={14} /> Prenota una call</a>

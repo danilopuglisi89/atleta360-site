@@ -17,6 +17,13 @@ CinematicHero (scelta: Atleta | Società)
          → redirect a demo.atleta-360.com/?demo=atleta|societa
 ```
 
+**Ordine delle sezioni (rivisto il 2026-10-10) — non rimescolarlo a caso:**
+hero → **DemoPreview** → Pillars → HowItWorks → CaseStudy → AboutFounder → FAQ →
+**ClosingCTA** → footer. La prova del prodotto sta per seconda di proposito: prima
+era a 3.006px, dopo 3,3 schermate, ed è la cosa che convince chi non è ancora
+convinto. La chiusura esiste perché prima le FAQ finivano e cominciava il footer:
+chi aveva letto tutto non aveva niente da cliccare.
+
 `*` campi opzionali. La rotta `/contatti` (ContactPage) è la variante per le
 campagne: stesso form, senza la home cinematografica.
 
@@ -52,7 +59,11 @@ atleta360-site/
 │   │   ├── CinematicHero.jsx   Hero: testo a sinistra, colonna-figura a destra (mobile: logo,
 │   │   │                        figura, testo). Timeline GSAP dell'apertura + leave() per l'uscita.
 │   │   │                        Rete di sicurezza: dopo 8s i CTA vengono mostrati comunque.
-│   │   ├── ScrollStory.jsx     3 scene a scrub (profondità+blur), radar nella prima, parallasse.
+│   │   ├── Pillars.jsx         I tre pilastri affiancati in una fascia sola. Era ScrollStory:
+│   │   │                        3 scene a scrub alte 78vh, 2.106px per tre frasi, con riquadri
+│   │   │                        vuoti (uno conteneva solo una medaglietta) e la statistica
+│   │   │                        inventata "100%". Rimosso tutto.
+│   │   ├── ClosingCTA.jsx      Fascia di chiusura prima del footer: le due scelte, di nuovo.
 │   │   ├── SiteHeader.jsx      Barra fissa che compare passata la hero (logo, ancore, CTA).
 │   │   │                        Resta visibile: nasconderla scorrendo toglieva il CTA a chi legge.
 │   │   ├── DemoPreview.jsx     "Cosa vedrai nella demo": dashboard ricostruita come componenti
@@ -105,6 +116,25 @@ atleta360-site/
 │                                partire una seconda mail per ogni richiesta.
 └── vercel.json                 rewrite SPA che esclude /api (serve /contatti e le funzioni)
 ```
+
+## Sistema grafico (revisione del 2026-10-10)
+
+**La scala sta in `src/theme.js` (`T`, `W`, `R`) e, gemella, in `:root` di
+`index.css` (`--fs-*`, `--r-*`). Usare quelle, non numeri sciolti.**
+Sette corpi (60 / 34 / 24 / 19 / 16 / 14 / 13 / 12,5), tre pesi (400/600/700),
+quattro raggi più cerchio e pillola. Prima la pagina ne usava 26 combinazioni —
+19 fra 11,5px e 19px — e 9 raggi: differenze da mezzo pixel che non erano
+scelte ma sedimentazione, e che si leggono come assenza di sistema.
+Se serve una misura nuova, prima chiediti quale di queste stavi cercando.
+
+⚠️ **Lo stile inline batte il CSS.** Dove un corpo deve cambiare col viewport
+(es. `.a360-hero-sub`) va dichiarato SOLO nel CSS: metterlo anche inline
+disattiva in silenzio le media query.
+
+**Tre trattamenti di sezione**, perché 6.178px di blu uguale non davano peso a
+niente: `.a360-banda-soffusa` (bianco al 3,5%), `.a360-banda-chiara` (#F6F7FB
+opaco, oggi solo le FAQ — l'unica sezione chiara della pagina) e
+`.a360-chiusura` (navy pieno del brand). Il resto resta trasparente sul palco.
 
 ## Regole del mobile (revisione del 2026-10-10)
 

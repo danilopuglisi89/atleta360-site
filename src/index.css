@@ -1,3 +1,22 @@
+/* ============================================================
+   SCALA — gemella di T e R in src/theme.js. Stessi gradini, lato CSS:
+   se ne aggiungi uno qui, aggiungilo anche là (e chiediti prima se non
+   stavi cercando uno di questi).
+   ============================================================ */
+:root {
+  --fs-h2: clamp(24px, 3.6vw, 34px);
+  --fs-h3: clamp(19px, 2.4vw, 24px);
+  --fs-lead: 19px;
+  --fs-body: 16px;
+  --fs-small: 14px;
+  --fs-micro: 12.5px;
+  --fs-kicker: 13px;
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 24px;
+  --r-pillola: 999px;
+}
+
 * { box-sizing: border-box; }
 html { height: 100%; }
 body {
@@ -39,7 +58,7 @@ html.lenis, html.lenis body { height: auto; }
 .a360-hero-copy { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
 .a360-hero-logo { margin-bottom: 34px; }
 .a360-hero-title { margin-bottom: 22px !important; }
-.a360-hero-sub { margin: 0 0 34px; }
+.a360-hero-sub { margin: 0 0 34px; font-size: var(--fs-lead); line-height: 1.6; }
 /* Sempre affiancate, mai una sotto l'altra: ogni card si restringe
    (ChoiceCard usa clamp() sui suoi valori interni) invece di andare a capo. */
 .a360-hero-choices { display: flex; flex-wrap: nowrap; gap: 18px; width: 100%; max-width: 720px; }
@@ -66,7 +85,7 @@ html.lenis, html.lenis body { height: auto; }
   .a360-hero-logo img { height: 54px !important; }
   .a360-hero-figure { order: 2; flex: 1 1 auto; min-height: 96px; max-height: 32vh; width: 100%; }
   .a360-hero-title { order: 3; text-align: center; margin-bottom: 14px !important; flex: 0 0 auto; }
-  .a360-hero-sub { order: 4; text-align: center; margin-bottom: 20px; font-size: 15px; line-height: 1.55; flex: 0 0 auto; }
+  .a360-hero-sub { order: 4; text-align: center; margin-bottom: 20px; font-size: var(--fs-body); line-height: 1.55; flex: 0 0 auto; }
   .a360-hero-choices { order: 5; justify-content: center; gap: 10px; flex: 0 0 auto; }
   /* "Scopri di più" costa 50px proprio dove servono: le card tagliate dal
      bordo dicono già da sole che la pagina continua. */
@@ -77,7 +96,7 @@ html.lenis, html.lenis body { height: auto; }
    px si recuperano dal testo. Le due card restano l'ultima cosa a cedere. */
 @media (max-width: 900px) and (max-height: 700px) {
   .a360-hero-figure { min-height: 72px; max-height: 24vh; }
-  .a360-hero-sub { font-size: 14.5px; margin-bottom: 16px; }
+  .a360-hero-sub { font-size: var(--fs-small); margin-bottom: 16px; }
   .a360-hero-logo img { height: 46px !important; }
 }
 
@@ -94,11 +113,11 @@ html.lenis, html.lenis body { height: auto; }
 .a360-btn {
   font-family: 'Inter', system-ui, sans-serif;
   display: inline-flex; align-items: center; gap: 8px;
-  border-radius: 12px; padding: 11px 18px; font-size: 14px; font-weight: 600;
+  border-radius: var(--r-sm); padding: 11px 18px; font-size: var(--fs-small); font-weight: 600;
   text-decoration: none; cursor: pointer; border: 1px solid transparent;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
-.a360-btn-lg { padding: 14px 24px; font-size: 15.5px; }
+.a360-btn-lg { padding: 14px 24px; font-size: var(--fs-body); }
 .a360-btn-primary { background: #FF7A18; color: #fff; box-shadow: 0 0 28px rgba(255,122,24,0.4); }
 .a360-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 34px rgba(255,122,24,0.55); }
 .a360-btn-ghost { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); color: #fff; }
@@ -108,7 +127,7 @@ html.lenis, html.lenis body { height: auto; }
 :where(a, button, input, [tabindex]):focus-visible {
   outline: 2px solid #FF9A4D;
   outline-offset: 3px;
-  border-radius: 8px;
+  border-radius: var(--r-sm);
 }
 
 /* --- barra in alto che compare dopo la hero --- */
@@ -136,14 +155,14 @@ html.lenis, html.lenis body { height: auto; }
 .a360-header-logo { display: flex; flex-shrink: 0; }
 .a360-header-nav { display: flex; gap: 22px; margin-left: auto; }
 .a360-header-nav a {
-  font-family: 'Inter', system-ui, sans-serif; font-size: 13.5px; font-weight: 500;
+  font-family: 'Inter', system-ui, sans-serif; font-size: var(--fs-small); font-weight: 600;
   color: rgba(255,255,255,0.72); text-decoration: none; transition: color 0.2s ease;
 }
 .a360-header-nav a:hover { color: #fff; }
 .a360-header-cta { flex-shrink: 0; }
 @media (max-width: 760px) {
   .a360-header-nav { display: none; }
-  .a360-header-cta { margin-left: auto; padding: 9px 14px; font-size: 13px; }
+  .a360-header-cta { margin-left: auto; padding: 9px 14px; font-size: var(--fs-kicker); }
 }
 
 /* --- sezione "Cosa vedrai nella demo" --- */
@@ -157,14 +176,14 @@ html.lenis, html.lenis body { height: auto; }
 .a360-demo-card {
   background: rgba(12, 19, 60, 0.66);
   border: 1px solid rgba(255,255,255,0.11);
-  border-radius: 20px; padding: 22px;
+  border-radius: var(--r-lg); padding: 22px;
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 26px 70px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.09);
 }
 .a360-demo-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.a360-bar { height: 7px; border-radius: 4px; background: rgba(255,255,255,0.1); overflow: hidden; }
+.a360-bar { height: 7px; border-radius: var(--r-pillola); background: rgba(255,255,255,0.1); overflow: hidden; }
 .a360-bar-fill {
-  height: 100%; border-radius: 4px; transform-origin: 0 50%;
+  height: 100%; border-radius: var(--r-pillola); transform-origin: 0 50%;
   background: linear-gradient(90deg, #FF7A18, #FFB070);
   box-shadow: 0 0 12px rgba(255,122,24,0.5);
 }
@@ -175,9 +194,9 @@ html.lenis, html.lenis body { height: auto; }
 .a360-demo-row:last-child { border-bottom: none; }
 .a360-chip {
   display: inline-flex; align-items: center; gap: 4px;
-  font-family: 'Inter', system-ui, sans-serif; font-size: 11px; font-weight: 600;
+  font-family: 'Inter', system-ui, sans-serif; font-size: var(--fs-micro); font-weight: 600;
   color: #7BE3A8; background: rgba(60, 200, 130, 0.14);
-  border-radius: 999px; padding: 3px 8px;
+  border-radius: var(--r-pillola); padding: 3px 8px;
 }
 
 /* --- Come funziona: linea temporale numerata (non riquadri, per non
@@ -204,7 +223,7 @@ html.lenis, html.lenis body { height: auto; }
   box-shadow: 0 0 24px rgba(255, 122, 24, .32), inset 0 1px 0 rgba(255,255,255,.14);
 }
 .a360-step-icon {
-  width: 34px; height: 34px; border-radius: 10px; margin: 0 auto 14px;
+  width: 34px; height: 34px; border-radius: var(--r-sm); margin: 0 auto 14px;
   display: flex; align-items: center; justify-content: center;
   background: rgba(255, 122, 24, .13); border: 1px solid rgba(255, 122, 24, .26);
 }
@@ -242,9 +261,9 @@ html.lenis, html.lenis body { height: auto; }
 }
 .a360-badge {
   display: inline-flex; align-items: center; gap: 7px;
-  font-family: 'Inter', system-ui, sans-serif; font-size: 12.5px; color: rgba(255,255,255,0.8);
+  font-family: 'Inter', system-ui, sans-serif; font-size: var(--fs-micro); color: rgba(255,255,255,0.8);
   background: rgba(255,122,24,0.12); border: 1px solid rgba(255,122,24,0.3);
-  border-radius: 999px; padding: 6px 13px;
+  border-radius: var(--r-pillola); padding: 6px 13px;
 }
 .a360-about-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 
@@ -258,14 +277,14 @@ html.lenis, html.lenis body { height: auto; }
 .a360-footer-social { display: flex; gap: 12px; margin-top: 18px; }
 .a360-footer-social a {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 38px; height: 38px; border-radius: 11px;
+  width: 38px; height: 38px; border-radius: var(--r-sm);
   background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
   color: rgba(255,255,255,0.8); transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 .a360-footer-social a:hover { background: rgba(255,122,24,0.2); color: #fff; transform: translateY(-2px); }
 .a360-footer-col { display: flex; flex-direction: column; gap: 11px; }
 .a360-footer-col a {
-  font-family: 'Inter', system-ui, sans-serif; font-size: 13.5px;
+  font-family: 'Inter', system-ui, sans-serif; font-size: var(--fs-small);
   color: rgba(255,255,255,0.68); text-decoration: none;
   display: inline-flex; align-items: center; gap: 8px; transition: color 0.2s ease;
 }
@@ -274,7 +293,7 @@ html.lenis, html.lenis body { height: auto; }
   max-width: 1040px; margin: 44px auto 0; padding-top: 22px;
   border-top: 1px solid rgba(255,255,255,0.07);
   display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center;
-  font-family: 'Inter', system-ui, sans-serif; font-size: 12px; color: rgba(255,255,255,0.58);
+  font-family: 'Inter', system-ui, sans-serif; font-size: var(--fs-micro); color: rgba(255,255,255,0.58);
 }
 .a360-footer-bottom button {
   font-family: inherit; font-size: inherit; color: inherit;
@@ -304,7 +323,7 @@ html.lenis, html.lenis body { height: auto; }
   .a360-footer-col a { min-height: 44px; }
   .a360-footer-social { gap: 10px; }
   .a360-footer-social a { width: 46px; height: 46px; }
-  .a360-footer-bottom { font-size: 12.5px; gap: 14px; }
+  .a360-footer-bottom { font-size: var(--fs-micro); gap: 14px; }
   .a360-footer-bottom button { min-height: 44px; display: inline-flex; align-items: center; }
   .a360-header-logo { min-height: 44px; display: inline-flex; align-items: center; }
   .a360-header-cta { padding: 12px 18px; }
@@ -355,7 +374,7 @@ html.lenis, html.lenis body { height: auto; }
 .a360-contact-list { list-style: none; padding: 0; margin: 0 0 30px; display: flex; flex-direction: column; gap: 13px; }
 .a360-contact-list li {
   font-family: 'Inter', system-ui, sans-serif; display: flex; align-items: flex-start; gap: 11px;
-  color: rgba(255, 255, 255, 0.8); font-size: 14.5px; line-height: 1.55;
+  color: rgba(255, 255, 255, 0.8); font-size: var(--fs-small); line-height: 1.55;
 }
 .a360-check {
   flex-shrink: 0; width: 21px; height: 21px; border-radius: 50%; margin-top: 1px;
@@ -370,14 +389,14 @@ html.lenis, html.lenis body { height: auto; }
 .a360-proof-person img { border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px rgba(255, 122, 24, 0.45); }
 .a360-proof-badge {
   font-family: 'Inter', system-ui, sans-serif; display: inline-flex; align-items: center; gap: 6px;
-  font-size: 11.5px; color: rgba(255, 255, 255, 0.7); margin-top: 6px;
+  font-size: var(--fs-micro); color: rgba(255, 255, 255, 0.7); margin-top: 6px;
 }
 .a360-proof-club { display: flex; flex-direction: column; gap: 8px; }
-.a360-proof-club img { background: #fff; border-radius: 9px; padding: 7px 11px; }
+.a360-proof-club img { background: #fff; border-radius: var(--r-sm); padding: 7px 11px; }
 .a360-contact-form { width: 100%; }
 .a360-contact-note {
   font-family: 'Inter', system-ui, sans-serif; display: flex; align-items: center; justify-content: center;
-  gap: 7px; font-size: 12px; color: rgba(255, 255, 255, 0.45); margin-top: 12px;
+  gap: 7px; font-size: var(--fs-micro); color: rgba(255, 255, 255, 0.45); margin-top: 12px;
 }
 /* il form compatto non deve aggiungere il proprio padding dentro la colonna */
 .a360-contact-form > div:nth-child(2) { padding: 0 !important; }
@@ -400,7 +419,7 @@ html.lenis, html.lenis body { height: auto; }
 .a360-form-card {
   background: rgba(12, 19, 60, 0.72);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 20px; padding: 26px;
+  border-radius: var(--r-lg); padding: 26px;
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
@@ -413,15 +432,15 @@ html.lenis, html.lenis body { height: auto; }
   overflow: hidden !important;
 }
 .a360-label {
-  font-family: 'Inter', system-ui, sans-serif; font-size: 12.5px; font-weight: 500;
+  font-family: 'Inter', system-ui, sans-serif; font-size: var(--fs-micro); font-weight: 600;
   color: rgba(255, 255, 255, 0.72); margin-bottom: 6px; display: block;
 }
 .a360-label-opt { color: rgba(255, 255, 255, 0.42); font-weight: 400; }
 .a360-input {
-  font-family: 'Inter', system-ui, sans-serif; font-size: 14px; color: #fff;
+  font-family: 'Inter', system-ui, sans-serif; font-size: var(--fs-small); color: #fff;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 10px; padding: 11px 13px; width: 100%; box-sizing: border-box;
+  border-radius: var(--r-sm); padding: 11px 13px; width: 100%; box-sizing: border-box;
   outline: none; transition: border-color 0.18s ease, background 0.18s ease;
 }
 .a360-input::placeholder { color: rgba(255, 255, 255, 0.38); }
@@ -430,24 +449,24 @@ html.lenis, html.lenis body { height: auto; }
   border-color: #FF7A18; background: rgba(255, 255, 255, 0.09);
   box-shadow: 0 0 0 3px rgba(255, 122, 24, 0.18);
 }
-.a360-hint { font-family: 'Inter', system-ui, sans-serif; font-size: 11.5px; color: rgba(255,255,255,0.45); margin-top: 5px; }
+.a360-hint { font-family: 'Inter', system-ui, sans-serif; font-size: var(--fs-micro); color: rgba(255,255,255,0.45); margin-top: 5px; }
 .a360-consent {
   font-family: 'Inter', system-ui, sans-serif; display: flex; align-items: flex-start;
-  gap: 9px; font-size: 12.5px; color: rgba(255, 255, 255, 0.65); line-height: 1.5;
+  gap: 9px; font-size: var(--fs-micro); color: rgba(255, 255, 255, 0.65); line-height: 1.5;
   margin: 4px 0 16px; cursor: pointer;
 }
 .a360-link-inline {
   font-family: inherit; font-size: inherit; background: none; border: none; padding: 0;
   color: #FF7A18; font-weight: 600; cursor: pointer; text-decoration: underline;
 }
-.a360-submit { width: 100%; justify-content: center; margin-top: 4px; padding: 13px 16px; font-size: 15px; }
+.a360-submit { width: 100%; justify-content: center; margin-top: 4px; padding: 13px 16px; font-size: var(--fs-body); }
 .a360-reassure {
   font-family: 'Inter', system-ui, sans-serif; display: flex; align-items: center; justify-content: center;
-  gap: 7px; font-size: 12.5px; color: rgba(255, 255, 255, 0.5); margin-top: 14px;
+  gap: 7px; font-size: var(--fs-micro); color: rgba(255, 255, 255, 0.5); margin-top: 14px;
 }
 .a360-back {
   font-family: 'Inter', system-ui, sans-serif; background: none; border: none; padding: 0;
-  cursor: pointer; color: rgba(255, 255, 255, 0.8); font-size: 13px; font-weight: 500;
+  cursor: pointer; color: rgba(255, 255, 255, 0.8); font-size: var(--fs-kicker); font-weight: 600;
   display: inline-flex; align-items: center; gap: 6px; margin-bottom: 18px;
 }
 .a360-back:hover { color: #fff; }
@@ -461,7 +480,7 @@ html.lenis, html.lenis body { height: auto; }
   background: rgba(14, 20, 56, 0.95);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 14px; padding: 15px 16px;
+  border-radius: var(--r-md); padding: 15px 16px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
   display: flex; flex-direction: column; gap: 12px;
   animation: a360-cookie-in 0.45s cubic-bezier(0.22, 1, 0.36, 1);
@@ -499,9 +518,90 @@ html.lenis, html.lenis body { height: auto; }
   /* Sotto i 16px Safari su iPhone INGRANDISCE la pagina appena si tocca un
      campo: il modulo salta e bisogna ripizzicare per rimpicciolire. 16px
      esatti lo evitano, e di passaggio il campo diventa più facile da colpire. */
-  .a360-input { font-size: 16px; padding: 13px 14px; }
+  .a360-input { font-size: var(--fs-body); padding: 13px 14px; }
   .a360-consent input[type="checkbox"] { width: 20px !important; height: 20px !important; }
   /* L'avviso cookie è fisso in basso: senza questo spazio copre proprio la
      spunta del consenso e il tasto "Avvia la demo". */
   body.a360-con-cookie { padding-bottom: 132px; }
+}
+
+/* ============================================================
+   FASCE DI SEZIONE — la pagina era 6.178px di blu ininterrotto: otto
+   sezioni tutte trasparenti sopra lo stesso gradiente, quindi niente aveva
+   più peso di niente e niente risaltava. Tre trattamenti danno dei capitoli.
+   ============================================================ */
+
+/* fascia appena più chiara, sopra il palco */
+.a360-banda-soffusa {
+  background: rgba(255, 255, 255, 0.035);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* l'unica sezione chiara: opaca, copre il palco per davvero */
+.a360-banda-chiara { background: #F6F7FB; }
+
+/* chiusura: l'unico blocco in cui il navy del brand torna pieno */
+.a360-chiusura {
+  background: linear-gradient(135deg, #0A1650 0%, #17297A 100%);
+  padding: 78px 20px;
+  text-align: center;
+}
+.a360-chiusura-azioni {
+  display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;
+}
+@media (max-width: 560px) {
+  .a360-chiusura { padding: 60px 18px; }
+  .a360-chiusura-azioni { flex-direction: column; }
+  .a360-chiusura-azioni .a360-btn { width: 100%; justify-content: center; }
+}
+
+/* --- i tre pilastri (ex ScrollStory) --- */
+.a360-pilastri {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 34px;
+}
+.a360-pilastro-icona {
+  width: 46px; height: 46px; border-radius: var(--r-md);
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255, 122, 24, 0.13);
+  border: 1px solid rgba(255, 122, 24, 0.28);
+}
+@media (max-width: 860px) { .a360-pilastri { grid-template-columns: 1fr; gap: 30px; } }
+
+/* --- riga di prova sotto le card della hero --- */
+.a360-hero-prova {
+  display: inline-flex; align-items: center; gap: 10px; margin-top: 22px;
+  font-family: 'Inter', system-ui, sans-serif; font-size: var(--fs-micro);
+  color: rgba(255, 255, 255, 0.62); line-height: 1.4;
+}
+.a360-hero-prova strong { color: rgba(255, 255, 255, 0.9); font-weight: 600; }
+.a360-hero-prova-chip {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: #fff; border-radius: var(--r-sm); padding: 4px 7px; flex-shrink: 0;
+}
+.a360-hero-prova-chip img { height: 20px; display: block; }
+@media (max-width: 900px) {
+  .a360-hero-prova { order: 6; margin-top: 14px; align-self: center; text-align: center; flex: 0 0 auto; }
+}
+/* telefoni corti: la riga di prova cede prima delle card */
+@media (max-width: 900px) and (max-height: 700px) { .a360-hero-prova { display: none; } }
+
+/* --- caso studio: due colonne, il logo nella sua --- */
+.a360-caso {
+  max-width: 980px; margin: 0 auto;
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 34px; align-items: start;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--r-lg); padding: 40px 38px;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.4);
+}
+.a360-caso-chip {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: #fff; border-radius: var(--r-md); padding: 14px 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+}
+.a360-caso-chip img { height: 44px; display: block; }
+@media (max-width: 760px) {
+  .a360-caso { grid-template-columns: 1fr; gap: 22px; padding: 32px 24px; }
+  .a360-caso-chip img { height: 34px; }
 }

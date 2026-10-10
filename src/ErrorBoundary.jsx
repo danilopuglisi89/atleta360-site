@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { C, font, display } from "./theme";
+import { C, font, display, T } from "./theme";
 import { WHATSAPP_URL, CONTACT_EMAIL, PHONE_DISPLAY } from "./cinematic/contactsConfig";
 
 /* Rete di protezione: senza, un errore in un qualsiasi componente lascia la
@@ -38,10 +38,10 @@ export default class ErrorBoundary extends Component {
         <div style={{ maxWidth: 460 }}>
           <img src="/logo-esteso-bianco.png" alt="Atleta360" height="56"
             style={{ marginBottom: 26, filter: "drop-shadow(0 0 24px rgba(255,122,24,0.4))" }} />
-          <h1 style={{ ...display, color: "#fff", fontWeight: 700, fontSize: 24, margin: "0 0 12px" }}>
+          <h1 style={{ ...display, color: "#fff", fontWeight: 700, fontSize: T.h3, margin: "0 0 12px" }}>
             Qualcosa non ha funzionato
           </h1>
-          <p style={{ ...font, color: "rgba(255,255,255,0.75)", fontSize: 15, lineHeight: 1.6, margin: "0 0 26px" }}>
+          <p style={{ ...font, color: "rgba(255,255,255,0.75)", fontSize: T.body, lineHeight: 1.6, margin: "0 0 26px" }}>
             Ci scusiamo per l'inconveniente. Puoi riprovare a caricare la pagina — oppure
             scrivimi direttamente: ti do io l'accesso alla demo.
           </p>
@@ -53,7 +53,7 @@ export default class ErrorBoundary extends Component {
               Scrivi su WhatsApp
             </a>
           </div>
-          <p style={{ ...font, color: "rgba(255,255,255,0.55)", fontSize: 13, marginTop: 24, lineHeight: 1.7 }}>
+          <p style={{ ...font, color: "rgba(255,255,255,0.55)", fontSize: T.kicker, marginTop: 24, lineHeight: 1.7 }}>
             <a href={`mailto:${CONTACT_EMAIL}`} style={{ color: C.orange }}>{CONTACT_EMAIL}</a>
             <br />{PHONE_DISPLAY}
           </p>

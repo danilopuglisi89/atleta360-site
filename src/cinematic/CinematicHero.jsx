@@ -1,7 +1,7 @@
 import { useEffect, useImperativeHandle, useRef, forwardRef } from "react";
 import { gsap } from "gsap";
 import { ChevronDown, User, Building2 } from "lucide-react";
-import { font, display } from "../theme";
+import { font, display, T } from "../theme";
 import { ChoiceCard } from "../LandingHero";
 import Magnetic from "./Magnetic";
 
@@ -23,6 +23,7 @@ const CinematicHero = forwardRef(function CinematicHero({ onChoose, stageRef, qu
   const logoRef = useRef(null);
   const choicesRef = useRef(null);
   const hintRef = useRef(null);
+  const provaRef = useRef(null);
 
   /* Uscita cinematica verso il form: le particelle si liberano, lampo,
      il contenuto sale e sfoca. Restituisce una Promise. */
@@ -44,7 +45,7 @@ const CinematicHero = forwardRef(function CinematicHero({ onChoose, stageRef, qu
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const words = titleRef.current.querySelectorAll(".a360-word");
-    const all = [logoRef.current, subRef.current, choicesRef.current, hintRef.current];
+    const all = [logoRef.current, subRef.current, choicesRef.current, provaRef.current, hintRef.current];
 
     if (reduced) {
       gsap.set(all, { opacity: 1 });
@@ -63,6 +64,7 @@ const CinematicHero = forwardRef(function CinematicHero({ onChoose, stageRef, qu
           { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.6, stagger: 0.035 }, 0.2)
         .fromTo(subRef.current, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5 }, 0.5)
         .fromTo(choicesRef.current, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6 }, 0.65)
+        .fromTo(provaRef.current, { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.9)
         .fromTo(hintRef.current, { opacity: 0 }, { opacity: 1, duration: 0.5 }, 1.0);
     } else {
       tl.fromTo(logoRef.current, { opacity: 0, y: -14, filter: "blur(8px)" },
@@ -84,6 +86,7 @@ const CinematicHero = forwardRef(function CinematicHero({ onChoose, stageRef, qu
 
         .fromTo(choicesRef.current, { opacity: 0, y: 34, filter: "blur(10px)" },
           { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9 }, 3.55)
+        .fromTo(provaRef.current, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.7 }, 3.85)
         .fromTo(hintRef.current, { opacity: 0 }, { opacity: 1, duration: 0.7 }, 4.1);
     }
 
@@ -114,7 +117,7 @@ const CinematicHero = forwardRef(function CinematicHero({ onChoose, stageRef, qu
 
           <h1 ref={titleRef} className="a360-hero-title" style={{
             ...display, position: "relative", color: "#fff", fontWeight: 700, letterSpacing: -0.8,
-            fontSize: "clamp(32px, 4.7vw, 60px)", lineHeight: 1.08, margin: 0,
+            fontSize: T.display, lineHeight: 1.08, margin: 0,
             textShadow: "0 0 44px rgba(120,160,255,0.30), 0 2px 30px rgba(0,0,0,0.5)",
           }}>
             {WORDS.map((word, i) => (
@@ -128,7 +131,9 @@ const CinematicHero = forwardRef(function CinematicHero({ onChoose, stageRef, qu
           </h1>
 
           <p ref={subRef} className="a360-hero-sub" style={{
-            ...font, color: "rgba(255,255,255,0.78)", fontSize: 17, lineHeight: 1.6, maxWidth: 560, opacity: 0,
+            /* corpo e interlinea stanno in .a360-hero-sub (index.css): sul
+               telefono si rimpiccioliscono, e uno stile inline li batterebbe */
+            ...font, color: "rgba(255,255,255,0.78)", maxWidth: 560, opacity: 0,
           }}>
             Focus, comunicazione, gestione degli errori, coachability: rilevamenti periodici,
             grafici e badge per far crescere ogni atleta. Prova subito una demo gratuita, con dati di esempio.
@@ -153,8 +158,19 @@ const CinematicHero = forwardRef(function CinematicHero({ onChoose, stageRef, qu
             </Magnetic>
           </div>
 
+          {/* Prova sopra la piega. Oasi Volley stava a 4.303px: qui trasforma
+              la hero da "un prodotto che qualcuno ha costruito" a "un prodotto
+              che una società ha scelto". Dice solo quello che è vero oggi —
+              che hanno iniziato — senza promettere risultati. */}
+          <div ref={provaRef} className="a360-hero-prova" style={{ opacity: 0 }}>
+            <span className="a360-hero-prova-chip">
+              <img src="/oasi-volley-logo.png" alt="" aria-hidden="true" />
+            </span>
+            <span>La prima società a usarlo: <strong>Oasi Volley Viareggio</strong></span>
+          </div>
+
           <div ref={hintRef} className="a360-hero-hint" style={{ opacity: 0, color: "rgba(255,255,255,0.5)" }}>
-            <span style={{ ...font, fontSize: 12 }}>Scopri di più</span>
+            <span style={{ ...font, fontSize: T.micro }}>Scopri di più</span>
             <ChevronDown size={18} className="a360-bounce" />
           </div>
         </div>

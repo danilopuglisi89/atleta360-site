@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { C, font } from "./theme";
+import { C, font, T, R } from "./theme";
 import { getConsent, setConsent } from "./pixel";
 
 /* Nessun cookie viene scritto finché non si accetta, quindi il banner può
@@ -46,7 +46,7 @@ export default function CookieBanner() {
     <div className="a360-cookie" role="dialog" aria-label="Preferenze cookie">
       {/* testo corto: su telefono il banner sta sopra il form, ogni riga in
           più copre un campo da compilare */}
-      <p style={{ ...font, color: "rgba(255,255,255,0.8)", fontSize: 12.5, lineHeight: 1.5, margin: 0 }}>
+      <p style={{ ...font, color: "rgba(255,255,255,0.8)", fontSize: T.micro, lineHeight: 1.5, margin: 0 }}>
         Usiamo cookie di misurazione. Il sito funziona in entrambi i casi.
       </p>
       <div style={{ display: "flex", gap: 9 }}>
@@ -54,7 +54,7 @@ export default function CookieBanner() {
           onClick={() => choose("rejected")}
           style={{
             ...font, background: "none", border: "1px solid rgba(255,255,255,0.25)",
-            color: "#fff", borderRadius: 10, padding: "8px 14px", fontSize: 13, fontWeight: 600, cursor: "pointer",
+            color: "#fff", borderRadius: R.sm, padding: "8px 14px", fontSize: T.kicker, fontWeight: 600, cursor: "pointer",
           }}
         >
           Rifiuta
@@ -63,7 +63,7 @@ export default function CookieBanner() {
           onClick={() => choose("accepted")}
           style={{
             ...font, background: C.orange, border: "none",
-            color: "#fff", borderRadius: 10, padding: "8px 16px", fontSize: 13, fontWeight: 600, cursor: "pointer",
+            color: "#fff", borderRadius: R.sm, padding: "8px 16px", fontSize: T.kicker, fontWeight: 600, cursor: "pointer",
           }}
         >
           Accetta

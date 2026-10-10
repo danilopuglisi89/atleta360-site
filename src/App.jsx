@@ -1,6 +1,6 @@
 import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import { AlertCircle } from "lucide-react";
-import { C, font, display } from "./theme";
+import { C, font, display, T, R } from "./theme";
 import { supabaseConfigured } from "./supabaseClient";
 import { demoUrl } from "./leads";
 import { initPixelIfConsented, trackLead } from "./pixel";
@@ -16,7 +16,8 @@ import { useSmoothScroll, scrollToTop } from "./cinematic/smoothScroll";
 
 /* Tutto ciò che sta sotto la piega viene caricato dopo la hero: chi arriva
    dalle campagne vede prima possibile il titolo e i due bottoni. */
-const ScrollStory = lazy(() => import("./cinematic/ScrollStory"));
+const Pillars = lazy(() => import("./cinematic/Pillars"));
+const ClosingCTA = lazy(() => import("./cinematic/ClosingCTA"));
 const DemoPreview = lazy(() => import("./cinematic/DemoPreview"));
 const HowItWorks = lazy(() => import("./cinematic/HowItWorks"));
 const CaseStudy = lazy(() => import("./cinematic/CaseStudy"));
@@ -40,12 +41,12 @@ function SetupNotice() {
       background: `linear-gradient(160deg, ${C.navy} 0%, ${C.navy2} 100%)`,
       display: "flex", alignItems: "center", justifyContent: "center", padding: 20,
     }}>
-      <div style={{ background: C.card, borderRadius: 18, padding: 26, maxWidth: 420, boxShadow: "0 20px 60px rgba(0,0,0,0.28)" }}>
+      <div style={{ background: C.card, borderRadius: R.md, padding: 26, maxWidth: 420, boxShadow: "0 20px 60px rgba(0,0,0,0.28)" }}>
         <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
           <AlertCircle size={20} color="#B4232A" style={{ flexShrink: 0, marginTop: 2 }} />
           <div>
-            <div style={{ ...display, fontSize: 16, fontWeight: 700, color: C.ink }}>Configurazione mancante</div>
-            <p style={{ ...font, fontSize: 13.5, color: C.muted, marginTop: 8, lineHeight: 1.5 }}>
+            <div style={{ ...display, fontSize: T.body, fontWeight: 700, color: C.ink }}>Configurazione mancante</div>
+            <p style={{ ...font, fontSize: T.small, color: C.muted, marginTop: 8, lineHeight: 1.5 }}>
               Imposta le variabili d'ambiente <code>VITE_SUPABASE_URL</code> e <code>VITE_SUPABASE_ANON_KEY</code> su Vercel.
             </p>
           </div>
@@ -64,10 +65,10 @@ function Redirecting({ tipo }) {
     }}>
       <div style={{ maxWidth: 420 }}>
         <img src="/logo-esteso-bianco.png" alt="" height="56" style={{ marginBottom: 28, filter: "drop-shadow(0 0 24px rgba(255,122,24,0.4))" }} />
-        <div style={{ ...display, color: "#fff", fontWeight: 700, fontSize: 24, marginBottom: 10 }}>
+        <div style={{ ...display, color: "#fff", fontWeight: 700, fontSize: T.h3, marginBottom: 10 }}>
           La tua demo è pronta
         </div>
-        <p style={{ ...font, color: "rgba(255,255,255,0.72)", fontSize: 15, lineHeight: 1.6, margin: "0 0 26px" }}>
+        <p style={{ ...font, color: "rgba(255,255,255,0.72)", fontSize: T.body, lineHeight: 1.6, margin: "0 0 26px" }}>
           Ti sto portando nella dashboard{tipo === "atleta" ? ", nella vista dell'atleta" : " completa della società"}.
           I dati che vedrai sono d'esempio: puoi cliccare tutto senza problemi.
         </p>
@@ -163,12 +164,17 @@ export default function App() {
         <SiteHeader onChoose={(t) => choose(t, "header")} />
         <CinematicHero ref={heroRef} onChoose={choose} stageRef={stageRef} quick={returned.current} />
         <Suspense fallback={null}>
-          <ScrollStory />
+          {/* La prova viene PRIMA del racconto: la dashboard vera con i numeri
+              stava a 3.006px, dopo 3,3 schermate e dopo la parte vuota. È la
+              cosa che vende, e chi non è ancora convinto non arrivava a
+              vederla. Il resto serve a chi è già interessato. */}
           <DemoPreview onChoose={(t) => choose(t, "demo-preview")} />
+          <Pillars />
           <HowItWorks />
           <CaseStudy />
           <AboutFounder />
           <FAQ />
+          <ClosingCTA onChoose={(t) => choose(t, "chiusura")} />
           <SiteFooter onOpenPrivacy={() => setShowPrivacy(true)} />
         </Suspense>
       </>

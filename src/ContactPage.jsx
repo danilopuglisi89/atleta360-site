@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { User, Building2, Check, BadgeCheck, ShieldCheck } from "lucide-react";
-import { C, font, display } from "./theme";
+import { C, font, display, T, R } from "./theme";
 import LeadForm from "./LeadForm";
 
 /* Pagina lead dedicata alle campagne (atleta-360.com/contatti).
@@ -31,8 +31,8 @@ function Toggle({ tipo, onChange }) {
         onClick={() => onChange(value)}
         style={{
           ...font, flex: 1, display: "inline-flex", alignItems: "center", justifyContent: "center",
-          gap: 7, padding: "10px 14px", minHeight: 44, borderRadius: 11, cursor: "pointer",
-          fontSize: 13.5, fontWeight: 600,
+          gap: 7, padding: "10px 14px", minHeight: 44, borderRadius: R.sm, cursor: "pointer",
+          fontSize: T.small, fontWeight: 600,
           background: active ? C.orange : "transparent",
           color: active ? "#fff" : "rgba(255,255,255,0.75)",
           border: active ? "1px solid transparent" : "1px solid rgba(255,255,255,0.22)",
@@ -67,11 +67,11 @@ export default function ContactPage({ onSuccess, onOpenPrivacy }) {
 
           <h1 style={{
             ...display, color: "#fff", fontWeight: 700,
-            fontSize: "clamp(26px, 3.6vw, 40px)", lineHeight: 1.15, margin: "0 0 14px", letterSpacing: -0.5,
+            fontSize: T.h2, lineHeight: 1.15, margin: "0 0 14px", letterSpacing: -0.5,
           }}>
             Prova la demo gratuita di Atleta360
           </h1>
-          <p style={{ ...font, color: "rgba(255,255,255,0.75)", fontSize: 16, lineHeight: 1.6, margin: "0 0 26px" }}>
+          <p style={{ ...font, color: "rgba(255,255,255,0.75)", fontSize: T.body, lineHeight: 1.6, margin: "0 0 26px" }}>
             Lascia i tuoi contatti ed entri subito nella dashboard. Senza impegno,
             senza carta di credito.
           </p>
@@ -89,8 +89,8 @@ export default function ContactPage({ onSuccess, onOpenPrivacy }) {
             <div className="a360-proof-person">
               <img src="/danilo.jpg" alt="Danilo Puglisi" width="56" height="56" loading="lazy" />
               <div>
-                <div style={{ ...display, color: "#fff", fontWeight: 700, fontSize: 15 }}>Danilo Puglisi</div>
-                <div style={{ ...font, color: "rgba(255,255,255,0.6)", fontSize: 12.5, marginTop: 2 }}>
+                <div style={{ ...display, color: "#fff", fontWeight: 700, fontSize: T.body }}>Danilo Puglisi</div>
+                <div style={{ ...font, color: "rgba(255,255,255,0.6)", fontSize: T.micro, marginTop: 2 }}>
                   Consulente e formatore · Carrara
                 </div>
                 <div className="a360-proof-badge">
@@ -101,7 +101,7 @@ export default function ContactPage({ onSuccess, onOpenPrivacy }) {
             </div>
 
             <div className="a360-proof-club">
-              <span style={{ ...font, color: "rgba(255,255,255,0.55)", fontSize: 12.5 }}>
+              <span style={{ ...font, color: "rgba(255,255,255,0.55)", fontSize: T.micro }}>
                 La prima società a bordo
               </span>
               <img src="/oasi-volley-logo.png" alt="Oasi Volley Viareggio" height="34" loading="lazy" />

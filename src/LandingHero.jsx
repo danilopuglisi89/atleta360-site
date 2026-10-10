@@ -1,5 +1,5 @@
 import { User, Building2, ArrowRight } from "lucide-react";
-import { C, font, display } from "./theme";
+import { C, font, display, T, R } from "./theme";
 
 export function ChoiceCard({ Icon, title, description, onClick }) {
   return (
@@ -8,25 +8,25 @@ export function ChoiceCard({ Icon, title, description, onClick }) {
       className="a360-choice-card"
       style={{
         ...font, textAlign: "left", cursor: "pointer", border: "none",
-        background: C.card, borderRadius: 20, padding: "clamp(14px, 3vw, 26px)",
+        background: C.card, borderRadius: R.lg, padding: "clamp(14px, 3vw, 26px)",
         boxShadow: "0 24px 70px rgba(0,0,0,0.28)",
         width: "100%", minWidth: 0,
         display: "flex", flexDirection: "column", gap: "clamp(8px, 1.8vw, 14px)",
       }}
     >
       <div style={{
-        width: "clamp(34px, 8vw, 52px)", height: "clamp(34px, 8vw, 52px)", borderRadius: 14, background: C.orangeSoft,
+        width: "clamp(34px, 8vw, 52px)", height: "clamp(34px, 8vw, 52px)", borderRadius: R.md, background: C.orangeSoft,
         display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
       }}>
         <Icon size={22} color={C.orange} style={{ width: "clamp(16px, 4vw, 26px)", height: "clamp(16px, 4vw, 26px)" }} />
       </div>
       <div>
-        <div style={{ ...display, fontSize: "clamp(14px, 3.2vw, 19px)", fontWeight: 700, color: C.ink, lineHeight: 1.25 }}>{title}</div>
-        <p style={{ ...font, fontSize: "clamp(12.5px, 2.3vw, 13.5px)", color: C.muted, lineHeight: 1.5, marginTop: 6 }}>{description}</p>
+        <div style={{ ...display, fontSize: T.leadFluida, fontWeight: 700, color: C.ink, lineHeight: 1.25 }}>{title}</div>
+        <p style={{ ...font, fontSize: T.smallFluida, color: C.muted, lineHeight: 1.5, marginTop: 6 }}>{description}</p>
       </div>
       <div style={{
         ...font, display: "inline-flex", alignItems: "center", gap: 7,
-        color: C.orange, fontSize: "clamp(12.5px, 2.2vw, 14px)", fontWeight: 600, marginTop: 4, whiteSpace: "nowrap",
+        color: C.orange, fontSize: T.smallFluida, fontWeight: 600, marginTop: 4, whiteSpace: "nowrap",
       }}>
         Avvia la demo <ArrowRight size={15} style={{ flexShrink: 0 }} />
       </div>
@@ -44,22 +44,22 @@ export default function LandingHero({ onChoose }) {
     }}>
       <div style={{ display: "inline-flex", alignItems: "center", gap: 11, marginBottom: 26 }}>
         <div style={{
-          width: 42, height: 42, borderRadius: 12, background: C.orange,
+          width: 42, height: 42, borderRadius: R.sm, background: C.orange,
           display: "flex", alignItems: "center", justifyContent: "center",
-          ...display, fontWeight: 700, color: "#fff", fontSize: 14, letterSpacing: -0.5,
+          ...display, fontWeight: 700, color: "#fff", fontSize: T.small, letterSpacing: -0.5,
         }}>360</div>
-        <div style={{ ...display, color: "#fff", fontWeight: 700, fontSize: 22, letterSpacing: -0.3 }}>Atleta360</div>
+        <div style={{ ...display, color: "#fff", fontWeight: 700, fontSize: T.h3, letterSpacing: -0.3 }}>Atleta360</div>
       </div>
 
       <div style={{ width: "100%", maxWidth: 720, textAlign: "center", marginBottom: 44 }}>
         <h1 style={{
           ...display, color: "#fff", fontWeight: 700, letterSpacing: -0.5,
-          fontSize: "clamp(28px, 5vw, 44px)", lineHeight: 1.15, margin: 0,
+          fontSize: T.h2, lineHeight: 1.15, margin: 0,
         }}>
           La dashboard che fa crescere le soft skill della tua squadra
         </h1>
         <p style={{
-          ...font, color: "rgba(255,255,255,0.75)", fontSize: 16.5, lineHeight: 1.6,
+          ...font, color: "rgba(255,255,255,0.75)", fontSize: T.body, lineHeight: 1.6,
           marginTop: 18, maxWidth: 560, marginLeft: "auto", marginRight: "auto",
         }}>
           Focus, comunicazione, gestione degli errori, coachability: rilevamenti periodici,
@@ -85,7 +85,7 @@ export default function LandingHero({ onChoose }) {
         />
       </div>
 
-      <p style={{ ...font, color: "rgba(255,255,255,0.5)", fontSize: 12.5, marginTop: 48 }}>
+      <p style={{ ...font, color: "rgba(255,255,255,0.5)", fontSize: T.micro, marginTop: 48 }}>
         © {new Date().getFullYear()} Atleta360
       </p>
     </div>

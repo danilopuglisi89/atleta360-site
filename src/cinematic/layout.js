@@ -34,9 +34,14 @@ export function silhouetteLayout(w, h) {
   const box = figuraMisurata();
   if (box) {
     const silH = Math.min(box.height * 0.98, box.width / SIL_ASPECT);
+    /* getBoundingClientRect misura rispetto a dove si è scorsi, mentre il
+       palco disegna in coordinate di finestra assumendo la pagina in cima.
+       Senza riaggiungere scrollY, una misura presa mentre si è più in basso
+       (succede sul telefono: la barra del browser che si ritrae è un resize)
+       metterebbe la silhouette fuori posto per il resto della visita. */
     return {
       x: box.left + box.width / 2,
-      y: box.top + box.height / 2,
+      y: box.top + (window.scrollY || 0) + box.height / 2,
       h: silH, w: silH * SIL_ASPECT,
     };
   }

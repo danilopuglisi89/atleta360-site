@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ArrowLeft, AlertCircle, User, Building2, ShieldCheck } from "lucide-react";
-import { C, font, display } from "./theme";
+import { C, font, display, T, R } from "./theme";
 import { submitLead } from "./leads";
 
 function Field({ label, optional, hint, ...props }) {
@@ -91,14 +91,14 @@ export default function LeadForm({ tipo, onBack, onSuccess, onOpenPrivacy, compa
             <>
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
                 <div style={{
-                  width: 34, height: 34, borderRadius: 10, background: "rgba(255,122,24,0.16)",
+                  width: 34, height: 34, borderRadius: R.sm, background: "rgba(255,122,24,0.16)",
                   display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
                 }}>
                   <Icon size={18} color={C.orange} />
                 </div>
-                <div style={{ ...display, fontSize: 17, fontWeight: 700, color: "#fff" }}>{tipoLabel}</div>
+                <div style={{ ...display, fontSize: T.lead, fontWeight: 700, color: "#fff" }}>{tipoLabel}</div>
               </div>
-              <p style={{ ...font, fontSize: 13, color: "rgba(255,255,255,0.65)", marginTop: 6, marginBottom: 20, lineHeight: 1.5 }}>
+              <p style={{ ...font, fontSize: T.kicker, color: "rgba(255,255,255,0.65)", marginTop: 6, marginBottom: 20, lineHeight: 1.5 }}>
                 Lascia i tuoi dati e avvia subito la demo di Atleta360.
               </p>
             </>
@@ -147,7 +147,7 @@ export default function LeadForm({ tipo, onBack, onSuccess, onOpenPrivacy, compa
               <div style={{
                 display: "flex", gap: 8, alignItems: "flex-start",
                 background: "rgba(220,60,60,0.14)", border: "1px solid rgba(255,120,120,0.35)", color: "#FFB4B4",
-                borderRadius: 10, padding: "10px 12px", ...font, fontSize: 13, lineHeight: 1.5, marginBottom: 14,
+                borderRadius: R.sm, padding: "10px 12px", ...font, fontSize: T.kicker, lineHeight: 1.5, marginBottom: 14,
               }}>
                 <AlertCircle size={16} style={{ flexShrink: 0, marginTop: 1 }} /> <span>{error}</span>
               </div>

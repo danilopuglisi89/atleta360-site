@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ClipboardList, LineChart, TrendingUp } from "lucide-react";
-import { C, font, display } from "../theme";
+import { C, font, display, T } from "../theme";
 import { useRevealOnScroll } from "./reveal";
 import SplitTitle from "./SplitTitle";
 
@@ -60,14 +60,14 @@ export default function HowItWorks() {
     <section ref={rootRef} id="come-funziona" style={{ position: "relative", zIndex: 2, padding: "80px 20px" }}>
       <div style={{ maxWidth: 960, margin: "0 auto" }}>
         <div className="a360-reveal" style={{
-          ...font, textAlign: "center", color: C.orange, fontSize: 13, fontWeight: 600,
+          ...font, textAlign: "center", color: C.orange, fontSize: T.kicker, fontWeight: 600,
           letterSpacing: 0.4, textTransform: "uppercase", marginBottom: 12, opacity: 0,
         }}>
           Come funziona
         </div>
         <SplitTitle text="Tre passi, nessuna complicazione" style={{
           ...display, textAlign: "center", color: "#fff", fontWeight: 700,
-          fontSize: "clamp(24px, 3.6vw, 34px)", margin: "0 auto 56px", maxWidth: 640, lineHeight: 1.25,
+          fontSize: T.h2, margin: "0 auto 56px", maxWidth: 640, lineHeight: 1.25,
         }} />
 
         <div className="a360-steps">
@@ -78,15 +78,15 @@ export default function HowItWorks() {
           {STEPS.map((s) => (
             <div key={s.n} className="a360-step a360-reveal" style={{ opacity: 0 }}>
               <div className="a360-step-node">
-                <span style={{ ...display, fontWeight: 700, fontSize: 19, color: "#fff" }}>{s.n}</span>
+                <span style={{ ...display, fontWeight: 700, fontSize: T.lead, color: "#fff" }}>{s.n}</span>
               </div>
               <div className="a360-step-icon">
                 <s.Icon size={17} color={C.orange} />
               </div>
-              <div style={{ ...display, color: "#fff", fontWeight: 700, fontSize: 19, marginBottom: 9 }}>
+              <div style={{ ...display, color: "#fff", fontWeight: 700, fontSize: T.lead, marginBottom: 9 }}>
                 {s.title}
               </div>
-              <p style={{ ...font, color: "rgba(255,255,255,0.68)", fontSize: 14.5, lineHeight: 1.6, margin: 0 }}>
+              <p style={{ ...font, color: "rgba(255,255,255,0.68)", fontSize: T.small, lineHeight: 1.6, margin: 0 }}>
                 {s.text}
               </p>
             </div>
