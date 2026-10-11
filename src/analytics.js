@@ -14,6 +14,10 @@ function send(name, props) {
    chiedere. sendBeacon sopravvive anche al cambio di pagina verso la demo. */
 export function conta(...eventi) {
   try {
+    // il browser di Danilo, segnato dal pannello: le sue prove non si contano
+    if (localStorage.getItem("a360_non_contare") === "1") return;
+  } catch { /* storage bloccato: si conta normalmente */ }
+  try {
     const corpo = JSON.stringify({ eventi });
     if (navigator.sendBeacon?.("/api/evento", new Blob([corpo], { type: "application/json" }))) return;
     fetch("/api/evento", { method: "POST", headers: { "Content-Type": "application/json" }, body: corpo, keepalive: true }).catch(() => {});

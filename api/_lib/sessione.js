@@ -30,22 +30,29 @@ export function passwordGiusta(tentativo) {
   return crypto.timingSafeEqual(h(tentativo), h(PASSWORD));
 }
 
-export function cookieSessione() {
-  const dati = b64(JSON.stringify({ scade: Date.now() + DURATA_S * 1000 }));
+/* gen = "generazione" delle sessioni, salvata nelle impostazioni: il pulsante
+   "Esci da tutti i dispositivi" la fa salire e tutti i cookie vecchi decadono. */
+export function cookieSessione(gen = 0) {
+  const dati = b64(JSON.stringify({ scade: Date.now() + DURATA_S * 1000, gen }));
   // Path ristretto alle funzioni del pannello: il cookie non viaggia col sito
   return `${NOME}=${dati}.${firma(dati)}; Path=/api/admin; HttpOnly; Secure; SameSite=Strict; Max-Age=${DURATA_S}`;
 }
 
 export const cookieUscita = `${NOME}=; Path=/api/admin; HttpOnly; Secure; SameSite=Strict; Max-Age=0`;
 
-export function sessioneValida(req) {
-  if (!passwordConfigurata) return false;
+/* Restituisce il contenuto del cookie se la firma è buona e non è scaduto,
+   altrimenti null. La generazione la confronta chi chiama (serve il database). */
+export function leggiSessione(req) {
+  if (!passwordConfigurata) return null;
   const cookie = String(req.headers.cookie || "")
     .split(";").map((c) => c.trim()).find((c) => c.startsWith(`${NOME}=`));
-  if (!cookie) return false;
+  if (!cookie) return null;
   const [dati, f] = cookie.slice(NOME.length + 1).split(".");
-  if (!dati || !f || !uguali(f, firma(dati))) return false;
-  try { return JSON.parse(Buffer.from(dati, "base64url").toString()).scade > Date.now(); } catch { return false; }
+  if (!dati || !f || !uguali(f, firma(dati))) return null;
+  try {
+    const s = JSON.parse(Buffer.from(dati, "base64url").toString());
+    return s.scade > Date.now() ? { scade: s.scade, gen: Number(s.gen) || 0 } : null;
+  } catch { return null; }
 }
 
 /* Tentativi di accesso: 5 sbagliati in 15 minuti per indirizzo, poi stop.

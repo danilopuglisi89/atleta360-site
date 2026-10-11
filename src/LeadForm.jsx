@@ -144,15 +144,15 @@ export default function LeadForm({ tipo, onBack, onSuccess, onOpenPrivacy, compa
               />
             </div>
 
-            <Field label="Nome" value={form.nome} onChange={upd("nome")} autoComplete="given-name" required />
-            <Field label="Cognome" value={form.cognome} onChange={upd("cognome")} autoComplete="family-name" required />
-            <Field label="Email" type="email" value={form.email} onChange={upd("email")} autoComplete="email" required />
+            <Field label="Nome" value={form.nome} onChange={upd("nome")} autoComplete="given-name" maxLength={100} required />
+            <Field label="Cognome" value={form.cognome} onChange={upd("cognome")} autoComplete="family-name" maxLength={100} required />
+            <Field label="Email" type="email" value={form.email} onChange={upd("email")} autoComplete="email" maxLength={254} required />
             {/* telefono facoltativo: obbligatorio era il campo che faceva
                 abbandonare di più, e per mandare la demo basta l'email */}
-            <Field label="Numero di telefono" optional type="tel" value={form.telefono} onChange={upd("telefono")} autoComplete="tel"
+            <Field label="Numero di telefono" optional type="tel" value={form.telefono} onChange={upd("telefono")} autoComplete="tel" maxLength={40}
               hint="Se lo lasci, posso richiamarti invece di scrivere." />
-            <Field label="Società sportiva" optional value={form.societa} onChange={upd("societa")} autoComplete="organization" />
-            <Field label="Ruolo" optional value={form.ruolo} onChange={upd("ruolo")} placeholder="es. allenatore, dirigente, atleta…" />
+            <Field label="Società sportiva" optional value={form.societa} onChange={upd("societa")} autoComplete="organization" maxLength={200} />
+            <Field label="Ruolo" optional value={form.ruolo} onChange={upd("ruolo")} placeholder="es. allenatore, dirigente, atleta…" maxLength={120} />
 
             <label className="a360-consent">
               <input

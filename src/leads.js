@@ -27,7 +27,7 @@ async function avvisaPerMail(dati) {
 export async function submitLead({ tipo, nome, cognome, email, telefono, societa, ruolo, consenso, troppoVeloce }) {
   const supabase = await getSupabase();
   if (!supabase) return new Error("Supabase non configurato");
-  const { error } = await supabase.from("leads").insert({
+  const riga = {
     tipo,
     nome: nome.trim(),
     cognome: cognome.trim(),
@@ -38,11 +38,20 @@ export async function submitLead({ tipo, nome, cognome, email, telefono, societa
     consenso_privacy: !!consenso,
     consenso_data: consenso ? new Date().toISOString() : null,
     informativa_versione: consenso ? PRIVACY_VERSION : null,
-  });
+    // compilato troppo in fretta: nel pannello compare come «sospetto»
+    sospetto: !!troppoVeloce,
+  };
+  let { error } = await supabase.from("leads").insert(riga);
+  // database senza la colonna "sospetto" (supabase/admin-2.sql non ancora
+  // eseguito): il contatto conta più dell'etichetta, si riprova senza
+  if (error && /sospetto/i.test(`${error.message} ${error.details || ""}`)) {
+    delete riga.sospetto;
+    ({ error } = await supabase.from("leads").insert(riga));
+  }
   if (error) return error;
 
   // compilazione sospetta: il contatto resta salvato, ma non fa suonare la
-  // casella — si controlla con calma dal database
+  // casella — lo trovi nel pannello con l'etichetta «sospetto»
   if (troppoVeloce) return null;
 
   // il lead è al sicuro nel database: adesso l'avviso, che può anche fallire

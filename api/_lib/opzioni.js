@@ -16,7 +16,16 @@ export const PREDEFINITE = {
   modulo_pausa_testo: "",
   demo_url_atleta: "https://demo.atleta-360.com/?demo=atleta",
   demo_url_societa: "https://demo.atleta-360.com/?demo=societa",
+  // messaggi pronti della scheda contatto: {nome} e {societa} si riempiono da soli
+  modello_oggetto: "Atleta360: la tua demo",
+  modello_atleta: "Ciao {nome}, sono Danilo di Atleta360. Ho visto che hai provato la demo: ti va di sentirci dieci minuti per capire se può esserti utile?",
+  modello_societa: "Ciao {nome}, sono Danilo di Atleta360. Ho visto che hai provato la demo per {societa}: ti va di sentirci dieci minuti? Ti racconto come la usa l'Oasi Volley con le sue squadre.",
+  riepilogo_attivo: true,        // mail del lunedì con la settimana passata
+  segni: [],                     // bandierine sul grafico: [{ giorno, testo }]
 };
+
+/* Valori di servizio: li scrive solo il server, mai il modulo delle Opzioni. */
+export const INTERNE = ["sessione_gen", "ultimo_riepilogo", "allarme_accessi"];
 
 /* Le uniche che il sito pubblico può leggere: il destinatario delle mail no. */
 export const PUBBLICHE = [
@@ -42,8 +51,12 @@ export function pulisci(ingresso, attuali) {
   vero("avviso_mail_attivo");
   vero("messaggio_attivo");
   vero("modulo_in_pausa");
+  vero("riepilogo_attivo");
   testo("messaggio_testo", 160);
   testo("modulo_pausa_testo", 300);
+  testo("modello_oggetto", 120);
+  testo("modello_atleta", 1000);
+  testo("modello_societa", 1000);
 
   if ("avviso_mail_a" in ingresso) {
     const e = String(ingresso.avviso_mail_a ?? "").trim();
@@ -65,6 +78,18 @@ export function pulisci(ingresso, attuali) {
   // un messaggio acceso senza testo mostrerebbe una barra vuota
   if (v.messaggio_attivo && !v.messaggio_testo) errori.push("messaggio_testo");
   return { valori: v, errori };
+}
+
+const GIORNO = /^\d{4}-\d{2}-\d{2}$/;
+
+/* Bandierine del grafico: al massimo 60, testo breve, giorno valido. */
+export function pulisciSegni(lista) {
+  if (!Array.isArray(lista)) return [];
+  return lista
+    .filter((s) => s && GIORNO.test(String(s.giorno)) && String(s.testo || "").trim())
+    .map((s) => ({ giorno: String(s.giorno), testo: String(s.testo).trim().slice(0, 60) }))
+    .sort((a, b) => a.giorno.localeCompare(b.giorno))
+    .slice(-60);
 }
 
 export async function leggiOpzioni() {

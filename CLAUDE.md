@@ -119,7 +119,8 @@ atleta360-site/
 ├── public/404.html             404 vera, autonoma (senza React). Prima ogni URL sbagliato
 │                                rispondeva 200 con la home: "soft 404" per Google.
 ├── admin.html + src/admin/    Pannello /admin (pagina separata). api/admin.js · api/evento.js ·
-│                                api/opzioni.js · api/_lib/ (db, sessione, opzioni) — vedi sotto.
+│                                api/opzioni.js · api/hub.js · api/_lib/ (db, sessione, opzioni,
+│                                mail, riassunto, riepilogo) — vedi sotto.
 └── vercel.json                 cleanUrls + www→apex 308 + niente barra finale. NIENTE rewrite
                                  "prendi-tutto": una rotta nuova va servita da un suo .html.
 ```
@@ -148,6 +149,40 @@ CSV, cancellazione GDPR), Opzioni, Salute.
   del sito) e `ADMIN_PASSWORD` su Vercel, `admin.sql` eseguito. Verificato che con la chiave
   pubblica le tabelle del pannello tornano vuote e contatore/opzioni sono rifiutati (401).
 - Prova in locale: server finto + proxy Vite (vedi cronologia 2026-10-11); `vercel dev` non serve.
+
+### Seconda tornata (2026-10-11 sera): correzioni + funzioni + idee
+
+Nate da due revisori (un pignolo e un "inventore"). Da sapere:
+- **Supabase taglia a 1.000 righe** ("Max rows") senza dirlo: `limit=5000` non basta. Tutto passa
+  da `tutte()` in `api/_lib/db.js` (pagine da 1.000, ordinamento stabile con `id`). I contatori
+  si leggono **dal più recente**, ultimi 182 giorni (90 del periodo + 90 del confronto).
+- **`supabase/admin-2.sql`** (da eseguire a mano: il progetto del sito NON è nell'account Supabase
+  collegato a Claude Code): colonne `sospetto`, `ricontatta_il`, `diario` (jsonb) e soprattutto
+  **permessi a colonne** — la chiave pubblica può inserire solo i campi del modulo, più limiti di
+  lunghezza. Prima poteva scrivere stato/note/date nel futuro e testi enormi. Tutto funziona anche
+  senza: `src/leads.js` riprova l'inserimento senza `sospetto`, il pannello spegne richiami/diario
+  e lo dice in Salute ("Protezione e richiami").
+- **Sessioni**: il cookie porta una "generazione" (`sessione_gen` nelle impostazioni). "Esci da
+  tutti i dispositivi" la fa salire. Le chiavi interne (`sessione_gen`, `ultimo_riepilogo`,
+  `allarme_accessi`) non tornano mai al browser e `pulisci()` non le tocca. Le opzioni si
+  riscrivono solo se lette davvero (`opzioniDaRiscrivere`), mai sopra i predefiniti.
+- Password sbagliate contate anche nel database (`accesso.errato`); oltre 20 al giorno parte
+  **una** mail di allarme. Nessun blocco globale: un attaccante chiuderebbe fuori Danilo.
+- Mail tutte da `api/_lib/mail.js`. Senza `NOTIFICA_DA` il mittente è quello di prova di Resend,
+  che consegna **solo** all'indirizzo dell'account Resend: Salute lo segnala, Opzioni ha la mail di prova.
+- **Riepilogo del lunedì**: parte dalla sveglia giornaliera (cron), solo di lunedì e una volta
+  (`ultimo_riepilogo` segnato *prima* dell'invio: l'indirizzo della sveglia è pubblico).
+- **`api/hub.js`**: bollettino per l'Assistente AI (nomi e numeri, niente email/telefoni), chiuso
+  finché non c'è `HUB_CHIAVE` (≥24 caratteri) su Vercel. **Lato hub non è ancora collegato.**
+- "Non contare le mie visite": `localStorage.a360_non_contare` letto da `src/analytics.js` e da
+  `beforeSend` di Vercel Analytics in `src/main.jsx`. Il primo login da un browser lo accende.
+- CSV: telefono come `="…"`, celle che iniziano con `= + - @` disinnescate con l'apostrofo, date
+  AAAA-MM-GG HH:MM. Giorni sempre **di calendario a Roma** (`giorniFa` in util.js), non 24 ore.
+- Idee dell'inventore fatte: termometro del contatto, "Al servizio" (una persona alla volta),
+  Timeout (anomalie con le mosse), bandierine sul grafico (`segni` nelle impostazioni, con
+  l'effetto dei 3 giorni dopo), tabellone della settimana, sala trofei, link "cerca la società".
+  Scartate per ora: mappa dei campanili (manca la città nel modulo), scheda scout con AI, radar
+  del lead, gemello dell'Oasi (dati veri di un altro database, serve il consenso).
 
 ## Indicizzazione (revisione del 2026-10-10)
 

@@ -1,6 +1,9 @@
 import { useState } from "react";
-import { Mail, Megaphone, PauseCircle, Link2, Check, AlertCircle, RotateCcw, Info } from "lucide-react";
-import { chiama, dataOra } from "./util";
+import {
+  Mail, Megaphone, PauseCircle, Link2, Check, AlertCircle, RotateCcw, Info, Send, ExternalLink,
+  MessageSquareText, CalendarRange, Smartphone, ShieldOff,
+} from "lucide-react";
+import { chiama, dataOra, nonContare, impostaNonContare } from "./util";
 
 const DEMO_PREDEFINITE = {
   demo_url_atleta: "https://demo.atleta-360.com/?demo=atleta",
@@ -45,18 +48,40 @@ const MESSAGGI_ERRORE = {
   demo_url_societa: "Serve un indirizzo completo che inizi con https://",
 };
 
+/* Un pulsante che fa una cosa sola e dice com'è andata. */
+function Azione({ Icona, testo, esegui, conferma, classe = "ad-btn-leggero" }) {
+  const [esito, setEsito] = useState(null);
+  const via = async () => {
+    if (conferma && !window.confirm(conferma)) return;
+    setEsito({ attesa: true });
+    setEsito(await esegui());
+  };
+  return (
+    <div className="ad-riga-salva">
+      <button className={`ad-btn ${classe} ad-btn-piccolo`} onClick={via} disabled={esito?.attesa}><Icona size={14} /> {esito?.attesa ? "Un momento…" : testo}</button>
+      {esito && !esito.attesa && (esito.ok
+        ? <span className="ad-ok"><Check size={15} /> {esito.testo}</span>
+        : <span className="ad-errore-inline"><AlertCircle size={15} /> {esito.testo}</span>)}
+    </div>
+  );
+}
+
 export default function Opzioni({ opzioni, aggiornate, predefinito, migrazione, onSalvate }) {
   const [v, setV] = useState(opzioni);
   const [errori, setErrori] = useState({});
   const [stato, setStato] = useState(null);
+  const [avvisi, setAvvisi] = useState({});
+  const [nonContarmi, setNonContarmi] = useState(nonContare);
   const cambia = (k) => (x) => { setV((o) => ({ ...o, [k]: x?.target ? x.target.value : x })); setErrori((e) => ({ ...e, [k]: null })); };
 
-  const modificato = JSON.stringify(v) !== JSON.stringify(opzioni);
+  // le bandierine si salvano dalla Panoramica, non da qui: fuori dal confronto
+  const senzaSegni = (o) => JSON.stringify({ ...o, segni: null });
+  const modificato = senzaSegni(v) !== senzaSegni(opzioni);
 
   const salva = async () => {
     setStato("in corso");
     const r = await chiama("opzioni.salva", { valori: v });
-    if (r.ok) { onSalvate(r.opzioni); setV(r.opzioni); setStato("fatto"); setTimeout(() => setStato(null), 2500); return; }
+    if (r.ok) { onSalvate(r.opzioni); setV(r.opzioni); setAvvisi(r.avvisi || {}); setStato("fatto"); setTimeout(() => setStato(null), 2500); return; }
     setStato(r.motivo || "non salvato");
     if (r.campi) setErrori(Object.fromEntries(r.campi.map((c) => [c, MESSAGGI_ERRORE[c] || "Valore non valido"])));
   };
@@ -87,6 +112,29 @@ export default function Opzioni({ opzioni, aggiornate, predefinito, migrazione, 
           placeholder={predefinito} onChange={cambia("avviso_mail_a")} errore={errori.avviso_mail_a}
           disabled={!v.avviso_mail_attivo} />
         <p className="ad-piccolo">Vuoto = {predefinito}</p>
+        <Azione Icona={Send} testo="Manda una mail di prova" esegui={async () => {
+          const r = await chiama("mail.prova", { a: v.avviso_mail_a });
+          return { ok: r.ok, testo: r.ok ? `Inviata a ${r.a}: controlla la casella (anche lo spam)` : (r.motivo || "non inviata") };
+        }} />
+      </section>
+
+      <section className="ad-card">
+        <div className="ad-card-testa"><h3><CalendarRange size={17} /> Riepilogo del lunedì</h3></div>
+        <Interruttore id="o-riep" acceso={v.riepilogo_attivo} onChange={cambia("riepilogo_attivo")}
+          etichetta="Ogni lunedì mattina, una mail con la settimana"
+          descrizione="Pagine viste e contatti rispetto alla settimana prima, chi aspetta ancora, chi va richiamato." />
+        <Azione Icona={Send} testo="Mandamelo adesso" esegui={async () => {
+          const r = await chiama("riepilogo.prova");
+          return { ok: r.ok && r.inviato, testo: r.ok && r.inviato ? "Inviato" : (r.motivo || "non inviato") };
+        }} />
+      </section>
+
+      <section className="ad-card">
+        <div className="ad-card-testa"><h3><MessageSquareText size={17} /> Messaggi pronti</h3></div>
+        <p className="ad-piccolo">Email e WhatsApp della scheda contatto partono con questo testo già scritto. <code>{"{nome}"}</code> e <code>{"{societa}"}</code> si riempiono da soli.</p>
+        <Campo id="o-mod-o" etichetta="Oggetto dell'email" value={v.modello_oggetto} max={120} conteggio={v.modello_oggetto.length} onChange={cambia("modello_oggetto")} />
+        <Campo id="o-mod-a" etichetta="Testo per gli atleti" rows={3} value={v.modello_atleta} max={1000} conteggio={v.modello_atleta.length} onChange={cambia("modello_atleta")} />
+        <Campo id="o-mod-s" etichetta="Testo per le società" rows={3} value={v.modello_societa} max={1000} conteggio={v.modello_societa.length} onChange={cambia("modello_societa")} />
       </section>
 
       <section className="ad-card">
@@ -128,8 +176,30 @@ export default function Opzioni({ opzioni, aggiornate, predefinito, migrazione, 
           </button>
         </div>
         <p className="ad-piccolo">Dove arriva chi ha compilato il modulo. Cambiali solo se sposti la demo.</p>
-        <Campo id="o-demo-a" etichetta="Atleta" value={v.demo_url_atleta} onChange={cambia("demo_url_atleta")} errore={errori.demo_url_atleta} />
-        <Campo id="o-demo-s" etichetta="Società" value={v.demo_url_societa} onChange={cambia("demo_url_societa")} errore={errori.demo_url_societa} />
+        {[["demo_url_atleta", "Atleta"], ["demo_url_societa", "Società"]].map(([k, t]) => (
+          <div key={k}>
+            <Campo id={`o-${k}`} etichetta={t} value={v[k]} onChange={cambia(k)} errore={errori[k]} />
+            <div className="ad-riga-salva ad-sotto-campo">
+              <a className="ad-btn ad-btn-leggero ad-btn-piccolo" href={v[k]} target="_blank" rel="noreferrer"><ExternalLink size={14} /> Apri e prova</a>
+              {avvisi[k] && <span className="ad-errore-inline"><AlertCircle size={15} /> Salvato, ma il link {avvisi[k]}: controllalo</span>}
+            </div>
+          </div>
+        ))}
+      </section>
+
+      <section className="ad-card">
+        <div className="ad-card-testa"><h3><Smartphone size={17} /> Questo dispositivo</h3></div>
+        <Interruttore id="o-noconta" acceso={nonContarmi} onChange={(si) => { impostaNonContare(si); setNonContarmi(si); try { localStorage.setItem("a360_non_contare_scelto", "1"); } catch { /* storage bloccato */ } }}
+          etichetta="Non contare le mie visite al sito"
+          descrizione="Vale solo per questo browser e si applica subito, senza salvare. Così le tue prove non gonfiano pagine viste e conversione. Attivalo su ogni telefono e computer che usi." />
+      </section>
+
+      <section className="ad-card">
+        <div className="ad-card-testa"><h3><ShieldOff size={17} /> Sicurezza</h3></div>
+        <p className="ad-piccolo">Chiude il pannello su tutti gli altri telefoni e computer dove sei entrato (questo resta aperto). Usalo se hai perso un telefono o se qualcuno ha visto la password.</p>
+        <Azione Icona={ShieldOff} testo="Esci da tutti i dispositivi" classe="ad-btn-pericolo-leggero"
+          conferma="Chiudere il pannello su tutti gli altri dispositivi?"
+          esegui={async () => { const r = await chiama("sessioni.chiudiTutte"); return { ok: r.ok, testo: r.ok ? "Fatto: gli altri dovranno rimettere la password" : (r.motivo || "non riuscito") }; }} />
       </section>
 
       <div className={`ad-barra-salva${modificato || stato ? " visibile" : ""}`}>

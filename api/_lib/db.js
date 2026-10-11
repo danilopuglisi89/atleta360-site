@@ -25,7 +25,8 @@ export class ErroreDb extends Error {
     super(`database ${stato}: ${String(testo).slice(0, 200)}`);
     this.stato = stato;
     // 404 / PGRST205 = tabella inesistente: la migrazione admin.sql non è stata eseguita
-    this.tabellaMancante = stato === 404 || /PGRST205|does not exist|schema cache/i.test(String(testo));
+    this.colonnaMancante = /PGRST204|column .* does not exist|Could not find the .* column/i.test(String(testo));
+    this.tabellaMancante = !this.colonnaMancante && (stato === 404 || /PGRST205|does not exist|schema cache/i.test(String(testo)));
   }
 }
 
@@ -39,6 +40,20 @@ export async function db(percorso, { metodo = "GET", corpo, prefer } = {}) {
   const testo = await r.text();
   if (!r.ok) throw new ErroreDb(r.status, testo);
   return testo ? JSON.parse(testo) : null;
+}
+
+/* Tutte le righe, a pagine da 1.000. Supabase non ne restituisce di più in una
+   volta sola ("Max rows") e taglia in silenzio: chiedere limit=5000 non basta.
+   Il percorso deve avere un ordinamento stabile, altrimenti le pagine si
+   sovrappongono. "massimo" evita di scaricare all'infinito. */
+export async function tutte(percorso, { pagina = 1000, massimo = 20000 } = {}) {
+  const out = [];
+  for (let offset = 0; offset < massimo; offset += pagina) {
+    const righe = await db(`${percorso}&limit=${pagina}&offset=${offset}`);
+    out.push(...(righe || []));
+    if (!righe || righe.length < pagina) return { righe: out, completo: true };
+  }
+  return { righe: out, completo: false };
 }
 
 /* Conta un evento anonimo. Non deve MAI far fallire chi la chiama: un

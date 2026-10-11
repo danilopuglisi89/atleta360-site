@@ -16,9 +16,7 @@
 
 import { leggiOpzioni } from "./_lib/opzioni.js";
 import { conta } from "./_lib/db.js";
-
-const DESTINATARIO_PREDEFINITO = process.env.NOTIFICA_A || "info@danilopuglisi.com";
-const MITTENTE = process.env.NOTIFICA_DA || "Atleta360 <onboarding@resend.dev>";
+import { inviaMail, esc, DESTINATARIO_PREDEFINITO } from "./_lib/mail.js";
 
 const ORIGINI_AMMESSE = [
   "https://atleta-360.com",
@@ -56,12 +54,6 @@ function troppeRichieste(ip) {
 
 /* Firma tipica dello spam: link dentro campi che non dovrebbero averne. */
 const CONTIENE_LINK = /(https?:\/\/|www\.|\[url|<a\s)/i;
-
-function esc(v) {
-  return String(v ?? "").replace(/[<>&"]/g, (c) => (
-    { "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;" }[c]
-  ));
-}
 
 function riga(etichetta, valore, link) {
   if (!valore) return "";
@@ -158,34 +150,15 @@ export default async function handler(req, res) {
     </div>
   </div>`;
 
-  try {
-    const r = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: MITTENTE,
-        to: [destinatario],
-        // così basta premere "Rispondi" per scrivere a chi ha compilato
-        reply_to: email,
-        subject: `Nuovo contatto: ${nomeOggetto} (${tipo})`,
-        html,
-      }),
-    });
-    if (!r.ok) {
-      console.error("[notifica-lead] Resend ha risposto", r.status, await r.text());
-      await conta("mail.errore");
-      return res.status(200).json({ ok: false });
-    }
-    await conta("mail.inviata");
-    return res.status(200).json({ ok: true });
-  } catch (e) {
-    console.error("[notifica-lead] invio fallito:", e);
-    await conta("mail.errore");
-    return res.status(200).json({ ok: false });
-  }
+  const esito = await inviaMail({
+    a: destinatario,
+    // così basta premere "Rispondi" per scrivere a chi ha compilato
+    rispondiA: email,
+    oggetto: `Nuovo contatto: ${nomeOggetto} (${tipo})`,
+    html,
+  });
+  await conta(esito.ok ? "mail.inviata" : "mail.errore");
+  return res.status(200).json({ ok: esito.ok });
 }
 
 function safeParse(s) {
