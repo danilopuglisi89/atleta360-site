@@ -8,6 +8,17 @@
 -- funzioni nuove (richiami, diario, lead sospetti) si accendono dopo.
 -- ============================================================
 
+-- 0. Colonne che dovevano già esserci. Il 2026-10-11 è emerso che nel database
+--    vero mancava consenso_privacy: leads-consenso.sql non era mai stato
+--    eseguito lì, e il modulo (che manda quelle colonne) non salvava nulla.
+alter table public.leads
+  add column if not exists consenso_privacy boolean not null default false,
+  add column if not exists consenso_data timestamptz,
+  add column if not exists informativa_versione text,
+  add column if not exists stato text not null default 'nuovo',
+  add column if not exists note text,
+  add column if not exists aggiornato_il timestamptz;
+
 -- 1. Colonne nuove: lead sospetti, data del richiamo, diario dei contatti
 alter table public.leads
   add column if not exists sospetto boolean not null default false,
@@ -35,3 +46,7 @@ alter table public.leads add constraint leads_lunghezze check (
   and char_length(coalesce(note, '')) <= 4000
 ) not valid;
 
+
+-- 4. Controllo: l'elenco delle colonne (deve comparire anche consenso_privacy)
+select column_name from information_schema.columns
+where table_schema = 'public' and table_name = 'leads' order by ordinal_position;
