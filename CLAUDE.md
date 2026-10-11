@@ -144,6 +144,9 @@ CSV, cancellazione GDPR), Opzioni, Salute.
 - **Cron** giornaliero `GET /api/opzioni?sveglia=1` (vercel.json): tiene sveglio Supabase gratuito.
 - Migrazione **`supabase/admin.sql`** da eseguire nel progetto del sito (`rdpzkbynpptxryufhfpq`),
   **non** in `atleta360Oasi` (atlete vere). Senza migrazione/chiavi tutto degrada ai predefiniti.
+- **Acceso il 2026-10-11**: `SUPABASE_SERVICE_ROLE_KEY` (verificata: service_role del progetto
+  del sito) e `ADMIN_PASSWORD` su Vercel, `admin.sql` eseguito. Verificato che con la chiave
+  pubblica le tabelle del pannello tornano vuote e contatore/opzioni sono rifiutati (401).
 - Prova in locale: server finto + proxy Vite (vedi cronologia 2026-10-11); `vercel dev` non serve.
 
 ## Indicizzazione (revisione del 2026-10-10)
@@ -243,7 +246,8 @@ dashboard (`Dashboard Atleta360/supabase/`) e SOLO DOPO quelle di questo repo, i
 ## Deploy
 
 Vercel, stesso account di oasi.danilopuglisi.com. `git push` su `main` ripubblica
-in automatico. Env var richieste: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`.
+in automatico. Env var richieste: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`; per il pannello
+`SUPABASE_SERVICE_ROLE_KEY` e `ADMIN_PASSWORD`.
 Per l'avviso via mail dei lead serve anche `RESEND_API_KEY` (facoltative:
 `NOTIFICA_A` destinatario, `NOTIFICA_DA` mittente). Senza la chiave il sito
 funziona identico, semplicemente non parte la mail.
