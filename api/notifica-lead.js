@@ -10,10 +10,14 @@
  * Variabili d'ambiente su Vercel:
  *   RESEND_API_KEY  (obbligatoria)  chiave da resend.com
  *   NOTIFICA_A      (facoltativa)   destinatario, default info@danilopuglisi.com
+ *                                   (dal pannello /admin si può sovrascrivere e spegnere)
  *   NOTIFICA_DA     (facoltativa)   mittente, default onboarding@resend.dev
  */
 
-const DESTINATARIO = process.env.NOTIFICA_A || "info@danilopuglisi.com";
+import { leggiOpzioni } from "./_lib/opzioni.js";
+import { conta } from "./_lib/db.js";
+
+const DESTINATARIO_PREDEFINITO = process.env.NOTIFICA_A || "info@danilopuglisi.com";
 const MITTENTE = process.env.NOTIFICA_DA || "Atleta360 <onboarding@resend.dev>";
 
 const ORIGINI_AMMESSE = [
@@ -89,6 +93,14 @@ export default async function handler(req, res) {
     return res.status(200).json({ ok: false, motivo: "chiave assente" });
   }
 
+  // acceso/spento e destinatario si cambiano dal pannello /admin
+  const { valori: opzioni } = await leggiOpzioni();
+  if (!opzioni.avviso_mail_attivo) {
+    await conta("mail.spenta");
+    return res.status(200).json({ ok: false, motivo: "avviso spento dal pannello" });
+  }
+  const destinatario = opzioni.avviso_mail_a || DESTINATARIO_PREDEFINITO;
+
   const b = typeof req.body === "string" ? safeParse(req.body) : (req.body || {});
   const nome = String(b.nome || "").slice(0, 80);
   const cognome = String(b.cognome || "").slice(0, 80);
@@ -102,12 +114,14 @@ export default async function handler(req, res) {
 
   // un indirizzo email deve almeno sembrare tale
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+    await conta("mail.scartata");
     return res.status(200).json({ ok: false, motivo: "email non valida" });
   }
 
   // nessuno scrive un link nel proprio nome o ruolo: è spam
   if ([nome, cognome, societa, ruolo].some((v) => CONTIENE_LINK.test(v))) {
     console.warn("[notifica-lead] scartata: link nei campi");
+    await conta("mail.scartata");
     return res.status(200).json({ ok: false, motivo: "sospetta" });
   }
 
@@ -115,6 +129,7 @@ export default async function handler(req, res) {
   const limite = troppeRichieste(ip);
   if (limite) {
     console.warn(`[notifica-lead] scartata: ${limite}`);
+    await conta("mail.scartata");
     return res.status(200).json({ ok: false, motivo: "troppe richieste" });
   }
 
@@ -152,7 +167,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         from: MITTENTE,
-        to: [DESTINATARIO],
+        to: [destinatario],
         // così basta premere "Rispondi" per scrivere a chi ha compilato
         reply_to: email,
         subject: `Nuovo contatto: ${nomeOggetto} (${tipo})`,
@@ -161,11 +176,14 @@ export default async function handler(req, res) {
     });
     if (!r.ok) {
       console.error("[notifica-lead] Resend ha risposto", r.status, await r.text());
+      await conta("mail.errore");
       return res.status(200).json({ ok: false });
     }
+    await conta("mail.inviata");
     return res.status(200).json({ ok: true });
   } catch (e) {
     console.error("[notifica-lead] invio fallito:", e);
+    await conta("mail.errore");
     return res.status(200).json({ ok: false });
   }
 }

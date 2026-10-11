@@ -4,7 +4,9 @@ import { C, font, display, T, R } from "./theme";
 import { supabaseConfigured } from "./supabaseClient";
 import { demoUrl } from "./leads";
 import { initPixelIfConsented, trackLead } from "./pixel";
-import { trackChoice, initScrollDepth } from "./analytics";
+import { trackChoice, initScrollDepth, conta } from "./analytics";
+import { caricaOpzioni } from "./opzioni";
+import Avviso from "./Avviso";
 import LeadForm from "./LeadForm";
 import CookieBanner from "./CookieBanner";
 import CinematicStage from "./cinematic/CinematicStage";
@@ -97,6 +99,18 @@ export default function App() {
   const isContactRoute = typeof window !== "undefined"
     && window.location.pathname.replace(/\/+$/, "") === "/contatti";
 
+  // una visita per caricamento di pagina, conteggio anonimo (vedi api/evento.js);
+  // le opzioni del pannello arrivano qui, prima che servano al modulo
+  // il ref evita il doppio conteggio quando React riesegue gli effetti (StrictMode)
+  const visitaContata = useRef(false);
+  useEffect(() => {
+    caricaOpzioni();
+    if (visitaContata.current) return;
+    visitaContata.current = true;
+    conta(isContactRoute ? "visita.contatti" : "visita.home");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // il titolo della scheda segue la vista: conta per SEO e per i preferiti
   useEffect(() => {
     const key = showPrivacy ? "privacy" : isContactRoute ? "contatti" : tipo ? "form" : "home";
@@ -145,6 +159,7 @@ export default function App() {
   } else if (isContactRoute) {
     content = (
       <Suspense fallback={null}>
+        <Avviso />
         <ContactPage onOpenPrivacy={() => setShowPrivacy(true)} onSuccess={goToForm} />
       </Suspense>
     );
@@ -161,6 +176,7 @@ export default function App() {
   } else {
     content = (
       <>
+        <Avviso />
         <SiteHeader onChoose={(t) => choose(t, "header")} />
         <CinematicHero ref={heroRef} onChoose={choose} stageRef={stageRef} quick={returned.current} />
         <Suspense fallback={null}>

@@ -9,8 +9,20 @@ function send(name, props) {
   try { if (window.fbq) window.fbq("trackCustom", name, props); } catch { /* idem */ }
 }
 
+/* Contatori anonimi per il pannello /admin: solo il nome dell'evento, niente
+   cookie né identificativi (vedi api/evento.js), quindi niente consenso da
+   chiedere. sendBeacon sopravvive anche al cambio di pagina verso la demo. */
+export function conta(...eventi) {
+  try {
+    const corpo = JSON.stringify({ eventi });
+    if (navigator.sendBeacon?.("/api/evento", new Blob([corpo], { type: "application/json" }))) return;
+    fetch("/api/evento", { method: "POST", headers: { "Content-Type": "application/json" }, body: corpo, keepalive: true }).catch(() => {});
+  } catch { /* mai bloccante */ }
+}
+
 export function trackChoice(tipo, origine) {
   send("scelta_percorso", { tipo, origine });
+  conta(`scelta.${tipo}`, `origine.${origine}`);
 }
 
 /* Profondità di scroll: una sola volta per soglia, per sessione. */

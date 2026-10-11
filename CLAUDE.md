@@ -118,9 +118,33 @@ atleta360-site/
 │                                e canonical propri (prima /contatti era un doppione della home).
 ├── public/404.html             404 vera, autonoma (senza React). Prima ogni URL sbagliato
 │                                rispondeva 200 con la home: "soft 404" per Google.
+├── admin.html + src/admin/    Pannello /admin (pagina separata). api/admin.js · api/evento.js ·
+│                                api/opzioni.js · api/_lib/ (db, sessione, opzioni) — vedi sotto.
 └── vercel.json                 cleanUrls + www→apex 308 + niente barra finale. NIENTE rewrite
                                  "prendi-tutto": una rotta nuova va servita da un suo .html.
 ```
+
+## Pannello /admin (dal 2026-10-11)
+
+`atleta-360.com/admin` — pagina Vite separata (`admin.html` + `src/admin/`), il sito pubblico non
+ne carica il codice. Schede: Panoramica (pagine viste, percorso, grafici), Contatti (stato, note,
+CSV, cancellazione GDPR), Opzioni, Salute.
+
+- **Tutti i dati passano da `api/admin.js`** con la chiave di servizio (`SUPABASE_SERVICE_ROLE_KEY`,
+  solo su Vercel). ⚠️ **Mai policy "authenticated" sulle tabelle del sito**: lo stesso database
+  serve la demo, che entra con un account demo autenticato e vedrebbe i contatti veri.
+- Accesso: `ADMIN_PASSWORD` su Vercel, cookie firmato (HttpOnly, SameSite=Strict, Path=/api/admin,
+  7 giorni), 5 tentativi sbagliati in 15 minuti per IP. Le azioni vogliono anche `X-Admin: 1`.
+  La chiave di firma deriva da password + chiave di servizio: cambiare password chiude le sessioni.
+- **Contatori anonimi** (`api/evento.js`, tabella `contatori`): solo nome evento da elenco chiuso
+  e +1 al giorno, niente IP/cookie → niente consenso. Contati una volta per caricamento (ref).
+- **Opzioni** (tabella `impostazioni`, una riga jsonb): avviso mail on/off e destinatario, messaggio
+  in evidenza (`src/Avviso.jsx`, la hero ne sottrae l'altezza via `--a360-avviso-h`), modulo in
+  pausa, link della demo. Il sito le legge da `api/opzioni.js`: browser `no-store`, CDN 60s.
+- **Cron** giornaliero `GET /api/opzioni?sveglia=1` (vercel.json): tiene sveglio Supabase gratuito.
+- Migrazione **`supabase/admin.sql`** da eseguire nel progetto del sito (`rdpzkbynpptxryufhfpq`),
+  **non** in `atleta360Oasi` (atlete vere). Senza migrazione/chiavi tutto degrada ai predefiniti.
+- Prova in locale: server finto + proxy Vite (vedi cronologia 2026-10-11); `vercel dev` non serve.
 
 ## Indicizzazione (revisione del 2026-10-10)
 

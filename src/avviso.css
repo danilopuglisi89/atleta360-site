@@ -1,0 +1,27 @@
+/* Barra del messaggio in evidenza: usata dal sito (Avviso.jsx) e dall'anteprima
+   nel pannello /admin, che non carica index.css. */
+/* --- messaggio in evidenza (acceso dal pannello /admin) --- */
+.a360-avviso {
+  position: relative; z-index: 6;
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px 12px;
+  padding: 10px 52px 10px 20px; min-height: 44px;
+  background: linear-gradient(90deg, #0A1650, #17297A);
+  border-bottom: 1px solid rgba(255, 122, 24, 0.35);
+  font-family: 'Inter', system-ui, sans-serif; font-size: var(--fs-small, 14px); color: #fff; line-height: 1.4;
+  text-align: center;
+}
+.a360-avviso-punto {
+  width: 8px; height: 8px; border-radius: 50%; background: #FF7A18; flex-shrink: 0;
+  box-shadow: 0 0 0 4px rgba(255, 122, 24, 0.22);
+}
+.a360-avviso-link {
+  display: inline-flex; align-items: center; gap: 4px; color: #FF9A4D; font-weight: 600;
+  text-decoration: none; min-height: 32px;
+}
+.a360-avviso-link:hover { text-decoration: underline; }
+.a360-avviso-chiudi {
+  position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
+  width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+  background: none; border: none; color: rgba(255, 255, 255, 0.7); cursor: pointer;
+}
+.a360-avviso-chiudi:hover { color: #fff; }

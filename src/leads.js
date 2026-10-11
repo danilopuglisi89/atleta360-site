@@ -1,3 +1,4 @@
+import { opzioniAttuali } from "./opzioni";
 import { getSupabase } from "./supabaseClient";
 
 export const PRIVACY_VERSION = "v1";
@@ -57,6 +58,8 @@ export async function submitLead({ tipo, nome, cognome, email, telefono, societa
   return null;
 }
 
+// il link si cambia dal pannello /admin; il predefinito resta quello di sempre
 export function demoUrl(tipo) {
-  return `https://demo.atleta-360.com/?demo=${tipo === "atleta" ? "atleta" : "societa"}`;
+  const o = opzioniAttuali();
+  return tipo === "atleta" ? o.demo_url_atleta : o.demo_url_societa;
 }

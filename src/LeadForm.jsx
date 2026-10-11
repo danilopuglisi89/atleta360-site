@@ -1,8 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { ArrowLeft, AlertCircle, User, Building2, ShieldCheck } from "lucide-react";
+import { ArrowLeft, AlertCircle, User, Building2, ShieldCheck, PauseCircle, MessageCircle, Mail } from "lucide-react";
 import { C, font, display, T, R } from "./theme";
 import { submitLead } from "./leads";
+import { conta } from "./analytics";
+import { caricaOpzioni, opzioniAttuali } from "./opzioni";
+import { WHATSAPP_URL, CONTACT_EMAIL } from "./cinematic/contactsConfig";
+
+const PAUSA_PREDEFINITA = "Le richieste di demo sono momentaneamente in pausa. Scrivimi su WhatsApp o per email: ti rispondo entro 24 ore.";
 
 function Field({ label, optional, hint, ...props }) {
   return (
@@ -31,6 +36,15 @@ export default function LeadForm({ tipo, onBack, onSuccess, onOpenPrivacy, compa
      secondi e mezzo non è stato compilato da qualcuno che legge. */
   const esca = useRef("");
   const apertoIl = useRef(Date.now());
+  /* Modulo in pausa dal pannello /admin: al posto dei campi, i contatti
+     diretti. Chi arriva non trova un modulo che non porta da nessuna parte. */
+  const [pausa, setPausa] = useState(() => (opzioniAttuali().modulo_in_pausa ? opzioniAttuali() : null));
+
+  const aperturaContata = useRef(false);
+  useEffect(() => {
+    if (!aperturaContata.current) { aperturaContata.current = true; conta("form.aperto"); }
+    caricaOpzioni().then((o) => setPausa(o.modulo_in_pausa ? o : null));
+  }, []);
 
   /* Entrata cinematica (dopo l'uscita della hero): la card sale dal fondo e
      si mette a fuoco. */
@@ -104,6 +118,20 @@ export default function LeadForm({ tipo, onBack, onSuccess, onOpenPrivacy, compa
             </>
           )}
 
+          {pausa ? (
+            <div className="a360-pausa">
+              <PauseCircle size={22} color={C.orange} />
+              <p>{pausa.modulo_pausa_testo || PAUSA_PREDEFINITA}</p>
+              <div className="a360-pausa-azioni">
+                <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="a360-btn a360-btn-primary">
+                  <MessageCircle size={16} /> Scrivimi su WhatsApp
+                </a>
+                <a href={`mailto:${CONTACT_EMAIL}`} className="a360-btn a360-btn-ghost">
+                  <Mail size={16} /> {CONTACT_EMAIL}
+                </a>
+              </div>
+            </div>
+          ) : (
           <form onSubmit={submit}>
             {/* esca per i bot: invisibile, fuori dai TAB, ignorata dai lettori
                 di schermo e dal riempimento automatico del browser */}
@@ -163,6 +191,7 @@ export default function LeadForm({ tipo, onBack, onSuccess, onOpenPrivacy, compa
               <ShieldCheck size={14} /> Niente spam. Rispondo entro 24 ore.
             </div>
           </form>
+          )}
         </div>
       </div>
     </div>

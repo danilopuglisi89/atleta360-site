@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /api/
 
 Sitemap: https://atleta-360.com/sitemap.xml

@@ -50,7 +50,7 @@ html.lenis, html.lenis body { height: auto; }
      usano l'altezza a barre nascoste, quindi la hero esce dallo schermo e le
      due card di scelta finiscono sotto il bordo. La riga vh resta come
      ripiego per i browser che non conoscono svh. */
-  min-height: 100vh; min-height: 100svh;
+  min-height: 100vh; min-height: calc(100svh - var(--a360-avviso-h, 0px));
   display: flex; align-items: center;
   padding: 40px 20px;
 }
@@ -81,8 +81,8 @@ html.lenis, html.lenis body { height: auto; }
     /* anche il tetto, non solo il minimo: senza max-height la colonna cresce
        oltre lo schermo e la figura non si stringe mai (flex-shrink non entra
        in gioco se il contenitore può allungarsi). */
-    min-height: calc(100svh - 46px);
-    max-height: calc(100svh - 46px);
+    min-height: calc(100svh - 46px - var(--a360-avviso-h, 0px));
+    max-height: calc(100svh - 46px - var(--a360-avviso-h, 0px));
   }
   .a360-hero-copy { display: contents; }
   .a360-hero-logo { order: 1; margin-bottom: 8px; flex: 0 0 auto; }
@@ -610,3 +610,11 @@ html.lenis, html.lenis body { height: auto; }
   .a360-caso { grid-template-columns: 1fr; gap: 22px; padding: 32px 24px; }
   .a360-caso-chip img { height: 34px; }
 }
+
+/* --- modulo in pausa (dal pannello /admin) --- */
+.a360-pausa { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.a360-pausa p {
+  margin: 0; font-family: 'Inter', system-ui, sans-serif; font-size: var(--fs-body);
+  line-height: 1.6; color: rgba(255, 255, 255, 0.85);
+}
+.a360-pausa-azioni { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }

@@ -102,6 +102,11 @@ export default function PrivacyPage({ onBack }) {
           visitatori: è sempre attivo e non richiede consenso.
         </p>
         <p style={p}>
+          Il sito conta inoltre, per ogni giorno, quante volte vengono viste le pagine, scelto il
+          percorso (atleta o società) e aperto il modulo. Si registra solo il numero totale: nessun
+          cookie, nessun indirizzo IP, nessun dato che permetta di riconoscere chi visita.
+        </p>
+        <p style={p}>
           Usiamo inoltre il Pixel di Meta (Facebook/Instagram) per capire quante persone,
           arrivate dai nostri contenuti social, richiedono una demo. Questo strumento installa
           cookie di misurazione/marketing e viene attivato solo se accetti il banner mostrato
