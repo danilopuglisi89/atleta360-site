@@ -6,12 +6,20 @@
  * (L'IP si usa solo qui, in memoria, per non farsi gonfiare i numeri.)
  */
 import { conta } from "./_lib/db.js";
+import { allarmeModulo } from "./_lib/controllo.js";
+
+// stesso elenco di src/fonte.js
+const FONTI = ["instagram", "facebook", "google", "linkedin", "whatsapp", "danilopuglisi", "email", "diretto", "altro"];
+const ERRORI = ["colonna", "permesso", "controllo", "rete", "altro"];
 
 const AMMESSI = new Set([
   "visita.home", "visita.contatti",
   "scelta.atleta", "scelta.societa",
   "origine.hero", "origine.header", "origine.demo-preview", "origine.chiusura",
   "form.aperto",
+  ...FONTI.map((f) => `fonte.${f}`),
+  // il modulo non è riuscito a salvare: vedi src/leads.js e api/_lib/controllo.js
+  ...ERRORI.map((e) => `form.errore.${e}`),
 ]);
 
 const ORIGINI = ["https://atleta-360.com", "https://www.atleta-360.com"];
@@ -46,5 +54,8 @@ export default async function handler(req, res) {
   if (troppi(ip)) return res.status(204).end();
 
   await Promise.all(eventi.map(conta));
+  // una richiesta persa è un guasto: la mail parte subito (una al giorno al massimo)
+  const errore = eventi.find((e) => e.startsWith("form.errore."));
+  if (errore) { try { await allarmeModulo(errore.slice("form.errore.".length)); } catch (e) { console.error("[evento] allarme:", e.message); } }
   return res.status(204).end();
 }

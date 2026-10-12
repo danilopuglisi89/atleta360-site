@@ -6,6 +6,7 @@ import { demoUrl } from "./leads";
 import { initPixelIfConsented, trackLead } from "./pixel";
 import { trackChoice, initScrollDepth, conta } from "./analytics";
 import { caricaOpzioni } from "./opzioni";
+import { fonte } from "./fonte";
 import Avviso from "./Avviso";
 import LeadForm from "./LeadForm";
 import CookieBanner from "./CookieBanner";
@@ -107,7 +108,8 @@ export default function App() {
     caricaOpzioni();
     if (visitaContata.current) return;
     visitaContata.current = true;
-    conta(isContactRoute ? "visita.contatti" : "visita.home");
+    // con la visita, da dove arriva (solo la categoria: instagram, google, diretto…)
+    conta(isContactRoute ? "visita.contatti" : "visita.home", `fonte.${fonte().categoria}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -50,7 +50,9 @@ export default function PrivacyPage({ onBack }) {
         <p style={p}>
           Quando compili il modulo di richiesta demo raccogliamo: nome, cognome, indirizzo email,
           numero di telefono e, se li indichi, il nome della società sportiva e il tuo ruolo.
-          Non raccogliamo altri dati personali tramite questo sito.
+          Insieme alla richiesta salviamo da dove sei arrivato al sito (per esempio
+          «instagram» o il nome del sito che conteneva il link), per capire quali canali
+          funzionano. Non raccogliamo altri dati personali tramite questo sito.
         </p>
 
         <h2 style={h2}>3. Perché li usiamo</h2>
@@ -103,7 +105,8 @@ export default function PrivacyPage({ onBack }) {
         </p>
         <p style={p}>
           Il sito conta inoltre, per ogni giorno, quante volte vengono viste le pagine, scelto il
-          percorso (atleta o società) e aperto il modulo. Si registra solo il numero totale: nessun
+          percorso (atleta o società) e aperto il modulo, e da quale tipo di canale arrivano le
+          visite (motore di ricerca, social, link diretto). Si registra solo il numero totale: nessun
           cookie, nessun indirizzo IP, nessun dato che permetta di riconoscere chi visita.
         </p>
         <p style={p}>

@@ -1,5 +1,24 @@
 import { opzioniAttuali } from "./opzioni";
 import { getSupabase } from "./supabaseClient";
+import { conta } from "./analytics";
+import { fonte } from "./fonte";
+
+/* Colonne aggiunte dopo: se il database non le ha ancora (migrazione non
+   eseguita) il contatto conta più del dettaglio, si riprova senza. */
+const FACOLTATIVE = ["sospetto", "origine", "origine_dettaglio"];
+
+/* Perché il database ha rifiutato: va nei contatori anonimi (form.errore.*)
+   e, se non è la rete del visitatore, fa scattare l'allarme del pannello.
+   Dal 27/07 all'11/10/2026 il modulo non ha salvato niente per una colonna
+   mancante, e nessuno se n'è accorto: questo è il campanello. */
+function tipoErrore(e) {
+  const t = `${e?.code || ""} ${e?.message || ""} ${e?.details || ""}`;
+  if (!e?.code && /Failed to fetch|NetworkError|Load failed|network/i.test(t)) return "rete";
+  if (/PGRST204|42703|column/i.test(t)) return "colonna";
+  if (/42501|PGRST301|permission|denied|row-level|JWT|apikey/i.test(t)) return "permesso";
+  if (/23514|23502|check constraint|violates/i.test(t)) return "controllo";
+  return "altro";
+}
 
 export const PRIVACY_VERSION = "v1";
 
@@ -26,7 +45,8 @@ async function avvisaPerMail(dati) {
 
 export async function submitLead({ tipo, nome, cognome, email, telefono, societa, ruolo, consenso, troppoVeloce }) {
   const supabase = await getSupabase();
-  if (!supabase) return new Error("Supabase non configurato");
+  if (!supabase) { conta("form.errore.altro"); return new Error("Supabase non configurato"); }
+  const { categoria, dettaglio } = fonte();
   const riga = {
     tipo,
     nome: nome.trim(),
@@ -40,15 +60,20 @@ export async function submitLead({ tipo, nome, cognome, email, telefono, societa
     informativa_versione: consenso ? PRIVACY_VERSION : null,
     // compilato troppo in fretta: nel pannello compare come «sospetto»
     sospetto: !!troppoVeloce,
+    // da dove è arrivato: link con utm_source, oppure il sito di provenienza
+    origine: categoria,
+    origine_dettaglio: dettaglio || null,
   };
   let { error } = await supabase.from("leads").insert(riga);
-  // database senza la colonna "sospetto" (supabase/admin-2.sql non ancora
-  // eseguito): il contatto conta più dell'etichetta, si riprova senza
-  if (error && /sospetto/i.test(`${error.message} ${error.details || ""}`)) {
-    delete riga.sospetto;
+  // PostgREST nomina la colonna che non conosce: "Could not find the 'x' column"
+  for (let i = 0; error && i < FACOLTATIVE.length; i++) {
+    const testo = `${error.message} ${error.details || ""}`;
+    const manca = FACOLTATIVE.filter((k) => k in riga && (testo.includes(`'${k}'`) || testo.includes(`"${k}"`)));
+    if (!manca.length) break;
+    manca.forEach((k) => delete riga[k]);
     ({ error } = await supabase.from("leads").insert(riga));
   }
-  if (error) return error;
+  if (error) { conta(`form.errore.${tipoErrore(error)}`); return error; }
 
   // compilazione sospetta: il contatto resta salvato, ma non fa suonare la
   // casella — lo trovi nel pannello con l'etichetta «sospetto»

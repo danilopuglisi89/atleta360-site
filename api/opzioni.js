@@ -8,11 +8,13 @@
  * ?sveglia=1 è la chiamata giornaliera del cron (vercel.json): senza cache,
  * tocca davvero il database. Supabase gratuito mette in pausa un progetto
  * fermo da una settimana — e con lui modulo e demo, senza avvisare nessuno.
- * Di lunedì manda anche il riepilogo settimanale (api/_lib/riepilogo.js).
+ * Di lunedì manda anche il riepilogo settimanale (api/_lib/riepilogo.js), e ogni
+ * mattina controlla che il modulo salvi davvero (api/_lib/controllo.js).
  */
 import { leggiOpzioni, PUBBLICHE } from "./_lib/opzioni.js";
 import { conta } from "./_lib/db.js";
 import { forseRiepilogo } from "./_lib/riepilogo.js";
+import { controlloDelMattino } from "./_lib/controllo.js";
 
 export default async function handler(req, res) {
   if (req.method !== "GET") { res.setHeader("Allow", "GET"); return res.status(405).end(); }
@@ -21,6 +23,8 @@ export default async function handler(req, res) {
   const { valori, stato } = await leggiOpzioni();
   if (sveglia) {
     await conta("sistema.sveglia");
+    // ogni mattina: il modulo salva davvero? (prova che non lascia niente nel database)
+    try { await controlloDelMattino(); } catch (e) { console.error("[opzioni] controllo:", e.message); }
     // di lunedì la sveglia porta anche il riepilogo della settimana (una volta sola)
     try { await forseRiepilogo(); } catch (e) { console.error("[opzioni] riepilogo:", e.message); }
   }

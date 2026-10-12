@@ -340,6 +340,7 @@ textarea.ad-campo { resize: vertical; line-height: 1.5; }
 .ad-doppioni ul { margin: 0; padding-left: 18px; font-size: 14px; }
 .ad-link-btn { background: none; border: none; padding: 4px 0; min-height: 36px; color: var(--ad-navy); font: inherit; font-weight: 600; font-size: 14px; cursor: pointer; text-align: left; }
 .ad-link-btn:hover { text-decoration: underline; }
+.ad-sotto-testo { display: flex; margin-top: 10px; }
 .ad-conferma p { display: flex; gap: 6px; align-items: flex-start; flex-wrap: wrap; }
 
 .ad-servizio { border-color: #FFD3B0; background: linear-gradient(180deg, #FFF8F2, #fff 60%); }

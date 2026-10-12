@@ -14,8 +14,10 @@ function send(name, props) {
    chiedere. sendBeacon sopravvive anche al cambio di pagina verso la demo. */
 export function conta(...eventi) {
   try {
-    // il browser di Danilo, segnato dal pannello: le sue prove non si contano
-    if (localStorage.getItem("a360_non_contare") === "1") return;
+    // il browser di Danilo, segnato dal pannello: le sue prove non si contano.
+    // Gli errori del modulo sì, sempre: sono un guasto, non una visita.
+    const soloErrori = eventi.every((e) => e.startsWith("form.errore"));
+    if (!soloErrori && localStorage.getItem("a360_non_contare") === "1") return;
   } catch { /* storage bloccato: si conta normalmente */ }
   try {
     const corpo = JSON.stringify({ eventi });

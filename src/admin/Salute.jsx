@@ -1,5 +1,43 @@
-import { CheckCircle2, AlertTriangle, XCircle, Info, ExternalLink } from "lucide-react";
-import { numero, dataOra, dataBreve, giorniFa, quandoFa, giorniIndietro, somma, statoDi, oltre24Mesi, giornoCorto } from "./util";
+import { useState } from "react";
+import { CheckCircle2, AlertTriangle, XCircle, Info, ExternalLink, RefreshCw } from "lucide-react";
+import { chiama, numero, dataOra, dataBreve, giorniFa, quandoFa, giorniIndietro, somma, statoDi, oltre24Mesi, giornoCorto } from "./util";
+
+const TIPI_ERRORE = {
+  colonna: "colonna mancante nel database",
+  permesso: "permesso negato dal database",
+  controllo: "dati rifiutati da un controllo",
+  altro: "errore non riconosciuto",
+  rete: "connessione del visitatore",
+};
+
+/* Il modulo salva davvero? Il risultato del controllo automatico, rifatto a richiesta. */
+function ControlloModulo({ iniziale }) {
+  const [c, setC] = useState(iniziale);
+  const [attesa, setAttesa] = useState(false);
+  const [errore, setErrore] = useState(null);
+  const rifai = async () => {
+    setAttesa(true); setErrore(null);
+    const r = await chiama("controllo.modulo");
+    setAttesa(false);
+    if (r.ok) setC(r.controllo); else setErrore(r.motivo || "controllo non riuscito");
+  };
+  const livello = !c ? "info" : c.esito === "ok" ? "ok" : c.esito === "problema" ? "problema" : "attenzione";
+  return (
+    <Controllo livello={livello} titolo="Il modulo salva davvero">
+      {!c ? "Non ancora controllato: la prova parte ogni mattina con la sveglia, o adesso col pulsante."
+        : c.esito === "ok" ? `Sì. Ultima prova ${dataOra(c.quando)}: colonne, permessi e regole del database a posto.`
+        : c.esito === "problema" ? `NO: ${c.dettaglio}. Chi compila il modulo vede un errore e il contatto va perso. (prova del ${dataOra(c.quando)})`
+        : `Prova non eseguita: ${c.dettaglio}.`}
+      {" "}La prova tenta di salvare un contatto che il database rifiuta sempre: non lascia niente.
+      <span className="ad-riga-salva ad-sotto-testo">
+        <button className="ad-btn ad-btn-leggero ad-btn-piccolo" onClick={rifai} disabled={attesa}>
+          <RefreshCw size={14} className={attesa ? "ad-gira" : ""} /> {attesa ? "Controllo…" : "Controlla adesso"}
+        </button>
+        {errore && <span className="ad-errore-inline">{errore}</span>}
+      </span>
+    </Controllo>
+  );
+}
 
 const ICONE = {
   ok: [CheckCircle2, "Ok"],
@@ -32,7 +70,7 @@ const LINK = [
 ];
 
 export default function Salute({ dati, vaiA }) {
-  const { salute, contatori, leads, opzioni, ultimoRiepilogo } = dati;
+  const { salute, contatori, leads, opzioni, ultimoRiepilogo, ultimoControllo } = dati;
   const oggi = salute.oggi;
   const ult30 = giorniIndietro(oggi, 30);
   const ult7 = giorniIndietro(oggi, 7);
@@ -50,6 +88,10 @@ export default function Salute({ dati, vaiA }) {
   const erratiOggi = somma(contatori, [oggi], (e) => e === "accesso.errato");
   const cancellazioni = contatori.filter((c) => c.evento === "gdpr.cancellazione").sort((a, b) => b.giorno.localeCompare(a.giorno));
   const destinatario = opzioni.avviso_mail_a || salute.destinatarioPredefinito;
+  // richieste che il database ha rifiutato sotto gli occhi di un visitatore
+  const errori = Object.keys(TIPI_ERRORE).map((t) => ({ t, n: somma(contatori, ult30, (e) => e === `form.errore.${t}`) })).filter((x) => x.n);
+  const erroriVeri = errori.filter((x) => x.t !== "rete").reduce((a, x) => a + x.n, 0);
+  const ultimoErrore = ultimoGiorno(contatori, (e) => e.startsWith("form.errore.") && e !== "form.errore.rete");
 
   return (
     <div className="ad-sezione">
@@ -62,6 +104,19 @@ export default function Salute({ dati, vaiA }) {
         {salute.migrazione === "ok"
           ? <Controllo livello="ok" titolo="Tabelle del pannello">Presenti: stato dei contatti, contatori e opzioni.</Controllo>
           : <Controllo livello="problema" titolo="Tabelle del pannello">Manca la migrazione: esegui <code>supabase/admin.sql</code> nel SQL Editor del database del sito.</Controllo>}
+
+        <ControlloModulo iniziale={ultimoControllo} />
+
+        {errori.length
+          ? <Controllo livello={erroriVeri ? "problema" : "info"} titolo="Richieste non salvate">
+              Ultimi 30 giorni: {errori.map((x) => `${numero(x.n)} per ${TIPI_ERRORE[x.t]}`).join(", ")}.
+              {erroriVeri ? ` L'ultima ${quandoFa(ultimoErrore)}: quei contatti sono persi. Premi «Controlla adesso» qui sopra.` : " Sono problemi di rete di chi visitava, non del sito."}
+            </Controllo>
+          : <Controllo livello="ok" titolo="Richieste non salvate">Nessuna negli ultimi 30 giorni.</Controllo>}
+
+        {salute.migrazione3 === "ok"
+          ? null
+          : <Controllo livello="attenzione" titolo="Provenienza dei contatti">Esegui <code>supabase/admin-3.sql</code>: senza, i contatti si salvano ma non dicono da dove arrivano (le visite per canale si contano già).</Controllo>}
 
         {salute.migrazione2 === "ok"
           ? <Controllo livello="ok" titolo="Protezione e richiami">Il modulo pubblico può scrivere solo i suoi campi; richiami, diario e lead sospetti attivi.</Controllo>

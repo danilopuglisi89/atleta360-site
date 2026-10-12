@@ -25,7 +25,10 @@ export const PREDEFINITE = {
 };
 
 /* Valori di servizio: li scrive solo il server, mai il modulo delle Opzioni. */
-export const INTERNE = ["sessione_gen", "ultimo_riepilogo", "allarme_accessi"];
+export const INTERNE = ["sessione_gen", "ultimo_riepilogo", "allarme_accessi", "allarme_modulo", "ultimo_controllo"];
+
+/* Le opzioni senza i valori di servizio: quello che il pannello può vedere. */
+export const visibili = (valori) => Object.fromEntries(Object.entries(valori).filter(([k]) => !INTERNE.includes(k)));
 
 /* Le uniche che il sito pubblico può leggere: il destinatario delle mail no. */
 export const PUBBLICHE = [

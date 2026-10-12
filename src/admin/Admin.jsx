@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { BarChart3, Users, SlidersHorizontal, HeartPulse, RefreshCw, LogOut, Lock, AlertCircle } from "lucide-react";
-import { chiama, seSessioneScade, statoDi, daRichiamare, impostaNonContare } from "./util";
+import { chiama, seSessioneScade, statoDi, daRichiamare, impostaNonContare, giorniIndietro } from "./util";
 import Panoramica from "./Panoramica";
 import Contatti from "./Contatti";
 import Opzioni from "./Opzioni";
@@ -114,7 +114,10 @@ export default function Admin() {
 
   const veri = dati?.leads?.filter((l) => !l.sospetto) || [];
   const daFare = veri.filter((l) => statoDi(l) === "nuovo" || daRichiamare(l)).length;
-  const allarmi = dati ? (dati.salute.database !== "ok" ? 1 : 0) + (dati.salute.migrazione !== "ok" ? 1 : 0) : 0;
+  const erroriModulo = dati ? dati.contatori.filter((c) => c.evento.startsWith("form.errore.") && c.evento !== "form.errore.rete"
+    && c.giorno >= giorniIndietro(dati.salute.oggi, 7)[0]).length : 0;
+  const allarmi = dati ? (dati.salute.database !== "ok" ? 1 : 0) + (dati.salute.migrazione !== "ok" ? 1 : 0)
+    + (dati.ultimoControllo?.esito === "problema" ? 1 : 0) + (erroriModulo ? 1 : 0) : 0;
 
   return (
     <div className="ad-app">

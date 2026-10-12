@@ -6,7 +6,8 @@
  * difesa contro le richieste falsificate da altre pagine.
  */
 import { db, tutte, conta, dbConfigurato, ErroreDb } from "./_lib/db.js";
-import { leggiOpzioni, salvaOpzioni, pulisci, pulisciSegni, PREDEFINITE } from "./_lib/opzioni.js";
+import { leggiOpzioni, salvaOpzioni, pulisci, pulisciSegni, visibili, PREDEFINITE } from "./_lib/opzioni.js";
+import { controlloDelMattino } from "./_lib/controllo.js";
 import {
   passwordConfigurata, passwordGiusta, cookieSessione, cookieUscita,
   leggiSessione, bloccato, segnaErrore, ipDi,
@@ -63,8 +64,12 @@ async function caricaDati(opzioni) {
   }
   // le colonne della seconda migrazione (richiami, diario, sospetti)
   if (salute.leadOk && leads.length && !("diario" in leads[0])) salute.migrazione2 = "mancante";
+  // la terza (da dove arriva il contatto)
+  salute.migrazione3 = "ok";
+  if (salute.leadOk && leads.length && !("origine" in leads[0])) salute.migrazione3 = "mancante";
   if (salute.leadOk && !leads.length) {
     try { await db("leads?select=diario,ricontatta_il,sospetto&limit=1"); } catch { salute.migrazione2 = "mancante"; }
+    try { await db("leads?select=origine,origine_dettaglio&limit=1"); } catch { salute.migrazione3 = "mancante"; }
   }
 
   let contatori = [];
@@ -86,14 +91,14 @@ async function caricaDati(opzioni) {
   if (opzioni.stato === "migrazione-mancante") salute.migrazione = "mancante";
   if (opzioni.stato === "errore") salute.errori.push("opzioni non leggibili: valgono i predefiniti");
 
-  const { sessione_gen, ultimo_riepilogo, allarme_accessi, ...visibili } = opzioni.valori;
   return {
     leads,
     contatori,
     inizioConteggi,
-    opzioni: visibili,
+    opzioni: visibili(opzioni.valori),
     opzioniAggiornate: opzioni.aggiornato || null,
-    ultimoRiepilogo: ultimo_riepilogo || null,
+    ultimoRiepilogo: opzioni.valori.ultimo_riepilogo || null,
+    ultimoControllo: opzioni.valori.ultimo_controllo || null,
     salute: {
       ...salute,
       oggi: giornoRoma(),
@@ -279,8 +284,7 @@ export default async function handler(req, res) {
         if (valori[k] !== attuali[k]) { const p = await provaLink(valori[k]); if (p) avvisi[k] = p; }
       }
       await salvaOpzioni(valori);
-      const { sessione_gen, ultimo_riepilogo, allarme_accessi, ...visibili } = valori;
-      return rispondi(res, 200, { ok: true, opzioni: visibili, avvisi });
+      return rispondi(res, 200, { ok: true, opzioni: visibili(valori), avvisi });
     }
 
     if (azione === "opzioni.predefinite") {
@@ -306,6 +310,11 @@ export default async function handler(req, res) {
           Se leggi questa mail, gli avvisi dei nuovi contatti arrivano a <strong>${esc(a)}</strong>.</p>`),
       });
       return rispondi(res, 200, { ...esito, a });
+    }
+
+    if (azione === "controllo.modulo") {
+      // la stessa prova del mattino, subito: il modulo salva davvero?
+      return rispondi(res, 200, { ok: true, controllo: await controlloDelMattino({ forza: true }) });
     }
 
     if (azione === "riepilogo.prova") {

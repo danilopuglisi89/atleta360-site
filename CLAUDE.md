@@ -178,6 +178,20 @@ Nate da due revisori (un pignolo e un "inventore"). Da sapere:
   `beforeSend` di Vercel Analytics in `src/main.jsx`. Il primo login da un browser lo accende.
 - CSV: telefono come `="…"`, celle che iniziano con `= + - @` disinnescate con l'apostrofo, date
   AAAA-MM-GG HH:MM. Giorni sempre **di calendario a Roma** (`giorniFa` in util.js), non 24 ore.
+- ⚠️ **Guasto scoperto il 2026-10-11**: nel database vero mancava `consenso_privacy`
+  (`leads-consenso.sql` mai eseguito lì), quindi **dal 27/07 all'11/10/2026 il modulo non ha
+  salvato nessuna richiesta**, senza che nessuno lo sapesse. `admin-2.sql` ora aggiunge anche quelle
+  colonne. Da qui i due campanelli di `api/_lib/controllo.js`:
+  1. **controllo del mattino** (sveglia, max uno all'ora; "Controlla adesso" in Salute): con la
+     chiave PUBBLICA (`VITE_SUPABASE_ANON_KEY`, letta anche dal server) prova a inserire un lead
+     con `tipo` non valido. Il rifiuto `23514` sul tipo = tutto il resto è a posto. Non resta niente.
+  2. **errore visto da un visitatore**: `src/leads.js` conta `form.errore.<colonna|permesso|
+     controllo|rete|altro>` (anche dal browser di Danilo); `api/evento.js` manda la mail (una al
+     giorno, `allarme_modulo`; mai per "rete"). Compaiono in Timeout, Salute e col "!" sulla scheda.
+- **Provenienza** (`src/fonte.js`): `utm_source`/`ref`/`fonte` del link, altrimenti il referrer;
+  in memoria, niente storage. Categoria nei contatori (`fonte.*`), categoria + dettaglio nel lead
+  (`origine`, `origine_dettaglio` → **`supabase/admin-3.sql`**; senza, `leads.js` riprova senza
+  quelle colonne). Pannello: "Da dove arrivano". Informativa aggiornata (sezioni 2 e 8).
 - Idee dell'inventore fatte: termometro del contatto, "Al servizio" (una persona alla volta),
   Timeout (anomalie con le mosse), bandierine sul grafico (`segni` nelle impostazioni, con
   l'effetto dei 3 giorni dopo), tabellone della settimana, sala trofei, link "cerca la società".

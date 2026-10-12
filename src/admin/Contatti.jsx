@@ -106,6 +106,7 @@ function Scheda({ lead, opzioni, gruppo, tutti, migrazione2, onChiudi, onApri, o
           <dt>Società</dt><dd>{lead.societa || "—"}</dd>
           <dt>Ruolo</dt><dd>{lead.ruolo || "—"}</dd>
           <dt>Ricevuto</dt><dd>{dataOra(lead.created_at)}</dd>
+          {"origine" in lead && <><dt>Arrivato da</dt><dd>{lead.origine ? `${lead.origine}${lead.origine_dettaglio ? ` · ${lead.origine_dettaglio}` : ""}` : "—"}</dd></>}
           <dt>Consenso</dt>
           <dd>{lead.consenso_privacy
             ? <><ShieldCheck size={14} /> {dataOra(lead.consenso_data)}{lead.informativa_versione ? ` · informativa ${lead.informativa_versione}` : ""}</>
@@ -253,7 +254,7 @@ export default function Contatti({ leads, opzioni, migrazione2, daAprire, onAper
         : stato === "sospetti" ? l.sospetto
         : stato === "vecchi" ? oltre24Mesi(l, oggi)
         : st === stato && !l.sospetto;
-      const testi = [l.nome, l.cognome, l.email, l.societa, l.ruolo, l.telefono, l.note, ...(Array.isArray(l.diario) ? l.diario.map((v) => v.testo) : [])];
+      const testi = [l.nome, l.cognome, l.email, l.societa, l.ruolo, l.telefono, l.note, l.origine, l.origine_dettaglio, ...(Array.isArray(l.diario) ? l.diario.map((v) => v.testo) : [])];
       return passaStato &&
         (tipo === "tutti" || l.tipo === tipo) &&
         (!giorni || giorniFa(l.created_at, oggi) < giorni) &&
@@ -292,6 +293,7 @@ export default function Contatti({ leads, opzioni, migrazione2, daAprire, onAper
     { titolo: "Appunti", valore: (l) => l.note },
     { titolo: "Diario", valore: (l) => (Array.isArray(l.diario) ? l.diario.map((v) => `${dataIso(v.quando)} ${v.testo}`).join(" | ") : "") },
     { titolo: "Sospetto", valore: (l) => (l.sospetto ? "sì" : "") },
+    { titolo: "Arrivato da", valore: (l) => [l.origine, l.origine_dettaglio].filter(Boolean).join(" · ") },
     { titolo: "Consenso privacy", valore: (l) => (l.consenso_privacy ? dataIso(l.consenso_data) : "") },
   ]);
 

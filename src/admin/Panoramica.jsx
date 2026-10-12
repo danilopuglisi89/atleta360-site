@@ -122,10 +122,20 @@ function Tessera({ Icona, etichetta, valore, nota, confronto, onClick }) {
 }
 
 /* ---- Timeout: quando i numeri dicono che qualcosa non va ---- */
-function Timeout({ contatori, leads, inizioConteggi, oggi, vaiA }) {
+function Timeout({ contatori, leads, inizioConteggi, oggi, vaiA, ultimoControllo }) {
   const ult2 = giorniIndietro(oggi, 3).slice(0, 2); // ieri e l'altro ieri
   const ult7 = giorniIndietro(oggi, 7);
   const allarmi = [];
+
+  // il guasto peggiore: il modulo non salva (dal 27/07 all'11/10/2026 è successo davvero)
+  const persi = somma(contatori, ult7, (e) => e.startsWith("form.errore.") && e !== "form.errore.rete");
+  if (ultimoControllo?.esito === "problema" || persi > 0) {
+    allarmi.push({
+      titolo: persi ? `${persi} ${persi === 1 ? "richiesta di demo non salvata" : "richieste di demo non salvate"} questa settimana` : "Il modulo delle richieste non salva",
+      testo: ultimoControllo?.esito === "problema" ? `Il controllo automatico dice: ${ultimoControllo.dettaglio}.` : "Il database ha rifiutato il salvataggio: quei contatti sono persi.",
+      mosse: [["Controlla il modulo", "#salute"], ["Prova a compilarlo", "/contatti"]],
+    });
+  }
   const contaDaGiorni = inizioConteggi ? giorniFa(inizioConteggi, oggi) : 0;
 
   if (contaDaGiorni >= 3 && somma(contatori, ult2, eVisita) === 0) {
@@ -230,6 +240,38 @@ function AlServizio({ leads, opzioni, oggi, apriContatto }) {
           <a className="ad-btn ad-btn-leggero" href={`mailto:${l.email}?subject=${encodeURIComponent(riempi(opzioni.modello_oggetto, l))}&body=${encodeURIComponent(testo)}`}><Mail size={16} /> Email</a>
         </div>
       </div>
+    </section>
+  );
+}
+
+/* ---- Da dove arrivano: visite per canale e, dai lead, chi poi scrive davvero ---- */
+const FONTI = [
+  ["instagram", "Instagram"], ["facebook", "Facebook"], ["google", "Ricerca (Google, Bing…)"], ["linkedin", "LinkedIn"],
+  ["whatsapp", "WhatsApp"], ["danilopuglisi", "danilopuglisi.com"], ["email", "Email"], ["diretto", "Diretto o sconosciuto"], ["altro", "Altri siti"],
+];
+
+function Fonti({ contatori, giorni, leadPeriodo, migrazione3 }) {
+  const righe = FONTI.map(([id, nome]) => ({
+    id, nome,
+    visite: somma(contatori, giorni, (e) => e === `fonte.${id}`),
+    lead: leadPeriodo.filter((l) => (l.origine || null) === id).length,
+  })).filter((r) => r.visite || r.lead).sort((a, b) => b.visite - a.visite || b.lead - a.lead);
+  const senza = leadPeriodo.filter((l) => !l.origine).length;
+  return (
+    <section className="ad-card">
+      <div className="ad-card-testa"><h3>Da dove arrivano</h3></div>
+      {!righe.length ? (
+        <p className="ad-vuoto">Ancora nessun dato: i canali si contano dal 12 ottobre 2026. Per i tuoi post usa link con <code>?utm_source=instagram</code>.</p>
+      ) : (
+        <table className="ad-tabella">
+          <thead><tr><th>Canale</th><th className="num">Visite</th><th className="num">Lead</th><th className="num">Conv.</th></tr></thead>
+          <tbody>{righe.map((r) => (
+            <tr key={r.id}><td>{r.nome}</td><td className="num">{numero(r.visite)}</td><td className="num">{numero(r.lead)}</td>
+              <td className="num">{percento(r.lead, r.visite)}</td></tr>
+          ))}</tbody>
+        </table>
+      )}
+      {senza > 0 && <p className="ad-piccolo ad-sotto-testo">{senza} {senza === 1 ? "lead arrivato" : "lead arrivati"} prima che si registrasse la provenienza{migrazione3 !== "ok" ? " (manca supabase/admin-3.sql)" : ""}.</p>}
     </section>
   );
 }
@@ -447,7 +489,7 @@ export default function Panoramica({ dati, vaiA, apriContatto, onSegni }) {
         </div>
       </div>
 
-      <Timeout contatori={contatori} leads={leads} inizioConteggi={inizioConteggi} oggi={oggi} vaiA={vaiA} />
+      <Timeout contatori={contatori} leads={leads} inizioConteggi={inizioConteggi} oggi={oggi} vaiA={vaiA} ultimoControllo={dati.ultimoControllo} />
 
       {periodoPrimaDeiConteggi && (
         <p className="ad-nota"><Info size={16} />
@@ -504,6 +546,10 @@ export default function Panoramica({ dati, vaiA, apriContatto, onSegni }) {
             ))}</tbody>
           </table>
         </section>
+        <Fonti contatori={contatori} giorni={giorni} leadPeriodo={leadPeriodo} migrazione3={salute.migrazione3} />
+      </div>
+
+      <div className="ad-griglia-2">
         <section className="ad-card">
           <div className="ad-card-testa"><h3>Da dove scelgono</h3></div>
           <ul className="ad-origini">
