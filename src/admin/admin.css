@@ -404,6 +404,21 @@ textarea.ad-campo { resize: vertical; line-height: 1.5; }
   .ad-trofei { grid-template-columns: 1fr; }
 }
 
+/* --- registro delle visite --- */
+.ad-ore { display: grid; grid-template-columns: repeat(24, minmax(0, 1fr)); gap: 3px; align-items: end; height: 120px; }
+.ad-ora { height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 4px; }
+.ad-ora-barra { width: 100%; min-height: 2px; background: var(--ad-navy); border-radius: 4px 4px 0 0; }
+.ad-ora span { font-size: 10.5px; color: var(--ad-muto); height: 14px; }
+.ad-spunta { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; min-height: 44px; cursor: pointer; }
+.ad-spunta input { width: 18px; height: 18px; }
+.ad-cerca-piccola { margin-bottom: 12px; }
+.ad-registro { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; }
+.ad-registro li { display: flex; flex-direction: column; gap: 6px; padding: 12px 0; }
+.ad-registro li + li { border-top: 1px solid #F0F2F8; }
+.ad-registro li.con-lead { background: linear-gradient(90deg, #EAF0FF, transparent 70%); padding-left: 10px; border-radius: var(--ad-r-sm); }
+.ad-registro-testa { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 14px; }
+.ad-registro-corpo { display: flex; gap: 4px 14px; flex-wrap: wrap; font-size: 14px; color: #3A4563; }
+
 @media (max-width: 640px) {
   /* quattro schede sempre visibili: scorrendo di lato "Salute" restava fuori schermo */
   .ad-schede { gap: 2px; padding-left: 8px; padding-right: 8px; top: 65px; }

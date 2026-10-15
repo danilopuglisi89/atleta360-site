@@ -192,6 +192,16 @@ Nate da due revisori (un pignolo e un "inventore"). Da sapere:
   in memoria, niente storage. Categoria nei contatori (`fonte.*`), categoria + dettaglio nel lead
   (`origine`, `origine_dettaglio` → **`supabase/admin-3.sql`**; senza, `leads.js` riprova senza
   quelle colonne). Pannello: "Da dove arrivano". Informativa aggiornata (sezioni 2 e 8).
+- **Vercel Web Analytics è SPENTO** per il progetto (verificato il 2026-10-15: l'API risponde
+  "not enabled"): `<Analytics/>` manda dati che nessuno registra. Le visite dal 27/07 non esistono
+  da nessuna parte; i contatori del pannello partono dal 13/10.
+- **Registro delle visite** (2026-10-15, scheda "Visite"): tabella `visite` (**`supabase/admin-4.sql`**),
+  scritta solo da `api/visita.js` (chiave di servizio). `src/visita.js` crea un id casuale in
+  memoria all'apertura (niente cookie/storage), manda inizio → aggiornamenti (lettura %, secondi con
+  la pagina davanti, azioni da elenco chiuso) → `lead` (il server collega il lead per email arrivata
+  negli ultimi 10 minuti). Città/regione/paese dagli header `x-vercel-ip-*`, dispositivo grossolano
+  dallo user agent, **IP mai salvato**. Bot scartati per user agent. Righe > 13 mesi cancellate
+  dalla sveglia. Informativa § 8 aggiornata. Il browser "non contare" non manda niente.
 - Idee dell'inventore fatte: termometro del contatto, "Al servizio" (una persona alla volta),
   Timeout (anomalie con le mosse), bandierine sul grafico (`segni` nelle impostazioni, con
   l'effetto dei 3 giorni dopo), tabellone della settimana, sala trofei, link "cerca la società".

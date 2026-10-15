@@ -2,6 +2,7 @@ import { opzioniAttuali } from "./opzioni";
 import { getSupabase } from "./supabaseClient";
 import { conta } from "./analytics";
 import { fonte } from "./fonte";
+import { azione, visitaDiventaLead } from "./visita";
 
 /* Colonne aggiunte dopo: se il database non le ha ancora (migrazione non
    eseguita) il contatto conta più del dettaglio, si riprova senza. */
@@ -73,7 +74,9 @@ export async function submitLead({ tipo, nome, cognome, email, telefono, societa
     manca.forEach((k) => delete riga[k]);
     ({ error } = await supabase.from("leads").insert(riga));
   }
-  if (error) { conta(`form.errore.${tipoErrore(error)}`); return error; }
+  if (error) { conta(`form.errore.${tipoErrore(error)}`); azione("form.errore"); return error; }
+  // nel registro delle visite: questa visita è diventata un contatto
+  visitaDiventaLead(riga.email);
 
   // compilazione sospetta: il contatto resta salvato, ma non fa suonare la
   // casella — lo trovi nel pannello con l'etichetta «sospetto»

@@ -7,6 +7,7 @@ import { initPixelIfConsented, trackLead } from "./pixel";
 import { trackChoice, initScrollDepth, conta } from "./analytics";
 import { caricaOpzioni } from "./opzioni";
 import { fonte } from "./fonte";
+import { iniziaVisita, azione } from "./visita";
 import Avviso from "./Avviso";
 import LeadForm from "./LeadForm";
 import CookieBanner from "./CookieBanner";
@@ -110,6 +111,8 @@ export default function App() {
     visitaContata.current = true;
     // con la visita, da dove arriva (solo la categoria: instagram, google, diretto…)
     conta(isContactRoute ? "visita.contatti" : "visita.home", `fonte.${fonte().categoria}`);
+    // e il registro della singola visita (pannello → Visite)
+    iniziaVisita(isContactRoute ? "contatti" : "home");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -117,6 +120,7 @@ export default function App() {
   useEffect(() => {
     const key = showPrivacy ? "privacy" : isContactRoute ? "contatti" : tipo ? "form" : "home";
     document.title = TITLES[key];
+    if (showPrivacy) azione("privacy");
   }, [showPrivacy, isContactRoute, tipo]);
 
   if (!supabaseConfigured) return <SetupNotice />;
@@ -129,6 +133,7 @@ export default function App() {
 
   const goToForm = (chosenTipo) => {
     trackLead(chosenTipo);
+    azione("demo");
     setRedirecting(true);
     window.location.href = demoUrl(chosenTipo);
   };

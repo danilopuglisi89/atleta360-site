@@ -1,4 +1,5 @@
 import { track } from "@vercel/analytics";
+import { azione } from "./visita";
 
 /* Eventi oltre al Lead: servono a capire DOVE si ferma chi non converte.
    Vercel Analytics è senza cookie e sempre attivo; il Pixel Meta riceve
@@ -28,6 +29,7 @@ export function conta(...eventi) {
 
 export function trackChoice(tipo, origine) {
   send("scelta_percorso", { tipo, origine });
+  azione(`scelta.${tipo}`);
   conta(`scelta.${tipo}`, `origine.${origine}`);
 }
 

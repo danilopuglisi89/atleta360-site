@@ -12,7 +12,7 @@
  * mattina controlla che il modulo salvi davvero (api/_lib/controllo.js).
  */
 import { leggiOpzioni, PUBBLICHE } from "./_lib/opzioni.js";
-import { conta } from "./_lib/db.js";
+import { conta, db } from "./_lib/db.js";
 import { forseRiepilogo } from "./_lib/riepilogo.js";
 import { controlloDelMattino } from "./_lib/controllo.js";
 
@@ -25,6 +25,8 @@ export default async function handler(req, res) {
     await conta("sistema.sveglia");
     // ogni mattina: il modulo salva davvero? (prova che non lascia niente nel database)
     try { await controlloDelMattino(); } catch (e) { console.error("[opzioni] controllo:", e.message); }
+    // il registro delle visite tiene 13 mesi, poi si cancella da solo (informativa § 8)
+    try { await db(`visite?inizio=lt.${new Date(Date.now() - 395 * 864e5).toISOString()}`, { metodo: "DELETE", prefer: "return=minimal" }); } catch { /* tabella non ancora creata */ }
     // di lunedì la sveglia porta anche il riepilogo della settimana (una volta sola)
     try { await forseRiepilogo(); } catch (e) { console.error("[opzioni] riepilogo:", e.message); }
   }

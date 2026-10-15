@@ -312,6 +312,19 @@ export default async function handler(req, res) {
       return rispondi(res, 200, { ...esito, a });
     }
 
+    if (azione === "visite.elenco") {
+      // il registro delle visite (supabase/admin-4.sql), dal più recente
+      const giorni = Math.max(1, Math.min(400, Number(b.giorni) || 30));
+      const da = new Date(Date.now() - giorni * 864e5).toISOString();
+      try {
+        const r = await tutte(`visite?select=*&inizio=gte.${da}&order=inizio.desc,id.asc`, { massimo: 10000 });
+        return rispondi(res, 200, { ok: true, visite: r.righe, completo: r.completo });
+      } catch (e) {
+        if (e instanceof ErroreDb && e.tabellaMancante) return rispondi(res, 200, { ok: true, visite: [], mancaTabella: true });
+        throw e;
+      }
+    }
+
     if (azione === "controllo.modulo") {
       // la stessa prova del mattino, subito: il modulo salva davvero?
       return rispondi(res, 200, { ok: true, controllo: await controlloDelMattino({ forza: true }) });

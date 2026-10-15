@@ -1,14 +1,16 @@
 import { useCallback, useEffect, useState } from "react";
-import { BarChart3, Users, SlidersHorizontal, HeartPulse, RefreshCw, LogOut, Lock, AlertCircle } from "lucide-react";
+import { BarChart3, Users, Footprints, SlidersHorizontal, HeartPulse, RefreshCw, LogOut, Lock, AlertCircle } from "lucide-react";
 import { chiama, seSessioneScade, statoDi, daRichiamare, impostaNonContare, giorniIndietro } from "./util";
 import Panoramica from "./Panoramica";
 import Contatti from "./Contatti";
 import Opzioni from "./Opzioni";
 import Salute from "./Salute";
+import Visite from "./Visite";
 
 const SCHEDE = [
   { id: "panoramica", etichetta: "Panoramica", Icona: BarChart3 },
   { id: "contatti", etichetta: "Contatti", Icona: Users },
+  { id: "visite", etichetta: "Visite", Icona: Footprints },
   { id: "opzioni", etichetta: "Opzioni", Icona: SlidersHorizontal },
   { id: "salute", etichetta: "Salute", Icona: HeartPulse },
 ];
@@ -161,6 +163,7 @@ export default function Admin() {
               onSegni={(segni) => setDati((d) => ({ ...d, opzioni: { ...d.opzioni, segni } }))} />}
             {scheda === "contatti" && <Contatti leads={dati.leads} opzioni={dati.opzioni} migrazione2={dati.salute.migrazione2}
               daAprire={daAprire} onAperto={() => setDaAprire(null)} onAggiorna={aggiornaLead} onRimuovi={rimuoviLead} />}
+            {scheda === "visite" && <Visite key={dati.caricato} leads={dati.leads} apriContatto={apriContatto} />}
             {scheda === "opzioni" && <Opzioni key={dati.caricato} opzioni={dati.opzioni} aggiornate={dati.opzioniAggiornate}
               predefinito={dati.salute.destinatarioPredefinito} salute={dati.salute} migrazione={dati.salute.migrazione} onSalvate={aggiornaOpzioni} />}
             {scheda === "salute" && <Salute dati={dati} vaiA={setScheda} />}

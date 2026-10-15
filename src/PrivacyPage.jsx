@@ -110,6 +110,16 @@ export default function PrivacyPage({ onBack }) {
           cookie, nessun indirizzo IP, nessun dato che permetta di riconoscere chi visita.
         </p>
         <p style={p}>
+          Per ogni pagina aperta teniamo inoltre una scheda della visita, senza cookie e senza
+          indirizzo IP: quando, da quale canale o sito, la città approssimativa (ricavata dal
+          servizio di hosting e non salvata insieme all'indirizzo), il tipo di dispositivo e
+          di browser, quanto della pagina è stato letto, il tempo trascorso e le azioni fatte
+          (per esempio l'apertura del modulo). Il codice della visita è casuale e vive solo
+          finché la pagina resta aperta, quindi due visite della stessa persona non si possono
+          collegare fra loro. Se invii la richiesta di demo, la scheda di quella visita viene
+          collegata alla tua richiesta. Le schede vengono cancellate automaticamente dopo 13 mesi.
+        </p>
+        <p style={p}>
           Usiamo inoltre il Pixel di Meta (Facebook/Instagram) per capire quante persone,
           arrivate dai nostri contenuti social, richiedono una demo. Questo strumento installa
           cookie di misurazione/marketing e viene attivato solo se accetti il banner mostrato

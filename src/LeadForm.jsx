@@ -4,6 +4,7 @@ import { ArrowLeft, AlertCircle, User, Building2, ShieldCheck, PauseCircle, Mess
 import { C, font, display, T, R } from "./theme";
 import { submitLead } from "./leads";
 import { conta } from "./analytics";
+import { azione } from "./visita";
 import { caricaOpzioni, opzioniAttuali } from "./opzioni";
 import { WHATSAPP_URL, CONTACT_EMAIL } from "./cinematic/contactsConfig";
 
@@ -42,7 +43,7 @@ export default function LeadForm({ tipo, onBack, onSuccess, onOpenPrivacy, compa
 
   const aperturaContata = useRef(false);
   useEffect(() => {
-    if (!aperturaContata.current) { aperturaContata.current = true; conta("form.aperto"); }
+    if (!aperturaContata.current) { aperturaContata.current = true; conta("form.aperto"); azione("form.aperto"); }
     caricaOpzioni().then((o) => setPausa(o.modulo_in_pausa ? o : null));
   }, []);
 
