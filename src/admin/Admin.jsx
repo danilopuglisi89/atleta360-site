@@ -107,6 +107,8 @@ export default function Admin() {
 
   /* Modifiche locali senza ricaricare tutto: la lista resta dov'era. */
   const aggiornaLead = (lead) => setDati((d) => ({ ...d, leads: d.leads.map((l) => (l.id === lead.id ? lead : l)) }));
+  const aggiornaIscrizione = (x) => setDati((d) => ({ ...d, iscrizioni: d.iscrizioni.map((i) => (i.id === x.id ? x : i)) }));
+  const rimuoviIscrizione = (id) => setDati((d) => ({ ...d, iscrizioni: d.iscrizioni.filter((i) => i.id !== id) }));
   const rimuoviLead = (ids) => setDati((d) => ({ ...d, leads: d.leads.filter((l) => !ids.includes(l.id)) }));
   const aggiornaOpzioni = (opzioni) => setDati((d) => ({ ...d, opzioni, opzioniAggiornate: new Date().toISOString() }));
   const apriContatto = (id) => { setDaAprire(id); setScheda("contatti"); };
@@ -161,7 +163,9 @@ export default function Admin() {
           <>
             {scheda === "panoramica" && <Panoramica dati={dati} vaiA={setScheda} apriContatto={apriContatto} onAggiorna={aggiornaLead}
               onSegni={(segni) => setDati((d) => ({ ...d, opzioni: { ...d.opzioni, segni } }))} />}
-            {scheda === "contatti" && <Contatti leads={dati.leads} opzioni={dati.opzioni} migrazione2={dati.salute.migrazione2}
+            {scheda === "contatti" && <Contatti leads={dati.leads} iscrizioni={dati.iscrizioni || []} migrazione5={dati.salute.migrazione5}
+              onAggiornaIscrizione={aggiornaIscrizione} onRimuoviIscrizione={rimuoviIscrizione}
+              opzioni={dati.opzioni} migrazione2={dati.salute.migrazione2}
               daAprire={daAprire} onAperto={() => setDaAprire(null)} onAggiorna={aggiornaLead} onRimuovi={rimuoviLead} />}
             {scheda === "visite" && <Visite key={dati.caricato} leads={dati.leads} apriContatto={apriContatto} />}
             {scheda === "opzioni" && <Opzioni key={dati.caricato} opzioni={dati.opzioni} aggiornate={dati.opzioniAggiornate}

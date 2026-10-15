@@ -13,7 +13,7 @@ const FONTI = ["instagram", "facebook", "google", "linkedin", "whatsapp", "danil
 const ERRORI = ["colonna", "permesso", "controllo", "rete", "altro"];
 
 const AMMESSI = new Set([
-  "visita.home", "visita.contatti",
+  "visita.home", "visita.contatti", "visita.webinar",
   "scelta.atleta", "scelta.societa",
   "origine.hero", "origine.header", "origine.demo-preview", "origine.chiusura",
   "form.aperto",

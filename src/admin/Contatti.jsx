@@ -8,6 +8,7 @@ import {
   STATI, statoDi, etichettaStato, etichettaTipo, whatsapp, riempi, scaricaCsv,
   temperatura, daRichiamare, oltre24Mesi, doppioni, ultimoTocco,
 } from "./util";
+import Iscritti from "./Iscritti";
 
 const RICHIAMI = [["Domani", 1], ["Fra 3 giorni", 3], ["Fra una settimana", 7], ["Fra un mese", 30]];
 
@@ -230,7 +231,27 @@ function Scheda({ lead, opzioni, gruppo, tutti, migrazione2, onChiudi, onApri, o
 const PERIODI = [["sempre", "Da sempre"], ["7", "Ultimi 7 giorni"], ["30", "Ultimi 30 giorni"], ["90", "Ultimi 90 giorni"], ["365", "Ultimo anno"]];
 const ORDINI = [["recenti", "Più recenti"], ["vecchi", "Più vecchi"], ["richiamo", "Richiamo più vicino"], ["freddi", "I più freddi"], ["nome", "Nome A-Z"]];
 
-export default function Contatti({ leads, opzioni, migrazione2, daAprire, onAperto, onAggiorna, onRimuovi }) {
+export default function Contatti({ leads, opzioni, migrazione2, daAprire, onAperto, onAggiorna, onRimuovi,
+  iscrizioni = [], migrazione5, onAggiornaIscrizione, onRimuoviIscrizione }) {
+  const [vista, setVista] = useState("demo");
+  const selettore = (
+    <div className="ad-segmenti" role="radiogroup" aria-label="Elenco">
+      <button role="radio" aria-checked={vista === "demo"} className={vista === "demo" ? "attivo" : ""} onClick={() => setVista("demo")}>Richieste demo ({leads.length})</button>
+      <button role="radio" aria-checked={vista === "webinar"} className={vista === "webinar" ? "attivo" : ""} onClick={() => setVista("webinar")}>Iscritti webinar ({iscrizioni.length})</button>
+    </div>
+  );
+  if (vista === "webinar") {
+    return (
+      <div className="ad-sezione">
+        <div className="ad-sezione-testa"><h2>Contatti</h2>{selettore}</div>
+        <Iscritti iscrizioni={iscrizioni} migrazione5={migrazione5} onAggiorna={onAggiornaIscrizione} onRimuovi={onRimuoviIscrizione} />
+      </div>
+    );
+  }
+  return <ContattiDemo {...{ leads, opzioni, migrazione2, daAprire, onAperto, onAggiorna, onRimuovi, selettore }} />;
+}
+
+function ContattiDemo({ leads, opzioni, migrazione2, daAprire, onAperto, onAggiorna, onRimuovi, selettore }) {
   const [cerca, setCerca] = useState("");
   const [stato, setStato] = useState("tutti");
   const [tipo, setTipo] = useState("tutti");
@@ -314,6 +335,7 @@ export default function Contatti({ leads, opzioni, migrazione2, daAprire, onAper
     <div className="ad-sezione">
       <div className="ad-sezione-testa">
         <h2>Contatti <span className="ad-conta-testo">{filtrati.length} di {leads.length}</span></h2>
+        {selettore}
         <button className="ad-btn ad-btn-leggero" onClick={esporta} disabled={!filtrati.length}>
           <Download size={16} /> Esporta CSV
         </button>

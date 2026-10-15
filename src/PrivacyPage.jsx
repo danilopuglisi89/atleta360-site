@@ -60,6 +60,9 @@ export default function PrivacyPage({ onBack }) {
           Usiamo questi dati per: (a) darti accesso alla demo del prodotto Atleta360 che hai richiesto;
           (b) ricontattarti per presentarti il prodotto o rispondere a tue domande;
           (c) tenere traccia di chi ha mostrato interesse, a fini organizzativi interni.
+          Se ti iscrivi a un webinar, usiamo nome, cognome, email, ruolo e (se li indichi) società
+          e telefono per mandarti il link di partecipazione e un promemoria; ti scriviamo per
+          proposte su Atleta360 solo se hai spuntato la casella facoltativa dedicata.
           Non usiamo i tuoi dati per finalità diverse da queste e non li cediamo a terzi per scopi
           commerciali di terzi.
         </p>

@@ -72,6 +72,16 @@ async function caricaDati(opzioni) {
     try { await db("leads?select=origine,origine_dettaglio&limit=1"); } catch { salute.migrazione3 = "mancante"; }
   }
 
+  // iscritti ai webinar (supabase/admin-5.sql)
+  let iscrizioni = [];
+  salute.migrazione5 = "ok";
+  try {
+    iscrizioni = (await tutte("iscrizioni?select=*&order=created_at.desc,id.asc")).righe;
+  } catch (e) {
+    if (e instanceof ErroreDb && e.tabellaMancante) salute.migrazione5 = "mancante";
+    else salute.errori.push(e.message);
+  }
+
   let contatori = [];
   let inizioConteggi = null;
   const da = giorniIndietro(giornoRoma(), GIORNI_CONTATORI)[0];
@@ -93,6 +103,7 @@ async function caricaDati(opzioni) {
 
   return {
     leads,
+    iscrizioni,
     contatori,
     inizioConteggi,
     opzioni: visibili(opzioni.valori),
@@ -310,6 +321,24 @@ export default async function handler(req, res) {
           Se leggi questa mail, gli avvisi dei nuovi contatti arrivano a <strong>${esc(a)}</strong>.</p>`),
       });
       return rispondi(res, 200, { ...esito, a });
+    }
+
+    if (azione === "iscrizione.aggiorna") {
+      if (!UUID.test(String(b.id))) return rispondi(res, 400, { ok: false, motivo: "id non valido" });
+      const m = {};
+      if ("presente" in b) m.presente = b.presente === null ? null : Boolean(b.presente);
+      if ("note" in b) m.note = String(b.note ?? "").slice(0, 2000) || null;
+      const righe = await db(`iscrizioni?id=eq.${b.id}`, { metodo: "PATCH", corpo: m, prefer: "return=representation" });
+      if (!righe?.length) return rispondi(res, 404, { ok: false, motivo: "iscrizione non trovata" });
+      return rispondi(res, 200, { ok: true, iscrizione: righe[0] });
+    }
+
+    if (azione === "iscrizione.elimina") {
+      if (!UUID.test(String(b.id))) return rispondi(res, 400, { ok: false, motivo: "id non valido" });
+      const righe = await db(`iscrizioni?id=eq.${b.id}`, { metodo: "DELETE", prefer: "return=representation" });
+      if (!righe?.length) return rispondi(res, 404, { ok: false, motivo: "iscrizione non trovata" });
+      await conta("gdpr.cancellazione");
+      return rispondi(res, 200, { ok: true });
     }
 
     if (azione === "visite.elenco") {

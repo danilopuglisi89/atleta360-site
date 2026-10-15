@@ -41,3 +41,24 @@ c = sostituisci(c, /<main class="a360-statico">[\s\S]*?<\/main>/, STATICO);
 
 writeFileSync("dist/contatti.html", c);
 console.log("pagine-statiche: scritto dist/contatti.html");
+
+/* /webinar: stessa operazione, con la sua testa e il suo testo statico. */
+const TITOLO_W = "Webinar gratuito: le soft skill nello spogliatoio — Atleta360";
+const DESCRIZIONE_W =
+  "Giovedì 3 dicembre 2026, 20:30-21:30, online e gratuito: come tenere le ragazze in squadra e farle crescere nel settore giovanile di pallavolo. Con Danilo Puglisi e il caso Oasi Volley.";
+const STATICO_W = `<main class="a360-statico">
+        <h1>Le soft skill nello spogliatoio</h1>
+        <p>Webinar gratuito per allenatori, allenatrici e dirigenti del settore giovanile di pallavolo. Giovedì 3 dicembre 2026, dalle 20:30 alle 21:30, online.</p>
+        <p>Perché tante ragazze lasciano la pallavolo fra i 13 e i 16 anni, come allenare comunicazione, gestione dell'errore e leadership con esercizi pronti, come dare feedback a squadra e genitori, e il caso dell'Oasi Volley.</p>
+        <p>L'iscrizione richiede JavaScript. In alternativa scrivi a <a href="mailto:info@danilopuglisi.com">info@danilopuglisi.com</a> o su <a href="https://wa.me/393770870217">WhatsApp al +39 377 087 0217</a>.</p>
+        <p><a href="/">Torna alla pagina principale</a></p>
+      </main>`;
+let w = html;
+w = sostituisci(w, /<title>[^<]*<\/title>/, `<title>${TITOLO_W}</title>`);
+w = sostituisci(w, /(<meta name="description" content=")[^"]*(")/, `$1${DESCRIZIONE_W}$2`);
+w = sostituisci(w, /(<link rel="canonical" href=")[^"]*(")/, `$1${SITO}/webinar$2`);
+w = sostituisci(w, /(<meta property="og:url" content=")[^"]*(")/, `$1${SITO}/webinar$2`);
+w = sostituisci(w, /(<meta property="og:title" content=")[^"]*(")/, `$1${TITOLO_W}$2`);
+w = sostituisci(w, /<main class="a360-statico">[\s\S]*?<\/main>/, STATICO_W);
+writeFileSync("dist/webinar.html", w);
+console.log("pagine-statiche: scritto dist/webinar.html");

@@ -114,6 +114,10 @@ export default function Salute({ dati, vaiA }) {
             </Controllo>
           : <Controllo livello="ok" titolo="Richieste non salvate">Nessuna negli ultimi 30 giorni.</Controllo>}
 
+        {salute.migrazione5 === "ok"
+          ? null
+          : <Controllo livello="attenzione" titolo="Iscrizioni ai webinar">Esegui <code>supabase/admin-5.sql</code>: senza, la pagina /webinar non riesce a salvare gli iscritti.</Controllo>}
+
         {salute.migrazione3 === "ok"
           ? null
           : <Controllo livello="attenzione" titolo="Provenienza dei contatti">Esegui <code>supabase/admin-3.sql</code>: senza, i contatti si salvano ma non dicono da dove arrivano (le visite per canale si contano già).</Controllo>}

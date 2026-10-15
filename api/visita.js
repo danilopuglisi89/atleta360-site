@@ -11,11 +11,11 @@ import { db, dbConfigurato } from "./_lib/db.js";
 
 const ORIGINI = ["https://atleta-360.com", "https://www.atleta-360.com"];
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-const PAGINE = ["home", "contatti"];
+const PAGINE = ["home", "contatti", "webinar"];
 const FONTI = ["instagram", "facebook", "google", "linkedin", "whatsapp", "danilopuglisi", "email", "diretto", "altro"];
 const AZIONI = new Set([
   "scelta.atleta", "scelta.societa", "form.aperto", "form.inviato", "form.errore",
-  "privacy", "whatsapp", "demo", "faq",
+  "privacy", "whatsapp", "demo", "faq", "webinar.iscritto",
 ]);
 const BOT = /bot|crawl|spider|slurp|preview|headless|lighthouse|facebookexternalhit|whatsapp\/|telegram|embedly|vercel/i;
 

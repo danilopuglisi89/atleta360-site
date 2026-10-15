@@ -202,6 +202,15 @@ Nate da due revisori (un pignolo e un "inventore"). Da sapere:
   negli ultimi 10 minuti). Città/regione/paese dagli header `x-vercel-ip-*`, dispositivo grossolano
   dallo user agent, **IP mai salvato**. Bot scartati per user agent. Righe > 13 mesi cancellate
   dalla sveglia. Informativa § 8 aggiornata. Il browser "non contare" non manda niente.
+- **Webinar** (2026-10-15): pagina `/webinar` (`src/WebinarPage.jsx`, dati in `src/webinar.js`: per
+  il prossimo si cambia solo lì; dopo la fine la pagina passa da sola a "avvisami per il prossimo").
+  `dist/webinar.html` da `scripts/pagine-statiche.mjs`, in sitemap. Iscrizioni via
+  **`api/iscrizione.js`** (chiave di servizio, tabella `iscrizioni`, **`supabase/admin-5.sql`**),
+  una per evento+email, consenso privacy obbligatorio + consenso "novità" facoltativo (solo a
+  quelli si possono mandare proposte). Mail d'avviso a Danilo. Nessuna conferma automatica
+  all'iscritto: il mittente di prova di Resend consegna solo a Danilo (serve dominio verificato).
+  Pannello: Contatti → "Iscritti webinar" (copia email per il Ccn, CSV, presente/assente,
+  elimina). Piano commerciale completo in `PIANO-LEAD.md`.
 - Idee dell'inventore fatte: termometro del contatto, "Al servizio" (una persona alla volta),
   Timeout (anomalie con le mosse), bandierine sul grafico (`segni` nelle impostazioni, con
   l'effetto dei 3 giorni dopo), tabellone della settimana, sala trofei, link "cerca la società".

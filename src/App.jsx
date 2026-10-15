@@ -30,10 +30,12 @@ const FAQ = lazy(() => import("./cinematic/FAQ"));
 const SiteFooter = lazy(() => import("./cinematic/SiteFooter"));
 const ContactPage = lazy(() => import("./ContactPage"));
 const PrivacyPage = lazy(() => import("./PrivacyPage"));
+const WebinarPage = lazy(() => import("./WebinarPage"));
 
 const TITLES = {
   home: "Atleta360 · La dashboard delle soft skill per la pallavolo", // uguale al <title> di index.html
   contatti: "Richiedi la demo gratuita — Atleta360",
+  webinar: "Webinar gratuito: le soft skill nello spogliatoio — Atleta360",
   privacy: "Informativa privacy — Atleta360",
   form: "Richiedi la demo gratuita — Atleta360",
 };
@@ -100,6 +102,8 @@ export default function App() {
 
   const isContactRoute = typeof window !== "undefined"
     && window.location.pathname.replace(/\/+$/, "") === "/contatti";
+  const isWebinarRoute = typeof window !== "undefined"
+    && window.location.pathname.replace(/\/+$/, "") === "/webinar";
 
   // una visita per caricamento di pagina, conteggio anonimo (vedi api/evento.js);
   // le opzioni del pannello arrivano qui, prima che servano al modulo
@@ -110,18 +114,18 @@ export default function App() {
     if (visitaContata.current) return;
     visitaContata.current = true;
     // con la visita, da dove arriva (solo la categoria: instagram, google, diretto…)
-    conta(isContactRoute ? "visita.contatti" : "visita.home", `fonte.${fonte().categoria}`);
+    conta(isWebinarRoute ? "visita.webinar" : isContactRoute ? "visita.contatti" : "visita.home", `fonte.${fonte().categoria}`);
     // e il registro della singola visita (pannello → Visite)
-    iniziaVisita(isContactRoute ? "contatti" : "home");
+    iniziaVisita(isWebinarRoute ? "webinar" : isContactRoute ? "contatti" : "home");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // il titolo della scheda segue la vista: conta per SEO e per i preferiti
   useEffect(() => {
-    const key = showPrivacy ? "privacy" : isContactRoute ? "contatti" : tipo ? "form" : "home";
+    const key = showPrivacy ? "privacy" : isWebinarRoute ? "webinar" : isContactRoute ? "contatti" : tipo ? "form" : "home";
     document.title = TITLES[key];
     if (showPrivacy) azione("privacy");
-  }, [showPrivacy, isContactRoute, tipo]);
+  }, [showPrivacy, isContactRoute, isWebinarRoute, tipo]);
 
   if (!supabaseConfigured) return <SetupNotice />;
   if (showPrivacy) return (
@@ -163,6 +167,12 @@ export default function App() {
   let content;
   if (redirecting) {
     content = <Redirecting tipo={tipo} />;
+  } else if (isWebinarRoute) {
+    content = (
+      <Suspense fallback={null}>
+        <WebinarPage onOpenPrivacy={() => setShowPrivacy(true)} />
+      </Suspense>
+    );
   } else if (isContactRoute) {
     content = (
       <Suspense fallback={null}>
@@ -204,7 +214,7 @@ export default function App() {
     );
   }
 
-  const vistaConForm = isContactRoute || (!!tipo && !redirecting);
+  const vistaConForm = isContactRoute || isWebinarRoute || (!!tipo && !redirecting);
 
   return (
     <>

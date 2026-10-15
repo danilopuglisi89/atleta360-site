@@ -618,3 +618,30 @@ html.lenis, html.lenis body { height: auto; }
   line-height: 1.6; color: rgba(255, 255, 255, 0.85);
 }
 .a360-pausa-azioni { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+
+/* --- /webinar: stesso impianto di /contatti, con data e iscrizione --- */
+.a360-webinar-etichetta {
+  display: inline-flex; align-items: center; gap: 6px; margin-bottom: 12px; padding: 4px 12px; border-radius: 999px;
+  font-family: 'Inter', system-ui, sans-serif; font-size: var(--fs-micro); font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  background: rgba(255, 122, 24, 0.16); color: #FF9A4D; border: 1px solid rgba(255, 122, 24, 0.35);
+}
+.a360-webinar-quando { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0 0 22px; }
+.a360-webinar-quando span {
+  display: inline-flex; align-items: center; gap: 7px; font-family: 'Inter', system-ui, sans-serif;
+  font-size: var(--fs-small); font-weight: 600; color: #fff;
+}
+.a360-webinar-quando svg { color: #FF9A4D; }
+.a360-campi-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+.a360-webinar-fatto .a360-check.grande { width: 44px; height: 44px; }
+.a360-errore-form {
+  display: flex; gap: 8px; align-items: flex-start; margin-bottom: 14px; padding: 10px 12px; border-radius: var(--r-sm);
+  background: rgba(220, 60, 60, 0.14); border: 1px solid rgba(255, 120, 120, 0.35); color: #FFB4B4;
+  font-family: 'Inter', system-ui, sans-serif; font-size: var(--fs-kicker); line-height: 1.5;
+}
+select.a360-input { appearance: auto; }
+@media (max-width: 900px) {
+  .a360-webinar-etichetta { order: 2; justify-self: center; }
+  .a360-webinar-quando { order: 3; justify-content: center; }
+  .a360-webinar-perchi { order: 5; }
+}
+@media (max-width: 420px) { .a360-campi-2 { grid-template-columns: 1fr; } }

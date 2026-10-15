@@ -16,6 +16,7 @@ const AZIONI = {
   privacy: "ha letto la privacy",
   whatsapp: "ha cliccato WhatsApp",
   demo: "è entrato in demo",
+  "webinar.iscritto": "si è iscritto al webinar",
 };
 const FONTI = {
   instagram: "Instagram", facebook: "Facebook", google: "Ricerca", linkedin: "LinkedIn", whatsapp: "WhatsApp",
@@ -145,7 +146,7 @@ export default function Visite({ leads, apriContatto }) {
           </div>
           <div className="ad-griglia-2">
             <Classifica titolo="Dispositivi" totale={n} righe={conta(visite, (v) => [v.dispositivo, v.sistema].filter(Boolean).join(" · "))} />
-            <Classifica titolo="Pagina d'arrivo" totale={n} righe={conta(visite, (v) => (v.pagina === "contatti" ? "/contatti (campagne)" : "home"))} />
+            <Classifica titolo="Pagina d'arrivo" totale={n} righe={conta(visite, (v) => (v.pagina === "contatti" ? "/contatti (campagne)" : v.pagina === "webinar" ? "/webinar" : "home"))} />
           </div>
 
           <section className="ad-card">
@@ -181,7 +182,7 @@ export default function Visite({ leads, apriContatto }) {
                       <span className="ad-segno"><IconaDispositivo tipo={v.dispositivo} /> {[v.sistema, v.browser].filter((x) => x && x !== "altro").join(" · ") || v.dispositivo}</span>
                     </div>
                     <div className="ad-registro-corpo">
-                      <span>{v.pagina === "contatti" ? "/contatti" : "home"} · da <b>{FONTI[v.fonte] || v.fonte}</b>{v.fonte_dettaglio ? ` (${v.fonte_dettaglio})` : ""}</span>
+                      <span>{v.pagina === "home" ? "home" : `/${v.pagina}`} · da <b>{FONTI[v.fonte] || v.fonte}</b>{v.fonte_dettaglio ? ` (${v.fonte_dettaglio})` : ""}</span>
                       <span className="ad-piccolo">rimasto {durata(v.secondi)} · letto il {v.profondita || 0}%</span>
                     </div>
                     {((v.azioni || []).length > 0 || v.lead_id) && (
