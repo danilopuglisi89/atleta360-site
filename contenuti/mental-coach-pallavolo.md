@@ -114,6 +114,16 @@ Non uso test psicologici: sono strumenti riservati agli psicologi. Usiamo tre co
 - **Uno o due fatti che si contano**: quante volte hai usato la routine, quanti scambi ti servono per tornare in partita dopo un errore.
 - **Un video della partita**, quando c'è, guardato insieme.
 
+:::grafico
+Titolo: Come può cambiare il diario di un'atleta in 8 settimane
+Nota: Esempio illustrativo, non sono dati di un'atleta reale. Punteggi da 0 a 100.
+Concentrazione in partita | 48 | 76
+Gestione dell'errore | 35 | 70
+Comunicazione in campo | 55 | 79
+Fiducia in sé | 42 | 73
+Routine di battuta usata | 20 | 85
+:::
+
 Il diario è tuo: non lo vedono né la società né l'allenatore, a meno che non sia tu a mostrarlo.
 
 ## Minori e riservatezza

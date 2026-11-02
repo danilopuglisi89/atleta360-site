@@ -70,4 +70,5 @@ oggi Google mostra solo giornali e tesi: **nessuna pagina di servizio dedicata**
 - **Credenziali**: nessun corso né anni da mental coach; viene dalla gestione di squadre di lavoro molto
   ampie e segue l'Oasi Volley di Viareggio. Niente testimonianza dell'Oasi.
 - Diario su Atleta360 privato (né società né allenatore lo vedono).
-- Da confermare: i prezzi sono finali per le famiglie (regime fiscale / IVA).
+- **Prezzi finali** per le famiglie: da gennaio 2027 Danilo è in forfettario (niente IVA). Fino a
+  dicembre è in ordinario: un eventuale pagamento prima di gennaio ha l'IVA già dentro il prezzo.

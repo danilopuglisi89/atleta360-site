@@ -57,6 +57,26 @@ function inline(s) {
 
 /* Markdown ridotto: titoli ## ###, paragrafi, elenchi, tabelle, citazioni,
    blocchi :::nota e il segnaposto :::cta (il riquadro di contatto). */
+/* Grafico a barre che si riempiono quando entra a vista (animazioni.js):
+   la barra chiara è il punto di partenza, quella arancio il punto d'arrivo. */
+function grafico(righe) {
+  const titolo = (righe.find((r) => r.startsWith("Titolo:")) || "").replace("Titolo:", "").trim();
+  const nota = (righe.find((r) => r.startsWith("Nota:")) || "").replace("Nota:", "").trim();
+  const voci = righe.filter((r) => r.includes("|")).map((r) => r.split("|").map((x) => x.trim()));
+  return `<figure class="grafico">
+  <figcaption><strong>${inline(titolo)}</strong>${nota ? `<span>${inline(nota)}</span>` : ""}</figcaption>
+  <div class="grafico-legenda"><span class="l-prima">Settimana 1</span><span class="l-dopo">Settimana 8</span></div>
+  ${voci.map(([voce, da, a]) => `<div class="grafico-riga">
+    <span class="grafico-voce">${esc(voce)}</span>
+    <div class="grafico-traccia" role="img" aria-label="${esc(voce)}: da ${esc(da)} a ${esc(a)} su 100">
+      <div class="grafico-prima" style="--v:${Number(da)}%"></div>
+      <div class="grafico-dopo" style="--v:${Number(a)}%"></div>
+    </div>
+    <b class="grafico-num" data-a="${Number(a)}">${Number(a)}</b>
+  </div>`).join("\n  ")}
+</figure>`;
+}
+
 function markdown(md) {
   const righe = md.replace(/\r/g, "").split("\n");
   const out = [];
@@ -73,6 +93,8 @@ function markdown(md) {
       i++;
       // :::nota → riquadro; :::per-chi, :::passi… → blocco con la sua classe (schede, passi numerati)
       const classe = tipo.replace(/[^a-z-]/g, "");
+      // :::grafico → barre animate "settimana 1 → settimana 8"; righe "Titolo: …" e "Voce | prima | dopo"
+      if (classe === "grafico") { out.push(grafico(dentro)); continue; }
       let interno = markdown(dentro.join("\n"));
       // :::prezzi → una scheda per ogni ### (nome del pacchetto, prezzo, descrizione)
       if (classe === "prezzi") interno = interno.split(/(?=<h3)/).map((c) => (c.startsWith("<h3") ? `<div class="prezzo">${c}</div>` : c)).join("");
@@ -224,6 +246,7 @@ ${indicizza ? "" : '<meta name="robots" content="noindex, nofollow">\n'}<meta pr
 ${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ""}
 </head>
 <body data-pagina="${pagina}">
+<div class="avanzamento" aria-hidden="true"><span></span></div>
 ${BOZZE ? '<div class="bozza">Anteprima per l\'approvazione: questa pagina non è ancora pubblica.</div>' : ""}
 <header class="testata">
   <a href="/" class="marchio" aria-label="Atleta360, pagina principale"><img src="/contenuti/logo-bianco-480.png" alt="Atleta360" width="480" height="203"></a>
@@ -241,6 +264,7 @@ ${pagina === "servizio" ? '<a class="barra-fissa" href="#contatto">Colloquio gra
   <p class="piccolo">Il mental coaching non è una prestazione sanitaria né psicologica e non sostituisce il parere di un medico o di uno psicologo. Professione non organizzata in ordini o collegi, esercitata ai sensi della Legge 14 gennaio 2013, n. 4.</p>
 </footer>
 <script src="/contenuti/traccia.js" defer></script>
+<script src="/contenuti/animazioni.js" defer></script>
 </body>
 </html>`;
 }
@@ -274,11 +298,38 @@ function eroe(p) {
         <img src="/danilo.jpg" alt="Danilo Puglisi" width="480" height="480" fetchpriority="high">
         <figcaption><strong>Danilo Puglisi</strong>Esperto di settore · Regione Toscana n° 531</figcaption>
       </figure>
-    </header>
-    <div class="fiducia">
+    </header>`;
+}
+
+const FIDUCIA = `<div class="fiducia rivela">
       <img src="/oasi-volley-logo.png" alt="Oasi Volley" width="260" height="75" loading="lazy">
       <p>Atleta360 è lo strumento con cui l'<strong>Oasi Volley</strong> di Viareggio segue la crescita delle sue atlete.</p>
     </div>`;
+
+/* Servizio e zona: pagina larga a fasce. L'apertura su fondo blu a tutta
+   larghezza, poi una fascia per ogni titolo ## (alternate chiaro/bianco):
+   il testo resta su una colonna comoda, schede, passi e prezzi si allargano. */
+function paginaLarga(p, testo, briciole) {
+  const [intro, ...sezioni] = testo.split(/(?=<h2)/);
+  const fasce = [intro.trim() ? `<section class="fascia"><div class="dentro">${intro}</div></section>` : "",
+    ...sezioni.map((s, i) => `<section class="fascia${i % 2 ? "" : " tinta"}"><div class="dentro">${s}</div></section>`)].join("\n");
+  return `
+<main class="pagina-larga">
+  <div class="eroe-fascia">
+    <div class="eroe-sfondo" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="dentro">
+      <nav class="briciole" aria-label="Sei qui">${briciole}</nav>
+      ${eroe(p)}
+    </div>
+  </div>
+  <div class="dentro">${FIDUCIA}</div>
+  <article>
+    ${fasce}
+    ${p.faq?.length ? `<section class="fascia"><div class="dentro">${faqHtml(p)}</div></section>` : ""}
+  </article>
+  <div class="dentro dentro-modulo">${cta(p)}</div>
+  ${guide.length ? `<div class="dentro">${correlate(p)}</div>` : ""}
+</main>`;
 }
 
 function paginaContenuto(p) {
@@ -286,6 +337,14 @@ function paginaContenuto(p) {
     ? `<a href="/">Atleta360</a> › <a href="/guide">Guide</a> › <span>${esc(p.titolo)}</span>`
     : `<a href="/">Atleta360</a> › <span>${esc(p.titolo)}</span>`;
   const testo = markdown(p.corpo).split("<!--CTA-->").join(CTA_BREVE);
+  if (p.tipo !== "guida") {
+    return guscio({
+      titoloSeo: p.titoloSeo || `${p.titolo} | Atleta360`,
+      descrizione: p.descrizione, percorso: p.percorso,
+      indicizza: p.stato === "pubblicato" && !BOZZE,
+      jsonld: schema(p), pagina: "servizio", corpo: paginaLarga(p, testo, briciole),
+    });
+  }
   const info = p.tipo === "guida"
     ? `<p class="info">Di <a href="/mental-coach-pallavolo">Danilo Puglisi</a>, mental coach · ${fmtData(p.data)} · ${p.minuti} minuti di lettura</p>`
     : "";
@@ -340,6 +399,7 @@ for (const p of visibili) writeFileSync(join(DIST, `${p.percorso.slice(1)}.html`
 if (guide.length || BOZZE) writeFileSync(join(DIST, "guide.html"), paginaIndice());
 copyFileSync("scripts/contenuti/stile.css", join(DIST, "contenuti", "stile.css"));
 copyFileSync("scripts/contenuti/traccia.js", join(DIST, "contenuti", "traccia.js"));
+copyFileSync("scripts/contenuti/animazioni.js", join(DIST, "contenuti", "animazioni.js"));
 // logo bianco a 480 px (32 KB invece dei 123 KB dell'originale da 1968 px)
 copyFileSync("scripts/contenuti/logo-bianco-480.png", join(DIST, "contenuti", "logo-bianco-480.png"));
 for (const [pacchetto, file] of [["inter", "inter-latin-400-normal.woff2"], ["inter", "inter-latin-600-normal.woff2"], ["inter", "inter-latin-700-normal.woff2"], ["space-grotesk", "space-grotesk-latin-700-normal.woff2"]]) {
