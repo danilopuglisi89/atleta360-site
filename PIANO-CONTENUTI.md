@@ -20,11 +20,15 @@ oggi Google mostra solo giornali e tesi: **nessuna pagina di servizio dedicata**
 
 | Pagina | Parola chiave | Stato |
 |---|---|---|
-| `/mental-coach-pallavolo` (servizio) | mental coach pallavolo | bozza |
-| `/mental-coach-pallavolo-toscana` (zona) | mental coach sportivo toscana, mental coach massa carrara | bozza |
-| `/guide` (indice) | — | si accende con la prima guida pubblicata |
+| `/mental-coach-pallavolo` (servizio) | mental coach pallavolo | **pubblicata 2/11** |
+| `/mental-coach-pallavolo-toscana` (zona) | mental coach sportivo toscana, mental coach massa carrara | **pubblicata 2/11** |
+| `/guide` (indice) | — | **pubblicata 2/11** |
 
-## Guide — prima ondata (scritte, in bozza)
+Linkate dal piè di pagina della home (colonna «Mental coach», anche nel blocco statico di index.html).
+Da fare da Danilo: inviare di nuovo la sitemap in Search Console e Bing, chiedere l'indicizzazione
+di `/mental-coach-pallavolo`; profilo dell'attività su Google a Carrara; link in bio Instagram.
+
+## Guide — prima ondata (pubblicate il 2/11)
 
 1. Ansia prima della partita di pallavolo: 7 cose che funzionano — *ansia da prestazione sportiva ragazzi / rimedi*
 2. Mental coach o psicologo dello sport: la differenza — *differenza tra mental coach e psicologo sportivo*

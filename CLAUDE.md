@@ -219,6 +219,14 @@ Nate da due revisori (un pignolo e un "inventore"). Da sapere:
   anche le bozze, con noindex e fascia «anteprima». Il modulo «colloquio gratuito» usa
   `api/iscrizione.js` con `evento: "coaching"` (messaggio in `note`). Piano e argomenti in
   `PIANO-CONTENUTI.md`. `/#privacy` apre l'informativa (App.jsx).
+  **Pubblicate il 2/11/2026** (servizio, Toscana, 3 guide), linkate dal piè di pagina (colonna
+  «Mental coach» in SiteFooter.jsx + blocco statico). Servizio e zona usano `paginaLarga` (fasce
+  a tutta larghezza) con effetti in `scripts/contenuti/animazioni.js`: blocchi `:::punteggio`,
+  `:::abilita` (fascia blu), `:::barre`, `:::grafico`, cifre e nastro aggiunti dal generatore.
+  ⚠️ Mai `clip-path` già applicato a un elemento osservato: l'IntersectionObserver non lo vede
+  mai entrare (i titoli restavano invisibili) — il ritaglio parte come animazione da `.visto`.
+  ⚠️ `.barra-fissa` deve restare `position: fixed`: una regola `position: relative` comune ai
+  bottoni la faceva sporgere di 12 px sul telefono.
 - Idee dell'inventore fatte: termometro del contatto, "Al servizio" (una persona alla volta),
   Timeout (anomalie con le mosse), bandierine sul grafico (`segni` nelle impostazioni, con
   l'effetto dei 3 giorni dopo), tabellone della settimana, sala trofei, link "cerca la società".
