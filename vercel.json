@@ -12,6 +12,11 @@
       ],
       "destination": "https://atleta-360.com/:path",
       "permanent": true
+    },
+    {
+      "source": "/coach",
+      "destination": "/mental-coach-pallavolo?utm_source=instagram&utm_medium=bio",
+      "permanent": false
     }
   ],
   "headers": [
