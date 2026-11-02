@@ -7,7 +7,7 @@ import { chiama, dataOra, dataIso, scaricaCsv, oggiRoma } from "./util";
    campo Ccn, così nessuno vede gli indirizzi degli altri. Si può scrivere
    per altro (proposte su Atleta360) solo a chi ha spuntato "novità". */
 
-const nomeEvento = (e) => (e === "prossimo" ? "Avvisami per il prossimo" : `Webinar del ${new Intl.DateTimeFormat("it-IT", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(`${e}T12:00:00Z`))}`);
+const nomeEvento = (e) => (e === "coaching" ? "Richieste di colloquio (mental coaching)" : e === "prossimo" ? "Avvisami per il prossimo" : `Webinar del ${new Intl.DateTimeFormat("it-IT", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(`${e}T12:00:00Z`))}`);
 
 export default function Iscritti({ iscrizioni, migrazione5, onAggiorna, onRimuovi }) {
   const eventi = useMemo(() => [...new Set(iscrizioni.map((i) => i.evento))].sort().reverse(), [iscrizioni]);
@@ -76,7 +76,8 @@ export default function Iscritti({ iscrizioni, migrazione5, onAggiorna, onRimuov
                   {i.consenso_marketing && <span className="ad-segno ad-segno-richiamo"><Megaphone size={12} /> novità sì</span>}
                   {i.sospetto && <span className="ad-segno ad-segno-sospetto"><ShieldAlert size={12} /> sospetto</span>}
                 </span>
-                <span className="ad-piccolo">{i.email}{i.telefono ? ` · ${i.telefono}` : ""} · iscritto {dataOra(i.created_at)}{i.origine ? ` · da ${i.origine}` : ""}</span>
+                {i.note && <span className="ad-riga-messaggio">«{i.note}»</span>}
+                <span className="ad-piccolo">{i.email}{i.telefono ? ` · ${i.telefono}` : ""} · {dataOra(i.created_at)}{i.origine_dettaglio ? ` · da ${i.origine_dettaglio}` : i.origine ? ` · da ${i.origine}` : ""}</span>
               </div>
               <div className="ad-azioni-rapide">
                 <a className="ad-btn ad-btn-leggero ad-btn-piccolo" href={`mailto:${i.email}`}><Mail size={14} /> Scrivi</a>

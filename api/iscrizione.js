@@ -12,7 +12,8 @@ import { allarmeModulo } from "./_lib/controllo.js";
 
 const ORIGINI = ["https://atleta-360.com", "https://www.atleta-360.com"];
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-const EVENTO = /^(\d{4}-\d{2}-\d{2}|prossimo)$/;
+// data = webinar; "prossimo" = avvisami; "coaching" = colloquio gratuito dalle pagine di mental coaching
+const EVENTO = /^(\d{4}-\d{2}-\d{2}|prossimo|coaching)$/;
 const FONTI = ["instagram", "facebook", "google", "linkedin", "whatsapp", "danilopuglisi", "email", "diretto", "altro"];
 const CONTIENE_LINK = /(https?:\/\/|www\.|\[url|<a\s)/i;
 const INFORMATIVA = "v1";
@@ -56,6 +57,8 @@ export default async function handler(req, res) {
     informativa_versione: INFORMATIVA,
     origine: FONTI.includes(b.origine) ? b.origine : "diretto",
     origine_dettaglio: t(b.origine_dettaglio, 200),
+    // il messaggio del modulo "colloquio gratuito" (cosa succede in campo)
+    note: t(b.messaggio, 1500),
     // compilato in meno di 3 secondi: quasi sempre un programma
     sospetto: Number(b.secondi) < 3,
   };
@@ -86,10 +89,10 @@ export default async function handler(req, res) {
         await inviaMail({
           a: await destinatario(valori),
           rispondiA: riga.email,
-          oggetto: `Iscrizione al webinar: ${nome.replace(/[<>\r\n]+/g, " ")}`,
-          html: cornice(riga.evento === "prossimo" ? "Avviso per il prossimo webinar" : `Webinar del ${riga.evento}`, nome, `
+          oggetto: `${riga.evento === "coaching" ? "Richiesta colloquio di mental coaching" : "Iscrizione al webinar"}: ${nome.replace(/[<>\r\n]+/g, " ")}`,
+          html: cornice(riga.evento === "coaching" ? "Colloquio gratuito di mental coaching" : riga.evento === "prossimo" ? "Avviso per il prossimo webinar" : `Webinar del ${riga.evento}`, nome, `
             <table style="border-collapse:collapse;width:100%">
-              ${r("Email", riga.email)}${r("Ruolo", riga.ruolo)}${r("Società", riga.societa)}${r("Telefono", riga.telefono)}
+              ${r("Messaggio", riga.note)}${r("Email", riga.email)}${r("Ruolo", riga.ruolo)}${r("Società", riga.societa)}${r("Telefono", riga.telefono)}
               ${r("Arrivato da", [riga.origine, riga.origine_dettaglio].filter(Boolean).join(" · "))}
               ${r("Novità su Atleta360", riga.consenso_marketing ? "sì, può ricevere proposte" : "no, solo il webinar")}
             </table>`),

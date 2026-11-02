@@ -63,6 +63,8 @@ export default function PrivacyPage({ onBack }) {
           Se ti iscrivi a un webinar, usiamo nome, cognome, email, ruolo e (se li indichi) società
           e telefono per mandarti il link di partecipazione e un promemoria; ti scriviamo per
           proposte su Atleta360 solo se hai spuntato la casella facoltativa dedicata.
+          Se chiedi un colloquio di mental coaching, usiamo i dati che lasci (compreso il messaggio
+          facoltativo) solo per ricontattarti e fissare il colloquio.
           Non usiamo i tuoi dati per finalità diverse da queste e non li cediamo a terzi per scopi
           commerciali di terzi.
         </p>

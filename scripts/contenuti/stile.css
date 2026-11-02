@@ -1,0 +1,100 @@
+/* Pagine di contenuto (servizio, zona, guide): lettura lunga, quindi fondo
+   chiaro e colonna stretta; brand Atleta360 nella testata navy e nell'arancio
+   dei pulsanti. Font serviti dal sito (niente Google Fonts). */
+@font-face { font-family: "Inter"; font-weight: 400; font-display: swap; src: url(/contenuti/fonts/inter-latin-400-normal.woff2) format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 600; font-display: swap; src: url(/contenuti/fonts/inter-latin-600-normal.woff2) format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 700; font-display: swap; src: url(/contenuti/fonts/inter-latin-700-normal.woff2) format("woff2"); }
+@font-face { font-family: "Space Grotesk"; font-weight: 700; font-display: swap; src: url(/contenuti/fonts/space-grotesk-latin-700-normal.woff2) format("woff2"); }
+
+:root {
+  --navy: #0A1650; --navy-2: #17297A; --arancio: #FF7A18; --arancio-testo: #B4520A;
+  --ink: #141A33; --muto: #55607E; --linea: #E3E7F1; --fondo: #F7F8FC; --carta: #FFFFFF;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--fondo); color: var(--ink); font: 400 18px/1.7 "Inter", system-ui, sans-serif; }
+a { color: var(--navy-2); text-underline-offset: 3px; }
+a:hover { color: var(--arancio-testo); }
+:focus-visible { outline: 3px solid var(--arancio); outline-offset: 2px; }
+
+.bozza { background: #FFF1E6; color: #7A3A00; text-align: center; font-size: 14px; font-weight: 600; padding: 8px 16px; }
+
+.testata {
+  background: linear-gradient(120deg, var(--navy), var(--navy-2)); color: #fff;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  padding: 12px max(16px, calc((100vw - 1080px) / 2));
+}
+.marchio { display: inline-flex; min-height: 44px; align-items: center; }
+.testata nav { display: flex; gap: 6px; flex-wrap: wrap; }
+.testata nav a { color: #fff; text-decoration: none; font-size: 15px; font-weight: 600; padding: 10px 12px; border-radius: 10px; min-height: 44px; display: inline-flex; align-items: center; }
+.testata nav a:hover { background: rgba(255,255,255,.1); color: #fff; }
+.testata .nav-cta { background: var(--arancio); }
+.testata .nav-cta:hover { background: #ff8c3a; }
+
+.contenuto { max-width: 760px; margin: 0 auto; padding: 24px 20px 64px; }
+.briciole { font-size: 14px; color: var(--muto); margin-bottom: 20px; }
+.briciole a { color: var(--muto); }
+.intestazione { margin-bottom: 28px; }
+h1, h2, h3 { font-family: "Space Grotesk", system-ui, sans-serif; font-weight: 700; color: var(--navy); line-height: 1.2; letter-spacing: -0.01em; }
+h1 { font-size: clamp(30px, 5vw, 42px); margin: 0 0 14px; }
+h2 { font-size: clamp(23px, 3.6vw, 28px); margin: 44px 0 12px; }
+h3 { font-size: 20px; margin: 30px 0 8px; }
+.sommario { font-size: 20px; color: #2E3757; margin: 0 0 12px; }
+.info { font-size: 14px; color: var(--muto); margin: 0; }
+p { margin: 0 0 18px; }
+ul, ol { padding-left: 1.3em; margin: 0 0 20px; }
+li { margin-bottom: 8px; }
+strong { color: #0E1640; }
+blockquote { margin: 24px 0; padding: 4px 0 4px 18px; border-left: 4px solid var(--arancio); color: #2E3757; font-style: italic; }
+
+.nota { background: #FFF6EE; border: 1px solid #FFD9BC; border-radius: 14px; padding: 18px 20px 2px; margin: 28px 0; font-size: 17px; }
+.tabella { overflow-x: auto; margin: 0 0 24px; }
+table { border-collapse: collapse; width: 100%; font-size: 16px; background: var(--carta); }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--linea); vertical-align: top; }
+th { background: #EEF1F8; color: var(--navy); font-weight: 600; }
+
+.faq details { background: var(--carta); border: 1px solid var(--linea); border-radius: 12px; margin-bottom: 10px; padding: 0 18px; }
+.faq summary { cursor: pointer; font-weight: 600; padding: 14px 0; min-height: 44px; }
+.faq details p { margin-top: 0; }
+
+.cta { margin: 48px 0 32px; background: linear-gradient(140deg, var(--navy), var(--navy-2)); color: #fff; border-radius: 20px; padding: 28px 24px; }
+.cta h2 { color: #fff; margin-top: 0; }
+.cta > p { color: rgba(255,255,255,.85); }
+.cta a { color: #FFC59A; }
+.cta-form label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.cta-form p { margin: 0 0 14px; }
+.cta-form input:not([type=checkbox]), .cta-form select, .cta-form textarea {
+  width: 100%; font: inherit; font-size: 16px; color: var(--ink); background: #fff;
+  border: 1px solid #C9D0E3; border-radius: 10px; padding: 11px 12px; min-height: 46px;
+}
+.campi-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+.consenso { display: flex !important; gap: 10px; align-items: flex-start; font-weight: 400 !important; font-size: 14px !important; line-height: 1.5; margin: 6px 0 16px !important; }
+.consenso input { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--arancio); flex-shrink: 0; }
+.bottone { font: inherit; font-weight: 700; font-size: 17px; color: #fff; background: var(--arancio); border: 0; border-radius: 12px; padding: 14px 22px; min-height: 50px; cursor: pointer; width: 100%; }
+.bottone:hover { background: #ff8c3a; }
+.bottone:disabled { opacity: .7; cursor: default; }
+.esito { margin: 12px 0 0 !important; font-weight: 600; }
+.esito.ok { color: #9BE7B9; }
+.esito.errore { color: #FFB4B4; }
+.cta-alt { font-size: 15px; margin: 16px 0 0; color: rgba(255,255,255,.8); }
+.esca { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+.correlate ul, .elenco-guide { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.correlate a, .elenco-guide a { display: block; background: var(--carta); border: 1px solid var(--linea); border-radius: 14px; padding: 16px 18px; text-decoration: none; color: var(--ink); }
+.correlate a:hover, .elenco-guide a:hover { border-color: #C9D0E3; color: var(--ink); }
+.correlate strong { display: block; color: var(--navy); }
+.correlate span { display: block; font-size: 15px; color: var(--muto); margin-top: 4px; }
+.elenco-guide h2 { font-size: 21px; margin: 0 0 6px; }
+.elenco-guide p { font-size: 16px; color: #2E3757; margin: 0 0 8px; }
+
+.piede { border-top: 1px solid var(--linea); background: var(--carta); padding: 24px max(20px, calc((100vw - 760px) / 2)); font-size: 14px; color: var(--muto); }
+.piede p { margin: 0 0 6px; }
+.piede .piccolo { font-size: 13px; }
+
+@media (max-width: 560px) {
+  body { font-size: 17px; }
+  .campi-2 { grid-template-columns: 1fr; }
+  .testata { justify-content: center; }
+  .testata nav { justify-content: center; }
+  .cta { padding: 22px 18px; margin-left: -4px; margin-right: -4px; }
+}

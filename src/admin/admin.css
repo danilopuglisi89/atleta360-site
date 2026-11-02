@@ -422,6 +422,7 @@ textarea.ad-campo { resize: vertical; line-height: 1.5; }
 /* --- iscritti ai webinar --- */
 .ad-iscritto { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 16px; }
 .ad-iscritto .ad-riga-nome { flex: 1 1 260px; }
+.ad-riga-messaggio { font-size: 14px; color: var(--ad-ink); font-style: italic; margin: 2px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
 
 @media (max-width: 640px) {
   /* quattro schede sempre visibili: scorrendo di lato "Salute" restava fuori schermo */

@@ -211,6 +211,14 @@ Nate da due revisori (un pignolo e un "inventore"). Da sapere:
   all'iscritto: il mittente di prova di Resend consegna solo a Danilo (serve dominio verificato).
   Pannello: Contatti → "Iscritti webinar" (copia email per il Ccn, CSV, presente/assente,
   elimina). Piano commerciale completo in `PIANO-LEAD.md`.
+- **Pagine per Google / mental coach (dal 2026-11-02)**: `contenuti/*.md` (servizio, zona) e
+  `contenuti/guide/*.md` → `scripts/contenuti.mjs` (dopo la build) scrive HTML statico in dist/
+  (`/mental-coach-pallavolo`, `/mental-coach-pallavolo-toscana`, `/guide`, `/guide/<slug>`),
+  rigenera `dist/sitemap.xml`, copia font e `scripts/contenuti/{stile.css,traccia.js}`.
+  **Va online solo `stato: pubblicato`**; con `BOZZE=1` o nelle anteprime Vercel (`VERCEL_ENV=preview`)
+  anche le bozze, con noindex e fascia «anteprima». Il modulo «colloquio gratuito» usa
+  `api/iscrizione.js` con `evento: "coaching"` (messaggio in `note`). Piano e argomenti in
+  `PIANO-CONTENUTI.md`. `/#privacy` apre l'informativa (App.jsx).
 - Idee dell'inventore fatte: termometro del contatto, "Al servizio" (una persona alla volta),
   Timeout (anomalie con le mosse), bandierine sul grafico (`segni` nelle impostazioni, con
   l'effetto dei 3 giorni dopo), tabellone della settimana, sala trofei, link "cerca la società".

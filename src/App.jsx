@@ -87,7 +87,8 @@ function Redirecting({ tipo }) {
 export default function App() {
   const [tipo, setTipo] = useState(null); // null | "atleta" | "societa"
   const [redirecting, setRedirecting] = useState(false);
-  const [showPrivacy, setShowPrivacy] = useState(false);
+  // le pagine di contenuto (guide, mental coach) linkano l'informativa come /#privacy
+  const [showPrivacy, setShowPrivacy] = useState(() => typeof window !== "undefined" && window.location.hash === "#privacy");
   const [leaving, setLeaving] = useState(false);
   const stageRef = useRef(null);
   const heroRef = useRef(null);

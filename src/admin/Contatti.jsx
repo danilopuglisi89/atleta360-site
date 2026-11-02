@@ -237,7 +237,7 @@ export default function Contatti({ leads, opzioni, migrazione2, daAprire, onAper
   const selettore = (
     <div className="ad-segmenti" role="radiogroup" aria-label="Elenco">
       <button role="radio" aria-checked={vista === "demo"} className={vista === "demo" ? "attivo" : ""} onClick={() => setVista("demo")}>Richieste demo ({leads.length})</button>
-      <button role="radio" aria-checked={vista === "webinar"} className={vista === "webinar" ? "attivo" : ""} onClick={() => setVista("webinar")}>Iscritti webinar ({iscrizioni.length})</button>
+      <button role="radio" aria-checked={vista === "webinar"} className={vista === "webinar" ? "attivo" : ""} onClick={() => setVista("webinar")}>Colloqui e webinar ({iscrizioni.length})</button>
     </div>
   );
   if (vista === "webinar") {
