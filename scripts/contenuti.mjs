@@ -77,6 +77,33 @@ function grafico(righe) {
 </figure>`;
 }
 
+/* :::barre → barre orizzontali proporzionali al valore più alto; righe
+   "Titolo: …", "Nota: …", "Unità: …" e "Voce | valore". */
+function barre(righe) {
+  const campo = (k) => (righe.find((r) => r.startsWith(k + ":")) || "").slice(k.length + 1).trim();
+  const unita = campo("Unità");
+  const voci = righe.filter((r) => r.includes("|")).map((r) => r.split("|").map((x) => x.trim()));
+  const max = Math.max(...voci.map((v) => Number(v[1])));
+  return `<figure class="barre">
+  <figcaption><strong>${inline(campo("Titolo"))}</strong>${campo("Nota") ? `<span>${inline(campo("Nota"))}</span>` : ""}</figcaption>
+  ${voci.map(([voce, v]) => `<div class="barre-riga">
+    <span class="barre-voce">${esc(voce)}</span>
+    <div class="barre-traccia" role="img" aria-label="${esc(voce)}: ${Number(v)} ${esc(unita)}"><div class="barre-pieno" style="--v:${(Number(v) / max * 100).toFixed(1)}%"></div></div>
+    <b class="conta barre-num" data-a="${Number(v)}" data-dopo=" ${esc(unita)}">${Number(v)} ${esc(unita)}</b>
+  </div>`).join("\n  ")}
+</figure>`;
+}
+
+/* :::punteggio → il tabellone del 23-22 dell'apertura, con gli 8 secondi
+   che l'arbitro concede per battere (la barra si svuota, animazioni.js). */
+const PUNTEGGIO = `<div class="punteggio" role="img" aria-label="Tabellone: 23 a 22, alla battuta, 8 secondi per servire">
+  <div class="punteggio-testa"><span>Fine set</span><span class="punteggio-live">alla battuta</span></div>
+  <div class="punteggio-riga punteggio-tua"><span>La tua squadra <i class="punteggio-palla"></i></span><b class="conta" data-a="23">23</b></div>
+  <div class="punteggio-riga"><span>Avversarie</span><b class="conta" data-a="22">22</b></div>
+  <div class="punteggio-timer"><span></span></div>
+  <p class="punteggio-nota"><b class="punteggio-sec">8</b> secondi dal fischio per battere. La routine li riempie sempre allo stesso modo.</p>
+</div>`;
+
 function markdown(md) {
   const righe = md.replace(/\r/g, "").split("\n");
   const out = [];
@@ -95,6 +122,8 @@ function markdown(md) {
       const classe = tipo.replace(/[^a-z-]/g, "");
       // :::grafico → barre animate "settimana 1 → settimana 8"; righe "Titolo: …" e "Voce | prima | dopo"
       if (classe === "grafico") { out.push(grafico(dentro)); continue; }
+      if (classe === "barre") { out.push(barre(dentro)); continue; }
+      if (classe === "punteggio") { out.push(PUNTEGGIO); continue; }
       let interno = markdown(dentro.join("\n"));
       // :::prezzi → una scheda per ogni ### (nome del pacchetto, prezzo, descrizione)
       if (classe === "prezzi") interno = interno.split(/(?=<h3)/).map((c) => (c.startsWith("<h3") ? `<div class="prezzo">${c}</div>` : c)).join("");
@@ -295,7 +324,7 @@ function eroe(p) {
         <ul class="rassicura"><li>20 minuti, gratis</li><li>Online o in presenza</li><li>Nessun impegno</li></ul>
       </div>
       <figure class="eroe-foto">
-        <img src="/danilo.jpg" alt="Danilo Puglisi" width="480" height="480" fetchpriority="high">
+        <span class="anello"><img src="/danilo.jpg" alt="Danilo Puglisi" width="480" height="480" fetchpriority="high"></span>
         <figcaption><strong>Danilo Puglisi</strong>Esperto di settore · Regione Toscana n° 531</figcaption>
       </figure>
     </header>`;
@@ -306,13 +335,31 @@ const FIDUCIA = `<div class="fiducia rivela">
       <p>Atleta360 è lo strumento con cui l'<strong>Oasi Volley</strong> di Viareggio segue la crescita delle sue atlete.</p>
     </div>`;
 
+/* Quattro cifre vere del percorso, con l'anello che si chiude e il numero che conta. */
+const cifra = (a, testo, prima = "") => `<div class="cifra">
+      <svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="34"/><circle class="cifra-anello" cx="40" cy="40" r="34"/></svg>
+      <b class="conta" data-a="${a}" data-prima="${prima}">${prima}${a}</b><span>${testo}</span>
+    </div>`;
+const CIFRE = `<div class="cifre">
+    ${cifra(20, "minuti di colloquio gratuito")}
+    ${cifra(8, "incontri nel percorso completo")}
+    ${cifra(50, "minuti per ogni incontro")}
+    ${cifra(25, "anni: dai 12 in su", "12–")}
+  </div>`;
+
+/* Nastro di parole che scorre (velocità legata allo scorrimento, animazioni.js). */
+const ABILITA = ["Routine", "Gestione dell'errore", "Fiducia", "Concentrazione", "Visualizzazione", "Comunicazione in campo", "Ingresso dalla panchina", "Selezioni e provini", "Rientro dall'infortunio"];
+const rigaNastro = (cls) => `<div class="nastro-riga${cls}">${[1, 2, 3].map(() => ABILITA.map((a) => `<span>${esc(a)}</span>`).join("")).join("")}</div>`;
+const NASTRO = `<div class="nastro" aria-hidden="true">${rigaNastro("")}${rigaNastro(" al-contrario")}</div>`;
+
 /* Servizio e zona: pagina larga a fasce. L'apertura su fondo blu a tutta
    larghezza, poi una fascia per ogni titolo ## (alternate chiaro/bianco):
    il testo resta su una colonna comoda, schede, passi e prezzi si allargano. */
 function paginaLarga(p, testo, briciole) {
   const [intro, ...sezioni] = testo.split(/(?=<h2)/);
-  const fasce = [intro.trim() ? `<section class="fascia"><div class="dentro">${intro}</div></section>` : "",
-    ...sezioni.map((s, i) => `<section class="fascia${i % 2 ? "" : " tinta"}"><div class="dentro">${s}</div></section>`)].join("\n");
+  // la sezione con le schede delle abilità va su fondo blu; il nastro separa l'apertura dal resto
+  const fasce = [intro.trim() ? `<section class="fascia fascia-intro"><div class="dentro">${intro}</div></section>` : "", NASTRO,
+    ...sezioni.map((s, i) => `<section class="fascia${s.includes("blocco-abilita") ? " scura" : i % 2 ? "" : " tinta"}"><div class="dentro">${s}</div></section>`)].join("\n");
   return `
 <main class="pagina-larga">
   <div class="eroe-fascia">
@@ -322,7 +369,7 @@ function paginaLarga(p, testo, briciole) {
       ${eroe(p)}
     </div>
   </div>
-  <div class="dentro">${FIDUCIA}</div>
+  <div class="dentro">${FIDUCIA}${CIFRE}</div>
   <article>
     ${fasce}
     ${p.faq?.length ? `<section class="fascia"><div class="dentro">${faqHtml(p)}</div></section>` : ""}

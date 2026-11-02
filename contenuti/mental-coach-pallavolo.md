@@ -30,6 +30,9 @@ faq:
 
 Hai allenato la battuta per mesi. In allenamento entra. Poi, sul 23-22, l'allenatore ti manda dentro solo per servire, e la palla finisce in rete.
 
+:::punteggio
+:::
+
 A volte è la tecnica, e lì lavora l'allenatore. Spesso però la tecnica c'è, ma in partita non arriva. Lì lavoro io: la testa si allena con esercizi precisi, ripetuti in palestra, non con le frasi motivazionali.
 
 ## Per chi è
@@ -58,9 +61,9 @@ In adolescenza molte ragazze lasciano lo sport, e spesso la tecnica non c'entra:
 :::passi
 1. **Colloquio gratuito, 20 minuti.** Se l'atleta è minorenne lo faccio con un genitore, e con lei se vuole esserci. Capiamo se sono la persona giusta; se non lo sono, ve lo dico.
 2. **Primo incontro.** Ricostruiamo due o tre momenti precisi delle ultime partite: il punteggio, la rotazione, cosa hai pensato, cosa hai fatto dopo. Scegliamo un obiettivo che si vede in campo, per esempio la stessa routine di battuta sul 24 pari e sullo 0 a 0, dentro gli 8 secondi dal fischio. Mettiamo per iscritto obiettivo, incontri, costo e cosa resta riservato.
-3. **Sei-otto incontri** da 50 minuti, ogni una o due settimane, online o in presenza.
-4. **Un compito alla volta** tra un incontro e l'altro: una routine di battuta, un gesto per lasciare andare l'errore prima del fischio successivo, cosa fare nei 30 secondi di un time-out.
-5. **Incontro di chiusura**, con il genitore se l'atleta è minorenne: cosa è cambiato e cosa portare avanti da sola. Il percorso si può interrompere in qualsiasi momento.
+3. **Sei-otto incontri.** Da 50 minuti, ogni una o due settimane, online o in presenza.
+4. **Un compito alla volta.** Tra un incontro e l'altro: una routine di battuta, un gesto per lasciare andare l'errore prima del fischio successivo, cosa fare nei 30 secondi di un time-out.
+5. **Incontro di chiusura.** Con il genitore se l'atleta è minorenne: cosa è cambiato e cosa portare avanti da sola. Il percorso si può interrompere in qualsiasi momento.
 :::
 
 :::cta
@@ -69,12 +72,15 @@ In adolescenza molte ragazze lasciano lo sport, e spesso la tecnica non c'entra:
 
 Il nucleo è quello classico dell'allenamento mentale nello sport, detto in parole semplici:
 
+
+:::abilita
 - **la routine** pre-gara e pre-battuta: gli stessi gesti, sempre, così la pressione trova qualcosa di solido;
 - **la gestione dell'errore**: riconoscerlo, lasciarlo andare, tornare sul punto dopo;
 - **le parole-chiave tecniche** al posto del «non sbagliare»: «palla alta al centro», «braccia ferme»;
 - **la visualizzazione** delle azioni prima della partita;
 - **l'attenzione**: dove guardare in un gioco fatto di scambi da sei secondi e pause da venti;
 - **la comunicazione in campo**: chiamare la palla, parlare con le compagne, reggere una correzione dell'allenatore.
+:::
 
 ## Quanto costa
 
@@ -104,6 +110,15 @@ Il percorso completo, con l'incontro finale insieme al genitore e un riepilogo s
 
 :::nota
 **Prezzo di lancio.** Sono all'inizio di questo lavoro e preferisco dirlo chiaramente: per le **prime 5 famiglie** i percorsi costano il **30% in meno** (Primo set 112 €, Partita intera 196 €). In cambio, a fine percorso, ti chiedo un parere scritto su com'è andata, solo se sei d'accordo.
+:::
+
+:::barre
+Titolo: Quanto costa ogni incontro, nei tre formati
+Nota: Più incontri scegli, meno costa ciascuno. Il colloquio di 20 minuti resta gratuito.
+Unità: €
+Incontro singolo | 45
+Primo set (4 incontri) | 40
+Partita intera (8 incontri) | 35
 :::
 
 ## Come misuriamo i progressi
