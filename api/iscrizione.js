@@ -62,7 +62,9 @@ export default async function handler(req, res) {
     // compilato in meno di 3 secondi: quasi sempre un programma
     sospetto: Number(b.secondi) < 3,
   };
-  if (!riga.evento || !riga.nome || !riga.cognome || !riga.email || !EMAIL.test(riga.email) || !riga.consenso_privacy) {
+  // nel modulo del colloquio il cognome è facoltativo (la colonna non ammette null: stringa vuota)
+  if (riga.evento === "coaching" && !riga.cognome) riga.cognome = "";
+  if (!riga.evento || !riga.nome || riga.cognome == null || !riga.email || !EMAIL.test(riga.email) || !riga.consenso_privacy) {
     return res.status(400).json({ ok: false, motivo: "dati mancanti" });
   }
   if ([riga.nome, riga.cognome, riga.societa, riga.ruolo].some((v) => v && CONTIENE_LINK.test(v))) riga.sospetto = true;

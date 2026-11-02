@@ -3,8 +3,8 @@ tipo: guida
 stato: bozza
 slug: mental-coach-o-psicologo-dello-sport
 titolo: Mental coach o psicologo dello sport: qual è la differenza
-titoloSeo: Mental coach o psicologo dello sport? Differenze e quando serve l'uno o l'altro | Atleta360
-descrizione: Cosa fa un mental coach sportivo, cosa fa lo psicologo dello sport, e come capire quale dei due serve a tua figlia o a te. Una guida chiara, senza giri di parole.
+titoloSeo: Mental coach o psicologo sportivo: le differenze | Atleta360
+descrizione: Cosa fa un mental coach sportivo, cosa fa lo psicologo dello sport e come capire quale dei due serve a tua figlia o a te. Una guida chiara.
 parolaChiave: differenza tra mental coach e psicologo sportivo
 sommario: Due figure diverse, spesso confuse. Una allena abilità, l'altra cura anche il disagio. Come capire quale serve, con qualche esempio dalla pallavolo.
 data: 2026-11-02
@@ -41,10 +41,12 @@ Il **mental coach sportivo** lavora con chi sta bene e vuole rendere meglio. All
 
 | | Mental coach | Psicologo dello sport |
 |---|---|---|
-| Formazione | percorsi di coaching, non regolamentati in Italia | laurea in psicologia, iscrizione all'Ordine |
+| Formazione | percorsi di coaching; professione non organizzata in ordini (Legge 4/2013) | laurea in psicologia, iscrizione all'Ordine |
 | Con chi lavora | chi sta bene e vuole migliorare | chiunque, anche chi sta male |
 | Su cosa | abilità mentali per la prestazione | prestazione e benessere della persona |
 | Diagnosi e cura | no | sì |
+
+:::cta
 
 ## Tre esempi dalla pallavolo
 
@@ -52,7 +54,7 @@ Nomi e storie sono inventati, ma le situazioni sono tra le più comuni.
 
 **Giulia, 15 anni, gioca bene in allenamento e sbaglia tutto in partita.** Il resto della sua vita va bene: scuola, amiche, sonno. È un caso tipico da mental coach: routine, gestione dell'errore, attenzione sul compito.
 
-**Martina, 14 anni, prima di ogni partita ha mal di pancia, ma ultimamente anche prima delle verifiche, e dorme poco.** L'ansia non è più solo sportiva. Qui il primo passo è uno psicologo; il lavoro sul campo può venire dopo, o in parallelo.
+**Martina, 14 anni, prima di ogni partita ha mal di pancia, ma ultimamente anche prima delle verifiche, e dorme poco.** L'ansia non è più solo sportiva. Qui il primo passo è il pediatra o il medico, per escludere cause fisiche, e poi uno psicologo; il lavoro sul campo può venire dopo, o in parallelo.
 
 **Luca, 17 anni, rientra da un infortunio al ginocchio e non salta più a muro con convinzione.** Dipende: se è prudenza e mancanza di fiducia, un percorso di mental coaching aiuta a ricostruirla passo per passo. Se dietro c'è paura che blocca anche altro, meglio parlarne con uno psicologo.
 
@@ -72,4 +74,3 @@ Io sono un **mental coach**, non uno psicologo. Lavoro con atlete e atleti di pa
 
 Se vuoi capire se il mio lavoro fa per te, qui trovi come funziona: [mental coach per la pallavolo](/mental-coach-pallavolo).
 
-:::cta

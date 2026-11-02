@@ -57,6 +57,17 @@
     if (a && /wa\.me|whatsapp/i.test(a.getAttribute("href"))) azione("whatsapp");
   }, true);
 
+  /* Pulsante fisso sul telefono: compare solo quando né l'apertura né il modulo sono a vista. */
+  var barra = document.querySelector(".barra-fissa");
+  if (barra && "IntersectionObserver" in window) {
+    var visti = new Map();
+    var oss = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { visti.set(e.target, e.isIntersecting); });
+      barra.classList.toggle("visibile", !Array.from(visti.values()).some(Boolean));
+    });
+    document.querySelectorAll(".eroe, #contatto").forEach(function (el) { oss.observe(el); });
+  }
+
   /* Modulo "colloquio gratuito": va al server come le iscrizioni ai webinar
      (api/iscrizione.js, evento "coaching"). */
   var aperto = Date.now();
@@ -67,7 +78,13 @@
       e.preventDefault();
       var d = Object.fromEntries(new FormData(form).entries());
       esito.className = "esito";
-      if (!form.checkValidity()) { esito.textContent = "Compila nome, cognome, email, chi sei e accetta l'informativa."; esito.classList.add("errore"); form.reportValidity(); return; }
+      // telefono obbligatorio se si vuole essere richiamati o scritti su WhatsApp
+      var tel = form.querySelector("[name=telefono]");
+      if (tel) tel.required = d.preferenza === "WhatsApp" || d.preferenza === "Telefonata";
+      if (!form.checkValidity()) { esito.textContent = "Compila i campi con l'asterisco (il telefono serve se vuoi WhatsApp o una telefonata) e accetta l'informativa."; esito.classList.add("errore"); form.reportValidity(); return; }
+      // età e preferenza viaggiano in testa al messaggio: il pannello le mostra così
+      var testa = ["Età: " + (d.eta || "?"), "Ricontatto: " + (d.preferenza || "?")].join(" · ");
+      d.messaggio = testa + (d.messaggio ? "\n" + d.messaggio : "");
       var bottone = form.querySelector("button");
       bottone.disabled = true; bottone.textContent = "Invio…";
       fetch("/api/iscrizione", {
@@ -84,7 +101,7 @@
           form.innerHTML = '<p class="esito ok">Grazie! Ti scrivo entro 24 ore per fissare il colloquio.</p>';
         })
         .catch(function () {
-          bottone.disabled = false; bottone.textContent = "Chiedi il colloquio gratuito";
+          bottone.disabled = false; bottone.textContent = "Prenota il colloquio gratuito di 20 minuti";
           esito.textContent = "Non sono riuscito a inviare la richiesta. Riprova, oppure scrivimi su WhatsApp."; esito.classList.add("errore");
           azione("form.errore");
           invia("/api/evento", { eventi: ["form.errore.altro"] });

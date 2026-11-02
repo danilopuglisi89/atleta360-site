@@ -3,8 +3,8 @@ tipo: guida
 stato: bozza
 slug: figlia-paura-di-sbagliare-pallavolo
 titolo: Mia figlia ha paura di sbagliare a pallavolo: come aiutarla
-titoloSeo: Mia figlia ha paura di sbagliare a pallavolo: come aiutarla (guida per genitori) | Atleta360
-descrizione: Gioca per non sbagliare, si blocca dopo un errore, piange dopo la partita? Cosa può fare un genitore, cosa evitare e quando chiedere aiuto. Una guida pratica per mamme e papà.
+titoloSeo: Paura di sbagliare a pallavolo: guida per genitori
+descrizione: Gioca per non sbagliare, si blocca dopo un errore, piange dopo la partita? Cosa può fare un genitore, cosa evitare e quando chiedere aiuto.
 parolaChiave: genitori nello sport
 sommario: Gioca per non sbagliare, si spegne dopo il primo errore, in macchina non parla. Cosa può fare un genitore, e soprattutto cosa può smettere di fare.
 data: 2026-11-02
@@ -49,6 +49,8 @@ Le figlie ascoltano più gli esempi che i consigli. Raccontale di quando hai sba
 
 I consigli tecnici dalla tribuna o a cena creano confusione e aggiungono un giudice in più. Se hai dubbi, parlane con l'allenatore, in privato, e sulla persona più che sulla tecnica.
 
+:::cta
+
 ## Cosa evitare
 
 - **I paragoni** con le compagne o con altre squadre.
@@ -69,4 +71,3 @@ Se invece la paura è tutta sportiva, e vedi che le impedisce di giocare come sa
 
 Se vuoi capire meglio la differenza tra le due strade, leggi [mental coach o psicologo dello sport](/guide/mental-coach-o-psicologo-dello-sport).
 
-:::cta

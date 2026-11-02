@@ -3,8 +3,8 @@ tipo: guida
 stato: bozza
 slug: ansia-prima-della-partita-pallavolo
 titolo: Ansia prima della partita di pallavolo: 7 cose che funzionano davvero
-titoloSeo: Ansia prima della partita di pallavolo: 7 rimedi pratici | Atleta360
-descrizione: Stomaco chiuso, gambe che tremano, notte in bianco prima della gara? L'ansia da prestazione nella pallavolo si allena. Sette esercizi pratici per atlete, atleti e genitori.
+titoloSeo: Ansia prima della partita di pallavolo: 7 rimedi | Atleta360
+descrizione: Stomaco chiuso e gambe che tremano prima della gara? L'ansia da prestazione nella pallavolo si allena: sette esercizi pratici per atlete, atleti e genitori.
 parolaChiave: ansia da prestazione sportiva ragazzi
 sommario: Stomaco chiuso, gambe che tremano, la testa che corre all'errore che non hai ancora fatto. Non si elimina, ma si porta in campo dalla parte giusta.
 data: 2026-11-02
@@ -41,9 +41,11 @@ Tre o quattro respiri così, prima di entrare in campo e nelle pause. L'espirazi
 
 ## 3. Costruisci una routine prima della battuta
 
-Le giocatrici che servono bene sotto pressione hanno quasi sempre una **routine**: due palleggi a terra, uno sguardo al punto dove vogliono mandare la palla, un respiro, poi il servizio. Sempre uguale, sul 2 a 0 come sul 24 pari.
+Le giocatrici che servono bene sotto pressione hanno quasi sempre una **routine**: due palleggi a terra, uno sguardo al punto dove vogliono mandare la palla, un respiro, poi il servizio. Sempre uguale, sul 2 a 0 come sul 24 pari, e sempre dentro gli **8 secondi** che hai dal fischio dell'arbitro per servire.
 
 La routine dà alla testa qualcosa da fare, e le toglie lo spazio per i «e se sbaglio?». Scegli la tua, provala in allenamento per due settimane, poi portala in partita.
+
+:::cta
 
 ## 4. Guarda la partita prima di giocarla
 
@@ -77,4 +79,3 @@ Se l'ansia compare anche lontano dal campo, toglie il sonno per giorni, porta a 
 
 Se invece l'ansia è tutta lì, tra il riscaldamento e il fischio d'inizio, si può allenare come si allena la battuta. È il lavoro che faccio con le atlete nel mio [percorso di mental coaching per la pallavolo](/mental-coach-pallavolo).
 
-:::cta

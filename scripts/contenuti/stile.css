@@ -98,3 +98,91 @@ th { background: #EEF1F8; color: var(--navy); font-weight: 600; }
   .testata nav { justify-content: center; }
   .cta { padding: 22px 18px; margin-left: -4px; margin-right: -4px; }
 }
+
+/* ---- revisione del 2/11: proposte di grafica, marketing ed esperto di settore ---- */
+
+/* contrasto: testo navy sull'arancio (6,47:1; il bianco era 2,61:1) */
+.bottone, .testata .nav-cta, .testata .nav-cta:hover, a.bottone:hover { color: var(--navy); }
+.bottone-auto { width: auto; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
+.marchio img { height: 34px; width: auto; }
+
+/* righe più corte su desktop (~70 caratteri), briciole toccabili */
+.contenuto { max-width: 720px; }
+.briciole a { display: inline-block; padding: 4px 0; }
+
+/* eroe: persona, promessa, due modi di contattare */
+.eroe { display: grid; gap: 4px 32px; margin: 0 0 24px; }
+.eroe-foto { order: -1; margin: 0; display: flex; align-items: center; gap: 12px; }
+.eroe-foto img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 3px solid #fff; box-shadow: 0 0 0 2px var(--arancio); }
+.eroe-foto figcaption { font-size: 13px; line-height: 1.4; color: var(--muto); }
+.eroe-foto figcaption strong { display: block; font-size: 16px; color: var(--navy); }
+.occhiello { margin: 10px 0 8px; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--arancio-testo); }
+.eroe-azioni { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin: 20px 0 14px; }
+.link-wa { font-weight: 600; min-height: 44px; display: inline-flex; align-items: center; }
+.rassicura { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.rassicura li { margin: 0; padding: 6px 12px; border-radius: 999px; background: #EEF1F8; color: var(--navy); font-size: 14px; font-weight: 600; }
+@media (min-width: 720px) {
+  .eroe { grid-template-columns: 1fr 190px; align-items: center; }
+  .eroe-foto { order: 0; flex-direction: column; text-align: center; }
+  .eroe-foto img { width: 170px; height: 170px; }
+}
+
+/* fiducia */
+.fiducia { display: flex; align-items: center; gap: 14px; margin: 0 0 32px; padding: 12px 16px; background: var(--carta); border: 1px solid var(--linea); border-radius: 14px; font-size: 15px; line-height: 1.5; color: #2E3757; }
+.fiducia img { width: 104px; height: auto; flex-shrink: 0; }
+.fiducia p { margin: 0; }
+
+/* per chi è: schede */
+.blocco-per-chi ul { list-style: none; padding: 0; display: grid; gap: 10px; }
+.blocco-per-chi li { position: relative; margin: 0; padding: 14px 16px 14px 50px; background: var(--carta); border: 1px solid var(--linea); border-radius: 14px; font-size: 16px; line-height: 1.55; box-shadow: 0 1px 2px rgba(10,22,80,.05); }
+.blocco-per-chi li::before { content: ""; position: absolute; left: 14px; top: 15px; width: 24px; height: 24px; border-radius: 50%; background: #FFF1E6 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23B4520A' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat; }
+.blocco-per-chi strong { color: var(--navy); }
+@media (min-width: 640px) { .blocco-per-chi ul { grid-template-columns: 1fr 1fr; } }
+
+/* come lavoro: passi numerati collegati */
+.blocco-passi ol { list-style: none; padding: 0; counter-reset: passo; }
+.blocco-passi li { counter-increment: passo; position: relative; margin: 0; padding: 4px 0 22px 56px; }
+.blocco-passi li::before { content: counter(passo); position: absolute; left: 0; top: 0; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: var(--navy); color: #fff; font: 700 18px/1 "Space Grotesk", system-ui, sans-serif; }
+.blocco-passi li::after { content: ""; position: absolute; left: 18px; top: 42px; bottom: 4px; width: 2px; background: var(--linea); }
+.blocco-passi li:last-child::after { display: none; }
+.blocco-passi li strong { display: block; color: var(--navy); }
+
+/* invito breve a metà pagina */
+.cta-breve { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 20px; margin: 36px 0; padding: 18px 20px; background: var(--carta); border: 1px solid var(--linea); border-left: 5px solid var(--arancio); border-radius: 16px; }
+.cta-breve p { margin: 0; flex: 1 1 240px; font-size: 17px; }
+
+/* FAQ con il "+" */
+.faq details { box-shadow: 0 1px 2px rgba(10,22,80,.06); }
+.faq details[open] { border-color: #C9D0E3; }
+.faq summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 16px 0; line-height: 1.45; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: ""; flex: 0 0 26px; height: 26px; border-radius: 50%; background: #FFF1E6 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M6 1.5v9M1.5 6h9' stroke='%23B4520A' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center/12px no-repeat; transition: transform .2s; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+
+/* modulo: WhatsApp di pari peso, rassicurazioni */
+.bottone-wa { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; border-radius: 12px; background: #1FA855; color: #fff !important; font-weight: 700; font-size: 17px; text-decoration: none; margin: 4px 0 6px; }
+.bottone-wa:hover { background: #1b964c; }
+.oppure { text-align: center; font-size: 14px; color: rgba(255,255,255,.75) !important; margin: 8px 0 16px !important; }
+.cta-garanzia { font-size: 14px; color: rgba(255,255,255,.85); margin: 10px 0 0 !important; text-align: center; }
+.cta-minori { font-size: 13px; color: rgba(255,255,255,.7); margin: 6px 0 0 !important; text-align: center; }
+
+/* pulsante fisso su mobile (nascosto sull'eroe e sul modulo, vedi traccia.js) */
+.barra-fissa { display: none; }
+@media (max-width: 760px) {
+  .barra-fissa { display: flex; position: fixed; z-index: 50; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); min-height: 52px; align-items: center; justify-content: center; border-radius: 14px; background: var(--arancio); color: var(--navy); font-weight: 700; text-decoration: none; box-shadow: 0 8px 24px rgba(10,22,80,.3); transform: translateY(160%); visibility: hidden; transition: transform .25s ease, visibility .25s; }
+  .barra-fissa.visibile { transform: none; visibility: visible; }
+  body[data-pagina="servizio"] .piede { padding-bottom: 96px; }
+}
+@media (prefers-reduced-motion: reduce) { .barra-fissa, .faq summary::after { transition: none; } }
+
+/* testata su una riga sul telefono (era alta 181 px) */
+@media (max-width: 560px) {
+  .testata { flex-wrap: nowrap; justify-content: space-between; padding: 8px 12px; gap: 8px; }
+  .testata nav { flex-wrap: nowrap; justify-content: flex-end; gap: 2px; }
+  .testata nav a { font-size: 14px; padding: 8px 10px; }
+  .testata nav a:first-child { display: none; }
+  .marchio img { height: 32px; }
+  .sommario { font-size: 18px; line-height: 1.55; }
+  .campi-2.resta { grid-template-columns: 1fr 1fr; }
+  .eroe .bottone { width: 100%; }
+}
