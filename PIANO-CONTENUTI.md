@@ -25,8 +25,12 @@ oggi Google mostra solo giornali e tesi: **nessuna pagina di servizio dedicata**
 | `/guide` (indice) | — | **pubblicata 2/11** |
 
 Linkate dal piè di pagina della home (colonna «Mental coach», anche nel blocco statico di index.html).
-Da fare da Danilo: inviare di nuovo la sitemap in Search Console e Bing, chiedere l'indicizzazione
-di `/mental-coach-pallavolo`; profilo dell'attività su Google a Carrara; link in bio Instagram.
+Fatto il 2/11 da Claude via Chrome: sitemap rinviata a Search Console e Bing (account
+danilo@danilopuglisi.com), indicizzazione richiesta per servizio e Toscana. **Profilo dell'attività
+su Google** «Danilo Puglisi - Atleta360» creato (Life coach, solo aree servite MS/LU/PI/SP, tel.
+377 087 0217, WhatsApp, sito = pagina Toscana, 3 servizi, descrizione, foto) ma **NON verificato
+per scelta di Danilo**: resta invisibile finché non fa la verifica (indirizzo postale + video).
+Instagram: link in bio lo mette Danilo.
 
 ## Guide — prima ondata (pubblicate il 2/11)
 
