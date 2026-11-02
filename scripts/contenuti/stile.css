@@ -186,3 +186,13 @@ th { background: #EEF1F8; color: var(--navy); font-weight: 600; }
   .campi-2.resta { grid-template-columns: 1fr 1fr; }
   .eroe .bottone { width: 100%; }
 }
+
+/* quanto costa: schede dei pacchetti */
+.blocco-prezzi { display: grid; gap: 12px; margin: 0 0 24px; }
+@media (min-width: 640px) { .blocco-prezzi { grid-template-columns: 1fr 1fr; } }
+.prezzo { background: var(--carta); border: 1px solid var(--linea); border-radius: 16px; padding: 16px 18px 4px; box-shadow: 0 1px 2px rgba(10,22,80,.05); }
+.prezzo h3 { margin: 0 0 6px; font-size: 18px; }
+.prezzo p { font-size: 16px; margin: 0 0 12px; }
+.prezzo p:first-of-type { color: var(--muto); }
+.prezzo p:first-of-type strong { font-family: "Space Grotesk", system-ui, sans-serif; font-size: 26px; color: var(--navy); margin-right: 4px; }
+.prezzo:last-child { border: 2px solid var(--arancio); }

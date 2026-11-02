@@ -15,7 +15,7 @@ faq:
   - d: Quanto dura un percorso di mental coaching?
     r: Di solito tra 6 e 8 incontri da 50 minuti, uno ogni una o due settimane, quindi due o tre mesi. Lo decidiamo insieme nel primo incontro, in base all'obiettivo. Si può interrompere in qualsiasi momento.
   - d: Quanto costa?
-    r: Il colloquio di 20 minuti è gratuito. Il percorso costa indicativamente da [DA COMPLETARE] a [DA COMPLETARE] euro, in base al numero di incontri. La cifra esatta è scritta nell'accordo, prima di iniziare.
+    r: Il colloquio di 20 minuti è gratuito. Un incontro singolo costa 45 euro, il percorso da 4 incontri 160 euro e quello da 8 incontri 280 euro, online o in presenza. Per le prime 5 famiglie c'è un prezzo di lancio con il 30% in meno.
   - d: Il mental coach lavora anche con i ragazzi?
     r: Sì, dai 12 anni. Con le atlete e gli atleti minorenni si parte sempre da un colloquio con un genitore, e serve il loro sì oltre al consenso firmato della famiglia.
   - d: Il mental coaching online funziona?
@@ -34,7 +34,7 @@ A volte è la tecnica, e lì lavora l'allenatore. Spesso però la tecnica c'è, 
 
 ## Per chi è
 
-Lavoro con **giocatrici e giocatori dai 12 ai 25 anni** e con i loro genitori. Le situazioni più frequenti:
+Lavoro con **giocatrici e giocatori dai 12 ai 25 anni** e con i loro genitori, su situazioni come queste:
 
 :::per-chi
 - **la tensione prima della gara**: lo stomaco chiuso, le gambe pesanti nel riscaldamento;
@@ -76,6 +76,36 @@ Il nucleo è quello classico dell'allenamento mentale nello sport, detto in paro
 - **l'attenzione**: dove guardare in un gioco fatto di scambi da sei secondi e pause da venti;
 - **la comunicazione in campo**: chiamare la palla, parlare con le compagne, reggere una correzione dell'allenatore.
 
+## Quanto costa
+
+Online e in presenza costano uguale. Il colloquio conoscitivo è sempre gratuito, e il prezzo è scritto nell'accordo prima di iniziare.
+
+:::prezzi
+### Colloquio conoscitivo
+**Gratis** · 20 minuti
+
+Ci conosciamo e capiamo se posso esservi utile. Nessun impegno.
+
+### Incontro singolo
+**45 €** · 50 minuti
+
+Per preparare una selezione, un provino o una partita importante.
+
+### Primo set
+**160 €** · 4 incontri (40 € l'uno)
+
+Un obiettivo, una routine da portare in campo, il diario su Atleta360.
+
+### Partita intera
+**280 €** · 8 incontri (35 € l'uno)
+
+Il percorso completo, con l'incontro finale insieme al genitore e un riepilogo scritto dei progressi.
+:::
+
+:::nota
+**Prezzo di lancio.** Sono all'inizio di questo lavoro e preferisco dirlo chiaramente: per le **prime 5 famiglie** i percorsi costano il **30% in meno** (Primo set 112 €, Partita intera 196 €). In cambio, a fine percorso, ti chiedo un parere scritto su com'è andata, solo se sei d'accordo.
+:::
+
 ## Come misuriamo i progressi
 
 Non uso test psicologici: sono strumenti riservati agli psicologi. Usiamo tre cose semplici.
@@ -84,7 +114,7 @@ Non uso test psicologici: sono strumenti riservati agli psicologi. Usiamo tre co
 - **Uno o due fatti che si contano**: quante volte hai usato la routine, quanti scambi ti servono per tornare in partita dopo un errore.
 - **Un video della partita**, quando c'è, guardato insieme.
 
-Il diario è tuo: non lo vedono né la società né l'allenatore, a meno che non sia tu a mostrarlo. [DA VERIFICARE con Danilo]
+Il diario è tuo: non lo vedono né la società né l'allenatore, a meno che non sia tu a mostrarlo.
 
 ## Minori e riservatezza
 
@@ -103,9 +133,11 @@ Ne parlo più a fondo qui: [mental coach o psicologo dello sport, qual è la dif
 
 ## Chi sono
 
-Sono **Danilo Puglisi**, formatore a Carrara, iscritto all'elenco degli esperti di settore della Regione Toscana (n. 531): è un elenco della formazione professionale, non un titolo da psicologo, e non lo presento come tale. [DA COMPLETARE: formazione in mental training e coaching, anni di esperienza, legame con la pallavolo — solo dati veri.]
+Sono **Danilo Puglisi**, formatore a Carrara, iscritto all'elenco degli esperti di settore della Regione Toscana (n. 531): è un elenco della formazione professionale, non un titolo da psicologo, e non lo presento come tale.
 
-Ho creato Atleta360, che l'**Oasi Volley** di Viareggio usa per seguire le soft skill delle sue atlete.
+Non arrivo da una scuola di coaching. Arrivo dalla gestione di squadre di lavoro molto ampie, dove ho imparato una cosa semplice: le persone rendono quando sanno cosa fare sotto pressione, come ripartire dopo un errore e come parlarsi. È lo stesso lavoro che oggi porto nella pallavolo.
+
+Seguo l'**Oasi Volley** di Viareggio, che usa Atleta360, lo strumento che ho creato per seguire nel tempo la crescita delle atlete.
 
 ## Online e in presenza
 

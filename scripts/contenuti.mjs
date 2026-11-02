@@ -73,9 +73,12 @@ function markdown(md) {
       i++;
       // :::nota → riquadro; :::per-chi, :::passi… → blocco con la sua classe (schede, passi numerati)
       const classe = tipo.replace(/[^a-z-]/g, "");
+      let interno = markdown(dentro.join("\n"));
+      // :::prezzi → una scheda per ogni ### (nome del pacchetto, prezzo, descrizione)
+      if (classe === "prezzi") interno = interno.split(/(?=<h3)/).map((c) => (c.startsWith("<h3") ? `<div class="prezzo">${c}</div>` : c)).join("");
       out.push(!classe || classe === "nota"
-        ? `<aside class="nota">${markdown(dentro.join("\n"))}</aside>`
-        : `<div class="blocco-${classe}">${markdown(dentro.join("\n"))}</div>`);
+        ? `<aside class="nota">${interno}</aside>`
+        : `<div class="blocco-${classe}">${interno}</div>`);
       continue;
     }
     let h = r.match(/^(#{2,3})\s+(.*)$/);

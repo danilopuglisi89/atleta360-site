@@ -17,7 +17,7 @@ faq:
     r: In Italia no: non esiste un albo dei mental coach. Per questo conviene chiedere sempre con chi ha lavorato, che metodo usa e cosa non fa.
 ---
 
-«Le serve un mental coach o uno psicologo?» È una delle prime domande che mi fanno i genitori. È giusta, perché le due figure si somigliano nel nome ma non nel lavoro. Proviamo a mettere ordine.
+«Le serve un mental coach o uno psicologo?» È una domanda che si fanno molti genitori, ed è giusta, perché le due figure si somigliano nel nome ma non nel lavoro. Proviamo a mettere ordine.
 
 ## Cosa fa lo psicologo dello sport
 

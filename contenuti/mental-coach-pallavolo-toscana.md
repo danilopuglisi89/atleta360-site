@@ -15,10 +15,10 @@ faq:
   - d: Posso fare alcuni incontri online e altri in presenza?
     r: Sì, ed è spesso la soluzione più comoda: il primo incontro di persona, gli altri online la sera, senza spostamenti.
   - d: Lavori anche con le squadre?
-    r: Sì. Oltre ai percorsi individuali faccio incontri con lo staff e con le squadre giovanili sulla gestione dell'errore e sulla comunicazione in campo.
+    r: Sì. Oltre ai percorsi individuali propongo incontri con lo staff e con le squadre giovanili sulla gestione dell'errore e sulla comunicazione in campo.
 ---
 
-Se giochi a pallavolo tra **Massa-Carrara, Lucca, la Versilia, Pisa o La Spezia**, possiamo lavorare anche di persona. Sono a Carrara e conosco il volley della costa: le giovanili, i campionati territoriali, le società che crescono con pochi mezzi e tanta passione.
+Se giochi a pallavolo tra **Massa-Carrara, Lucca, la Versilia, Pisa o La Spezia**, possiamo lavorare anche di persona. Sono a Carrara e seguo l'Oasi Volley di Viareggio.
 
 ## Dove lavoro
 
@@ -28,7 +28,7 @@ Se giochi a pallavolo tra **Massa-Carrara, Lucca, la Versilia, Pisa o La Spezia*
 
 ## Con chi
 
-Con **atlete e atleti dai 12 anni in su**, con i loro **genitori** e con gli **allenatori del settore giovanile**. Le richieste più frequenti sono la tensione prima della gara, la paura di sbagliare, il blocco dopo l'errore e i momenti di passaggio: selezioni, cambi di squadra, rientro da un infortunio.
+Con **atlete e atleti dai 12 anni in su**, con i loro **genitori** e con gli **allenatori del settore giovanile**. Si lavora su situazioni come la tensione prima della gara, la paura di sbagliare, il blocco dopo l'errore e i momenti di passaggio: selezioni, cambi di squadra, rientro da un infortunio.
 
 Il percorso, gli esercizi e cosa il mental coaching è e non è li spiego nella pagina principale: [mental coach per la pallavolo](/mental-coach-pallavolo).
 
@@ -36,7 +36,7 @@ Il percorso, gli esercizi e cosa il mental coaching è e non è li spiego nella 
 
 ## Un caso vicino a casa
 
-Con l'**Oasi Volley** di Viareggio uso Atleta360 per seguire nel tempo concentrazione, gestione dell'errore, comunicazione e spirito di squadra delle atlete. [DA COMPLETARE: una frase autorizzata dell'allenatore o della dirigenza, con nome e ruolo.]
+Con l'**Oasi Volley** di Viareggio uso Atleta360 per seguire nel tempo concentrazione, gestione dell'errore, comunicazione e spirito di squadra delle atlete.
 
 ## Per le società
 

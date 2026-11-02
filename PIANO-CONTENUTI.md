@@ -62,9 +62,12 @@ oggi Google mostra solo giornali e tesi: **nessuna pagina di servizio dedicata**
 - Misurare nel pannello: Visite (pagina d'arrivo «servizio»/«guida», canale Ricerca) e
   Contatti → Colloqui e webinar.
 
-## Da chiarire con Danilo
+## Deciso con Danilo (2/11)
 
-- Prezzo del percorso (oggi le FAQ dicono «te lo dico nel colloquio»).
-- Dove si fanno gli incontri in presenza (indirizzo o «a domicilio / in palestra»).
-- Formazione da mental coach: eventuale percorso o certificazione da citare nella pagina.
-- Una frase o un video dell'Oasi Volley da mettere nella pagina di servizio.
+- **Prezzi**: colloquio 20 min gratis · incontro singolo 45 € · Primo set 4 incontri 160 € · Partita intera
+  8 incontri 280 €; online e presenza stesso prezzo. **Lancio**: −30% per le prime 5 famiglie in cambio
+  di un parere scritto facoltativo → **togliere il riquadro quando le 5 famiglie sono arrivate**.
+- **Credenziali**: nessun corso né anni da mental coach; viene dalla gestione di squadre di lavoro molto
+  ampie e segue l'Oasi Volley di Viareggio. Niente testimonianza dell'Oasi.
+- Diario su Atleta360 privato (né società né allenatore lo vedono).
+- Da confermare: i prezzi sono finali per le famiglie (regime fiscale / IVA).
