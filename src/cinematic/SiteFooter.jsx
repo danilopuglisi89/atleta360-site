@@ -52,6 +52,14 @@ export default function SiteFooter({ onOpenPrivacy }) {
           <a href="/contatti">Richiedi la demo</a>
         </nav>
 
+        {/* pagine statiche di scripts/contenuti.mjs: link veri, niente scorrimento interno */}
+        <nav className="a360-footer-col" aria-label="Mental coach">
+          <h2 style={{ ...display, color: "#fff", fontSize: T.kicker, fontWeight: 700, margin: "0 0 14px", letterSpacing: 0.3 }}>Mental coach</h2>
+          <a href="/mental-coach-pallavolo">Mental coach per la pallavolo</a>
+          <a href="/mental-coach-pallavolo-toscana">Mental coach in Toscana</a>
+          <a href="/guide">Guide per atlete e genitori</a>
+        </nav>
+
         <div className="a360-footer-col">
           <h2 style={{ ...display, color: "#fff", fontSize: T.kicker, fontWeight: 700, margin: "0 0 14px", letterSpacing: 0.3 }}>Contatti</h2>
           <a href={`mailto:${CONTACT_EMAIL}`}><Mail size={14} /> {CONTACT_EMAIL}</a>

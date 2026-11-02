@@ -1,6 +1,6 @@
 ---
 tipo: zona
-stato: bozza
+stato: pubblicato
 slug: mental-coach-pallavolo-toscana
 titolo: Mental coach sportivo in Toscana per la pallavolo
 titoloSeo: Mental coach sportivo in Toscana per la pallavolo | Atleta360

@@ -1,6 +1,6 @@
 ---
 tipo: servizio
-stato: bozza
+stato: pubblicato
 slug: mental-coach-pallavolo
 titolo: Mental coach per la pallavolo: la testa si allena come la battuta
 titoloSeo: Mental coach pallavolo per ragazze e ragazzi | Atleta360

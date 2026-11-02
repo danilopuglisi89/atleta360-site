@@ -1,6 +1,6 @@
 ---
 tipo: guida
-stato: bozza
+stato: pubblicato
 slug: ansia-prima-della-partita-pallavolo
 titolo: Ansia prima della partita di pallavolo: 7 cose che funzionano davvero
 titoloSeo: Ansia prima della partita di pallavolo: 7 rimedi | Atleta360

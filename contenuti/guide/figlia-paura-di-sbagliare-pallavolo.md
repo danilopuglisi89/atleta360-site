@@ -1,6 +1,6 @@
 ---
 tipo: guida
-stato: bozza
+stato: pubblicato
 slug: figlia-paura-di-sbagliare-pallavolo
 titolo: Mia figlia ha paura di sbagliare a pallavolo: come aiutarla
 titoloSeo: Paura di sbagliare a pallavolo: guida per genitori

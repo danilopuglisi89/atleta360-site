@@ -1,6 +1,6 @@
 ---
 tipo: guida
-stato: bozza
+stato: pubblicato
 slug: mental-coach-o-psicologo-dello-sport
 titolo: Mental coach o psicologo dello sport: qual è la differenza
 titoloSeo: Mental coach o psicologo sportivo: le differenze | Atleta360
