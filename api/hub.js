@@ -3,13 +3,15 @@
  * Sola lettura, solo nomi e numeri — niente email né telefoni.
  *
  *   GET /api/hub   con   Authorization: Bearer <HUB_CHIAVE>
+ *   GET /api/hub?giorni=N   aggiunge il dettaglio degli ultimi N giorni (visite una per
+ *   una, contatori, richieste): lo legge scripts/statistiche.mjs da Claude Code.
  *
  * HUB_CHIAVE va messa su Vercel in questo progetto e nell'hub. Senza, la
  * porta resta chiusa (503): niente si apre per sbaglio.
  */
 import crypto from "node:crypto";
 import { dbConfigurato } from "./_lib/db.js";
-import { riassuntoAdesso } from "./_lib/riassunto.js";
+import { riassuntoAdesso, dettaglioGiorni } from "./_lib/riassunto.js";
 
 const CHIAVE = process.env.HUB_CHIAVE || "";
 
@@ -26,7 +28,9 @@ export default async function handler(req, res) {
   if (!chiaveGiusta(req)) return res.status(401).json({ ok: false });
   if (!dbConfigurato) return res.status(503).json({ ok: false, motivo: "database non configurato" });
   try {
-    return res.status(200).json({ ok: true, ...(await riassuntoAdesso()) });
+    const giorni = req.query?.giorni;
+    const [base, dettaglio] = await Promise.all([riassuntoAdesso(), giorni ? dettaglioGiorni(giorni) : null]);
+    return res.status(200).json({ ok: true, ...base, ...(dettaglio ? { dettaglio } : {}) });
   } catch (e) {
     console.error("[hub]", e.message);
     return res.status(500).json({ ok: false, motivo: "errore del database" });

@@ -174,6 +174,9 @@ Nate da due revisori (un pignolo e un "inventore"). Da sapere:
   (`ultimo_riepilogo` segnato *prima* dell'invio: l'indirizzo della sveglia è pubblico).
 - **`api/hub.js`**: bollettino per l'Assistente AI (nomi e numeri, niente email/telefoni), chiuso
   finché non c'è `HUB_CHIAVE` (≥24 caratteri) su Vercel. **Lato hub non è ancora collegato.**
+  **Dal 3/11/2026 `HUB_CHIAVE` è su Vercel** e in `.env.hub` (locale, ignorato da git): le statistiche
+  si leggono da Claude Code con `node scripts/statistiche.mjs [giorni]` (usa `?giorni=N`: visite una per
+  una, contatori, richieste). **Non serve più la password del pannello per vedere i numeri.**
 - "Non contare le mie visite": `localStorage.a360_non_contare` letto da `src/analytics.js` e da
   `beforeSend` di Vercel Analytics in `src/main.jsx`. Il primo login da un browser lo accende.
 - CSV: telefono come `="…"`, celle che iniziano con `= + - @` disinnescate con l'apostrofo, date

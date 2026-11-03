@@ -68,3 +68,35 @@ export function riassunto({ leads, contatori }, oggi = giornoRoma()) {
 export async function riassuntoAdesso(oggi = giornoRoma()) {
   return riassunto(await caricaPerRiassunto(), oggi);
 }
+
+/* Il dettaglio dei giorni recenti (da oggi indietro), per leggere le statistiche
+ * da Claude Code senza la password del pannello: visite una per una, contatori
+ * del giorno, richieste di colloquio e iscrizioni. Niente email né telefoni. */
+export async function dettaglioGiorni(giorni = 1, oggi = giornoRoma()) {
+  const n = Math.max(1, Math.min(30, Math.round(Number(giorni) || 1)));
+  const elenco = giorniIndietro(oggi, n);
+  // un giorno di margine e poi il filtro sul giorno di Roma: regge l'ora legale
+  const da = new Date(`${elenco[0]}T00:00:00Z`).getTime() - 864e5;
+  const dentro = new Set(elenco), delGiorno = (d) => dentro.has(giornoRoma(d));
+  const leggi = (q) => tutte(q, { massimo: 5000 }).then((r) => r.righe).catch(() => null);
+  const [visite, contatori, iscrizioni] = await Promise.all([
+    leggi(`visite?select=inizio,pagina,fonte,fonte_dettaglio,citta,regione,paese,dispositivo,browser,profondita,secondi,azioni,lead_id&inizio=gte.${new Date(da).toISOString()}&order=inizio.desc,id.asc`),
+    leggi(`contatori?select=giorno,evento,conteggio&giorno=gte.${elenco[0]}&order=giorno.desc,evento.asc`),
+    leggi(`iscrizioni?select=created_at,evento,nome,cognome,origine,origine_dettaglio,sospetto&created_at=gte.${new Date(da).toISOString()}&order=created_at.desc,id.asc`),
+  ]);
+  const perGiorno = {};
+  for (const c of contatori || []) (perGiorno[c.giorno] ||= {})[c.evento] = c.conteggio;
+  return {
+    giorni: elenco,
+    contatori: perGiorno,
+    visite: visite && visite.filter((v) => delGiorno(v.inizio)).map((v) => ({
+      quando: v.inizio, pagina: v.pagina, fonte: v.fonte, dettaglio: v.fonte_dettaglio,
+      luogo: [v.citta, v.regione, v.paese].filter(Boolean).join(", "), dispositivo: v.dispositivo, browser: v.browser,
+      secondi: v.secondi, lettura: v.profondita, azioni: v.azioni, contatto: Boolean(v.lead_id),
+    })),
+    richieste: iscrizioni && iscrizioni.filter((i) => !i.sospetto && delGiorno(i.created_at)).map((i) => ({
+      quando: i.created_at, tipo: i.evento === "coaching" ? "colloquio" : `webinar ${i.evento}`,
+      nome: `${i.nome || ""} ${i.cognome || ""}`.trim(), origine: [i.origine, i.origine_dettaglio].filter(Boolean).join(" / "),
+    })),
+  };
+}
