@@ -38,6 +38,10 @@ Instagram: link in bio lo mette Danilo.
 2. Mental coach o psicologo dello sport: la differenza — *differenza tra mental coach e psicologo sportivo*
 3. Mia figlia ha paura di sbagliare a pallavolo — *genitori nello sport, autostima*
 
+## Guide fuori piano
+
+- Il discorso prima dell'allenamento: il metodo delle 3 C per allenatori — *come motivare la squadra* — **pubblicata 5/11**. Per allenatori, nata da una recensione del libro «Da Store Manager a Leader» (rimanda a danilopuglisi.com/libro).
+
 ## Guide — prossime (una a settimana, in ordine di priorità)
 
 4. Cosa fa un mental coach sportivo (e come si sceglie) — *mental coach sportivo cosa fa*
