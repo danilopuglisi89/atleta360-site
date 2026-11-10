@@ -262,7 +262,7 @@ Nate da due revisori (un pignolo e un "inventore"). Da sapere:
   a record DNS. Al 2026-10-10 Google aveva indicizzato solo la home (ultima lettura 22/09,
   prima delle revisioni); `/contatti` era sconosciuta. Chiesta la riscansione di entrambe.
 - danilopuglisi.com/sport linka il sito dal 2026-10-10 (pulsante "Prova la demo"): vedi
-  `../sito-danilopuglisi/attuale/LEGGIMI.md`.
+  `../../siti-e-prodotti/sito-danilopuglisi/attuale/LEGGIMI.md`.
 - Marchio: al 2026-10-10 TMView non mostra nessun "Atleta360" depositato in Italia o UE
   (solo due marchi brasiliani). Esiste però un altro progetto "Atleta360" della Polisportiva
   Riccione (aprile 2026), non registrato.
